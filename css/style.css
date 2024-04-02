@@ -1,0 +1,143 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body, html{
+height: 100%;
+color: white;
+}
+
+
+header{
+    position: absolute;
+    color: white;
+    font-weight: bold;
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0, 0.4); 
+    color: white;
+    border: 3px solid #f1f1f1;
+    top: 1%;
+    left: 0.3%;
+    z-index: 2;
+    width: 97vw;
+    padding: 20px;
+    text-align: center;
+}
+
+
+.about-me{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.about-me h1{
+    position: absolute;
+    top: 35%;
+    left: 15%;
+}
+
+.about-me article {
+    display: block;
+    width: 20%; /* Adjust the width as needed */
+    white-space: normal; /* Allow wrapping of text within each row */
+}
+
+
+.about-me1 img{
+    position: absolute;
+    top: 40%;
+    left: 57%;
+}
+
+.about-me1 h1{
+    position: absolute;
+    top: 35%;
+    left: 75%;
+}
+
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+a{
+    color: white;
+    font-size: larger;
+}
+
+a:-webkit-any-link {
+    text-decoration: none;
+}
+
+article{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 40%;
+    left: 10%;
+    border: 3px solid  #f1f1f1;
+    color: white;
+}
+
+.bg-image{
+    background-image: url(/IMG/dikkebombabackground.png);
+    height: 100%;
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+.bg-text{
+    color: white;
+    font-weight: bold;
+    border: 3px solid #f1f1f1;
+    position: absolute;
+    top: 92%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 97%;
+    padding: 20px;
+    text-align: center;
+}
+
+.bg-text1{
+    color: white;
+    font-weight: bold;
+    /* border: 3px solid #f1f1f1; */
+    text-decoration: underline;
+    position: absolute;
+    top: 16%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 97%;
+    padding: 20px;
+    text-align: center;
+}
+
+.bg-text2{
+    position: absolute;
+    top: 82%;
+    left: 43%;
+}
+
+.bg-text3{
+    position: absolute;
+    top: 82%;
+    left: 43%;
+}
+
+.social-icons{
+    margin: 10px;
+    display:flex;
+    justify-content: space-around;
+}
