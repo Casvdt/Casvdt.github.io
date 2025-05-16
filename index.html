@@ -1,111 +1,152 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>Title</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="/css/style.css">
-
-    <!-- Bootstrap CSS v5.2.1 -->
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("PTYYOl_Zixlbg6AuF");
+        })();
+    </script>
 </head>
-
 <body>
-    <div class="bg-image">
-        <header>
-            <div class="container .d-flex justify-content-start text-center">
-                <div class="row">
-                    <div class="col-md-4">
+    <nav class="navbar">
+        <div class="nav-logo">Portfolio</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
 
-                    </div>
-                    <div class="col-md-4">
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Hi, I'm <span class="highlight">Cas van der Toorn</span></h1>
+            <p class="hero-subtitle">Web Developer & Designer</p>
+            <a href="#contact" class="cta-button">Get in Touch</a>
+        </div>
+    </section>
 
-                    </div>
-                    <div class="col-md-4">
+    <section id="about" class="about">
+        <h2>About Me</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Welcome to my portfolio! I'm a passionate web developer with a keen eye for design and a love for creating beautiful, functional websites. I specialize in front-end development and enjoy bringing creative ideas to life.</p>
+                <p>When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or enjoying outdoor activities.</p>
+            </div>
+        </div>
+    </section>
 
-                    </div>
+    <section id="skills" class="skills">
+        <h2>My Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <i class="fab fa-html5"></i>
+                <h3>HTML5</h3>
+            </div>
+            <div class="skill-card">
+                <i class="fab fa-css3-alt"></i>
+                <h3>CSS3</h3>
+            </div>
+            <div class="skill-card">
+                <i class="fab fa-js"></i>
+                <h3>JavaScript</h3>
+            </div>
+            <div class="skill-card">
+                <i class="fab fa-node-js"></i>
+                <h3>Node.js</h3>
+            </div>
+            <div class="skill-card">
+                <i class="fab fa-php"></i>
+                <h3>PHP</h3>
+            </div>
+            <div class="skill-card">
+                <i class="fa-solid fa-code"></i>
+                <h3>Symfony</h3>
+            </div>
+            <div class="skill-card">
+                <i class="fas fa-database"></i>
+                <h3>SQL</h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <h2>My Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="images/weather.png" alt="Weather Project">
                 </div>
-
-                <div class="row">
-                    <div class="col p-4">
-                        <img class="Caspng" src="/IMG/CAS_IMG-removebg-preview.png" alt="">
-                    </div>
-
-
-                    <div class="col">
-                        <!-- place navbar here -->
-                        <nav class="navbar navbar-expand-md navbar-dark">
-                            <div class="container">
-                                <a class="navbar-brand" href="/html/index.html">Home</a>
-                                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
-                                    aria-expanded="false" aria-label="Toggle navigation">
-                                    <span class="navbar-toggler-icon"></span>
-                                </button>
-                                <div class="collapse navbar-collapse" id="collapsibleNavId">
-                                    <ul class="navbar-nav me-auto mt-2 mt-lg-0">
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle active" href="#" id="dropdownId"
-                                                data-bs-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">Dropdown</a>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownId">
-                                                <a class="dropdown-item" href="/html/about.html">About me</a>
-                                                <a class="dropdown-item" href="/html/projects.html">Projects</a>
-                                                <a class="dropdown-item" href="/html/contact.html">Contact</a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </nav>
+                <div class="project-info">
+                    <h3>Weather App</h3>
+                    <p>A weather application that provides real-time weather information using API integration.</p>
+                    <div class="project-links">
+                        <a href="https://github.com/Casvdt/Breezy-Cas" class="project-link"><i class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
             </div>
-        </header>
-        <main>
-            <div class="container text-center text-light">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1>Hello, welcome to my personal portfolio.</h1>
-                    </div> 
-
-                    <div class="col-md-12">
-                        <h2 class="text-primary">Enjoy!</h2>
-                    </div>
-
-                    <div class="col-md-12">
-                        <h2>At this point the portfolio gives you some information about the projects I have made, it tells you about about myself and it tells you how you can contact me.</h2>
-                    </div>
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="images/pizza.png" alt="Pizza Shop Project">
                 </div>
-
-            </div>
-            <div class="container-fluid">
-                <div class=" border-dark text-white">
-                    <div class="card-body">
-                        <h4 class="card-title text-center">Portfolio Cas van der Toorn</h4>
-                        <p class="card-text text-center">Welcome to my portfolio!</p>
+                <div class="project-info">
+                    <h3>Pizza Shop Website</h3>
+                    <p>A dynamic pizza shop website built with PHP and MySQL, featuring menu management, order processing, and user authentication.</p>
+                    <div class="project-links">
+                        <a href="https://github.com/ROCMondriaanTIN/sd23-p07-project-pizza-sopranos-stas-pizza" class="project-link"><i class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
             </div>
-            
-        </main>
-    </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Get in Touch</h2>
+        <div class="contact-content">
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="from_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="from_email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-button">
+                    <span class="button-text">Send Message</span>
+                    <span class="button-loader" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </span>
+                </button>
+            </form>
+            <div class="social-links">
+                <a href="https://github.com/Casvdt" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/cas-van-der-toorn-6101242b4/" class="social-link"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </section>
+
     <footer>
-        <!-- place footer here -->
-       
+        <p>&copy; 2024 Cas van der Toorn. All rights reserved.</p>
     </footer>
-    <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-        </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-        </script>
+    <script src="js/main.js"></script>
 </body>
-
-</html>
+</html> 
