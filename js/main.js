@@ -21,16 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Smooth scrolling for navigation links
+    // Smooth scrolling for navigation links using class-based targets
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const hash = this.getAttribute('href'); // e.g., #home
+            const className = hash.replace('#', '.'); // -> .home
+            const target = document.querySelector(className);
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
-                // Close mobile menu if open
+                target.scrollIntoView({ behavior: 'smooth' });
                 if (isMenuOpen) {
                     isMenuOpen = false;
                     navLinks.style.display = 'none';
@@ -55,25 +54,86 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
 
-    // Form submission
-    const contactForm = document.getElementById('contact-form');
+    // Form submission with validation and cooldown
+    const contactForm = document.querySelector('.contact-form');
+    const COOLDOWN_MS = 8000;
+    let lastSubmitAt = 0;
+
+    function containsUrl(text) {
+        const urlRegex = /(https?:\/\/|www\.)/i;
+        return urlRegex.test(text);
+    }
+
+    function containsProfanity(text) {
+        const badWords = [
+            'shit','fuck','bitch','bastard','asshole','cunt','dick','wank','prick','slag'
+        ];
+        const normalized = text.toLowerCase();
+        return badWords.some(w => normalized.includes(w));
+    }
+
     if (contactForm) {
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            const now = Date.now();
+            if (now - lastSubmitAt < COOLDOWN_MS) {
+                showToast('Please wait a few seconds before sending again.', 'error');
+                return;
+            }
+
+            const companyField = contactForm.querySelector('#company');
+            if (companyField && companyField.value.trim() !== '') {
+                // Honeypot triggered: silently ignore
+                showToast('Submission blocked.', 'error');
+                return;
+            }
+
+            const nameInput = contactForm.querySelector('#name');
+            const emailInput = contactForm.querySelector('#email');
+            const messageInput = contactForm.querySelector('#message');
+
+            const nameVal = nameInput.value.trim();
+            const emailVal = emailInput.value.trim();
+            const messageVal = messageInput.value.trim();
+
+            // Basic validations
+            const nameOk = /^[A-Za-zÀ-ÖØ-öø-ÿ'\- ]{2,60}$/.test(nameVal);
+            const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailVal);
+            const messageOk = messageVal.length >= 10 && messageVal.length <= 2000;
+
+            if (!nameOk) {
+                showToast('Please enter a valid name.', 'error');
+                return;
+            }
+            if (!emailOk) {
+                showToast('Please enter a valid email.', 'error');
+                return;
+            }
+            if (!messageOk) {
+                showToast('Message must be 10-2000 characters.', 'error');
+                return;
+            }
+            if (containsUrl(messageVal)) {
+                showToast('Please remove links from the message.', 'error');
+                return;
+            }
+            if (containsProfanity(`${nameVal} ${messageVal}`)) {
+                showToast('Please keep the message professional.', 'error');
+                return;
+            }
+
             const buttonText = contactForm.querySelector('.button-text');
             const buttonLoader = contactForm.querySelector('.button-loader');
-            
-            // Show loading state
             buttonText.classList.add('hide');
             buttonLoader.classList.add('show');
 
             try {
                 const templateParams = {
                     to_email: 'casvandertoorn1@gmail.com',
-                    from_name: contactForm.from_name.value,
-                    from_email: contactForm.from_email.value,
-                    message: contactForm.message.value
+                    from_name: nameVal,
+                    from_email: emailVal,
+                    message: messageVal
                 };
 
                 await emailjs.send(
@@ -82,13 +142,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     templateParams
                 );
 
+                lastSubmitAt = Date.now();
                 showToast('Message sent successfully!', 'success');
                 contactForm.reset();
             } catch (error) {
                 console.error('Error:', error);
                 showToast('Failed to send message. Please try again.', 'error');
             } finally {
-                // Hide loading state
                 buttonText.classList.remove('hide');
                 buttonLoader.classList.remove('show');
             }

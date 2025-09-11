@@ -31,7 +31,7 @@
         </div>
     </nav>
 
-    <section id="home" class="hero">
+    <section class="hero home">
         <div class="hero-content">
             <h1>Hi, I'm <span class="highlight">Cas van der Toorn</span></h1>
             <p class="hero-subtitle">Web Developer & Designer</p>
@@ -39,9 +39,12 @@
         </div>
     </section>
 
-    <section id="about" class="about">
+    <section class="about">
         <h2>About Me</h2>
         <div class="about-content">
+            <div class="about-image">
+                <img src="images/Cas van der Toorn.jpg" alt="Cas van der Toorn">
+            </div>
             <div class="about-text">
                 <p>Welcome to my portfolio! I'm a passionate web developer with a keen eye for design and a love for creating beautiful, functional websites. I specialize in front-end development and enjoy bringing creative ideas to life.</p>
                 <p>When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or enjoying outdoor activities.</p>
@@ -49,7 +52,7 @@
         </div>
     </section>
 
-    <section id="skills" class="skills">
+    <section class="skills">
         <h2>My Skills</h2>
         <div class="skills-grid">
             <div class="skill-card">
@@ -95,7 +98,7 @@
         </div>
     </section>
 
-    <section id="projects" class="projects">
+    <section class="projects">
         <h2>My Projects</h2>
         <div class="projects-grid">
             <div class="project-card">
@@ -125,21 +128,26 @@
         </div>
     </section>
 
-    <section id="contact" class="contact">
+    <section class="contact">
         <h2>Get in Touch</h2>
         <div class="contact-content">
-            <form class="contact-form" id="contact-form">
+            <form class="contact-form" novalidate>
+                <!-- Honeypot field to deter bots -->
+                <div class="hp-field">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company" autocomplete="off" tabindex="-1">
+                </div>
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" id="name" name="from_name" required>
+                    <input type="text" id="name" name="from_name" required minlength="2" maxlength="60" pattern="[A-Za-zÀ-ÖØ-öø-ÿ'\- ]+" autocomplete="name">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="from_email" required>
+                    <input type="email" id="email" name="from_email" required inputmode="email" autocomplete="email">
                 </div>
                 <div class="form-group">
                     <label for="message">Message</label>
-                    <textarea id="message" name="message" required></textarea>
+                    <textarea id="message" name="message" required minlength="10" maxlength="2000"></textarea>
                 </div>
                 <button type="submit" class="submit-button">
                     <span class="button-text">Send Message</span>
