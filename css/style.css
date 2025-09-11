@@ -121,6 +121,36 @@ h2 {
     text-align: center;
 }
 
+/* Internship Section */
+.internship-content {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1.5rem;
+    justify-items: center;
+}
+
+.internship-logo {
+    width: 100%;
+    background: #000000;
+    padding: 2rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.internship-logo img {
+    max-width: 420px;
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.internship-company {
+    color: var(--light-text);
+}
+
 /* About Section */
 .about-content {
     max-width: 1000px;
