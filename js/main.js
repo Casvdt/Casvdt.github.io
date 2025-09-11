@@ -64,13 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return urlRegex.test(text);
     }
 
-    function containsProfanity(text) {
-        const badWords = [
-            'shit','fuck','bitch','bastard','asshole','cunt','dick','wank','prick','slag'
-        ];
-        const normalized = text.toLowerCase();
-        return badWords.some(w => normalized.includes(w));
-    }
+    // Removed language-specific profanity list per request
 
     if (contactForm) {
         contactForm.addEventListener('submit', async (e) => {
@@ -118,10 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast('Please remove links from the message.', 'error');
                 return;
             }
-            if (containsProfanity(`${nameVal} ${messageVal}`)) {
-                showToast('Please keep the message professional.', 'error');
-                return;
-            }
+            // Optional: language-specific moderation can be added here if desired
 
             const buttonText = contactForm.querySelector('.button-text');
             const buttonLoader = contactForm.querySelector('.button-loader');
