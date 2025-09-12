@@ -154,7 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('in-view');
-                io.unobserve(entry.target);
+            } else {
+                entry.target.classList.remove('in-view');
             }
         });
     }, { threshold: 0.2 });

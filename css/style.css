@@ -23,8 +23,7 @@ body {
     color: var(--text-color);
     overflow-x: hidden;
     background-color: var(--background);
-    background-image:
-        radial-gradient(circle at 1px 1px, rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' viewBox='0 0 6 6'%3E%3Ccircle cx='1' cy='1' r='1' fill='%230f172a' fill-opacity='0.06'/%3E%3C/svg%3E");
     background-size: 18px 18px;
 }
 
@@ -119,9 +118,7 @@ section {
     padding: 5rem 5%;
 }
 
-section:nth-child(even) {
-    background: var(--section-bg);
-}
+/* Removed alternating gray backgrounds; we set explicit section colors below */
 
 h2 {
     font-size: 2.5rem;
@@ -178,6 +175,12 @@ h2::after {
 }
 
 /* About Section */
+.home { background-color: #fff; }
+.about { background-color: #fff7ed; /* orange-50 */ }
+.internship { background-color: #eff6ff; /* blue-50 */ }
+.skills { background-color: #ecfeff; /* cyan-50 */ }
+.projects { background-color: #f0fdf4; /* green-50 */ }
+.contact { background-color: #fdf2f8; /* pink-50 */ }
 .about-content {
     max-width: 1000px;
     margin: 0 auto;
