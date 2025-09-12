@@ -6,13 +6,14 @@
 }
 
 :root {
-    --primary-color: #1c3b6d; /* Vivid blue */
-    --secondary-color: #ef4444; /* Vivid red */
-    --accent-color: #22c55e; /* Vivid green */
-    --accent-2: #f59e0b; /* Amber */
-    --text-color: #e5e7eb; /* Slate-200 */
-    --light-text: #94a3b8; /* Slate-400 */
-    --background: #0b1220; /* Deep navy */
+    --primary-color: #1c3b6d;
+    --primary-color-hover: #152b4d;
+    --secondary-color: #ef4444; 
+    --accent-color: #22c55e; 
+    --accent-2: #f59e0b; 
+    --text-color: #e5e7eb; 
+    --light-text: #94a3b8; 
+    --background: #0b1220; 
     --section-bg: #0b1220;
     --transition: all 0.3s ease;
 }
@@ -62,7 +63,7 @@ body {
 }
 
 .nav-links a:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
 }
 
 .hamburger {
@@ -116,7 +117,7 @@ body {
 
 .cta-button:hover {
     transform: translateY(-2px);
-    background: #1d4ed8;
+    background: var(--primary-color-hover);
 }
 /* Extra spacing between hero text and CTA */
 .hero .cta-button { margin-top: 0.5rem; }
@@ -334,7 +335,7 @@ h2::after {
 }
 
 .project-link:hover {
-    color: var(--secondary-color);
+    color: var(--primary-color-hover);
 }
 
 /* Contact Section */
@@ -405,7 +406,7 @@ h2::after {
 }
 
 .submit-button:hover {
-    background: var(--secondary-color);
+    background: var(--primary-color-hover);
 }
 
 .button-loader {
@@ -459,7 +460,7 @@ h2::after {
 }
 
 .social-link:hover {
-    color: var(--primary-color);
+    color: var(--primary-color-hover);
 }
 
 /* Footer */
