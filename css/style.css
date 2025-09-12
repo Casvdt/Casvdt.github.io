@@ -231,11 +231,12 @@ h2::after {
 }
 
 .skill-card {
-    background: white;
+    background: #0f172a;
     padding: 2rem;
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(148, 163, 184, 0.15);
     transition: var(--transition);
 }
 
@@ -260,12 +261,12 @@ h2::after {
 }
 
 .project-card {
-    background: white;
+    background: #0f172a;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.35);
     transition: var(--transition);
-    border: 1px solid rgba(2, 132, 199, 0.12);
+    border: 1px solid rgba(148, 163, 184, 0.15);
 }
 
 .project-card:hover {
@@ -300,7 +301,7 @@ h2::after {
 }
 
 .project-info p {
-    color: var(--light-text);
+    color: #cbd5e1;
     margin-bottom: 0.75rem;
 }
 
@@ -361,9 +362,16 @@ h2::after {
 .form-group input,
 .form-group textarea {
     padding: 0.75rem;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #334155;
     border-radius: 5px;
     font-family: inherit;
+    background: #111827;
+    color: #e5e7eb;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #94a3b8;
 }
 
 .form-group textarea {
@@ -445,7 +453,7 @@ h2::after {
 }
 
 .social-link {
-    color: var(--text-color);
+    color: #e2e8f0;
     font-size: 1.5rem;
     transition: var(--transition);
 }
@@ -458,8 +466,8 @@ h2::after {
 footer {
     text-align: center;
     padding: 2rem;
-    background: var(--section-bg);
-    color: var(--light-text);
+    background: #020617;
+    color: #94a3b8;
 }
 
 /* Scroll-reveal animations */
