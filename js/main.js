@@ -148,6 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Scroll-reveal animations
     const revealElements = document.querySelectorAll('.reveal');
+    const staggerContainers = document.querySelectorAll('.stagger');
+
     const io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -155,7 +157,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 io.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.2 });
 
     revealElements.forEach(el => io.observe(el));
+    staggerContainers.forEach(container => {
+        io.observe(container);
+        const children = Array.from(container.children);
+        children.forEach((child, index) => {
+            child.style.transitionDelay = `${index * 90}ms`;
+        });
+    });
 }); 
