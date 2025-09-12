@@ -13,6 +13,8 @@
     --background: #ffffff;
     --section-bg: #f3f4f6;
     --transition: all 0.3s ease;
+    --gradient-1: linear-gradient(135deg, #2563eb 0%, #22c55e 50%, #a855f7 100%);
+    --gradient-2: linear-gradient(135deg, #0ea5e9 0%, #22c55e 50%, #f59e0b 100%);
 }
 
 body {
@@ -72,13 +74,56 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: linear-gradient(135deg, #f3f4f6 0%, #ffffff 100%);
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(37, 99, 235, 0.08), transparent 60%),
+                radial-gradient(1000px 500px at 90% 20%, rgba(168, 85, 247, 0.08), transparent 60%),
+                radial-gradient(900px 500px at 20% 90%, rgba(34, 197, 94, 0.08), transparent 60%),
+                linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
     padding: 0 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before,
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 50vmax;
+    height: 50vmax;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.15;
+    background: radial-gradient(circle at 30% 30%, #2563eb, transparent 60%);
+    animation: floatBlob 18s ease-in-out infinite;
+}
+
+.hero::after {
+    right: -20vmax;
+    bottom: -15vmax;
+    background: radial-gradient(circle at 70% 70%, #a855f7, transparent 60%);
+    animation-duration: 22s;
+    animation-delay: -4s;
+}
+
+@keyframes floatBlob {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-2rem, 1rem) scale(1.05); }
 }
 
 .hero-content h1 {
     font-size: 3.5rem;
     margin-bottom: 1rem;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .highlight {
@@ -94,16 +139,33 @@ body {
 .cta-button {
     display: inline-block;
     padding: 1rem 2rem;
-    background: var(--primary-color);
+    background: var(--gradient-2);
     color: white;
     text-decoration: none;
     border-radius: 5px;
     transition: var(--transition);
+    position: relative;
+    overflow: hidden;
 }
 
 .cta-button:hover {
-    background: var(--secondary-color);
     transform: translateY(-2px);
+}
+
+.cta-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+    transform: skewX(-20deg);
+}
+
+.cta-button:hover::after {
+    left: 100%;
+    transition: left 0.7s ease;
 }
 
 /* Sections */
@@ -119,6 +181,22 @@ h2 {
     font-size: 2.5rem;
     margin-bottom: 3rem;
     text-align: center;
+}
+
+h2 {
+    position: relative;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -12px;
+    width: 80px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--gradient-1);
 }
 
 /* Internship Section */
@@ -207,7 +285,8 @@ h2 {
 }
 
 .skill-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px) rotate3d(1, 1, 0, 2deg);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.15);
 }
 
 .skill-card i {
@@ -231,10 +310,12 @@ h2 {
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: var(--transition);
+    border: 1px solid rgba(37, 99, 235, 0.08);
 }
 
 .project-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
+    box-shadow: 0 14px 28px rgba(37, 99, 235, 0.15);
 }
 
 .project-image {
@@ -248,6 +329,11 @@ h2 {
     height: 100%;
     object-fit: contain;
     background: #0f172a;
+}
+
+.project-card:hover .project-image img {
+    transform: scale(1.03);
+    transition: transform 0.5s ease;
 }
 
 .project-info {
@@ -289,6 +375,10 @@ h2 {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+.project-link:hover {
+    color: #0ea5e9;
 }
 
 /* Contact Section */
@@ -415,6 +505,18 @@ footer {
     padding: 2rem;
     background: var(--section-bg);
     color: var(--light-text);
+}
+
+/* Scroll-reveal animations */
+.reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Responsive Design */
