@@ -168,4 +168,54 @@ document.addEventListener('DOMContentLoaded', () => {
             child.style.transitionDelay = `${index * 90}ms`;
         });
     });
+
+    // Scroll To Top Button
+    const scrollBtn = document.querySelector('.scroll-to-top-btn');
+    if (scrollBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollBtn.classList.add('show');
+            } else {
+                scrollBtn.classList.remove('show');
+            }
+        });
+
+        scrollBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // Language Switcher
+    const langBtns = document.querySelectorAll('.lang-btn');
+    const translatableElems = document.querySelectorAll('.translatable');
+
+    function applyLanguage(lang) {
+        translatableElems.forEach(el => {
+            const value = el.dataset[lang];
+            if (value) {
+                el.innerHTML = value;
+            }
+        });
+        langBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+        try {
+            localStorage.setItem('preferred_lang', lang);
+        } catch {}
+    }
+
+    if (langBtns.length) {
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang; // 'nl' or 'en'
+                applyLanguage(lang);
+            });
+        });
+
+        // Initialize language from storage or default to 'en'
+        let initialLang = 'en';
+        try {
+            const stored = localStorage.getItem('preferred_lang');
+            if (stored === 'nl' || stored === 'en') initialLang = stored;
+        } catch {}
+        applyLanguage(initialLang);
+    }
 }); 

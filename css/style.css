@@ -487,6 +487,93 @@ footer {
     text-decoration: underline;
 }
 
+/* Fixed UI: Scroll-to-top button */
+.scroll-to-top-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    background: rgba(2, 6, 23, 0.85);
+    color: #e2e8f0;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity .25s ease, transform .25s ease, visibility .25s ease, background .25s ease, color .25s ease;
+    z-index: 1100;
+}
+
+.scroll-to-top-btn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-to-top-btn:hover {
+    background: var(--primary-color);
+    color: #ffffff;
+}
+
+/* Fixed UI: Language switcher */
+.language-switcher {
+    position: fixed;
+    right: 20px;
+    bottom: 80px; /* stacked above scroll button */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1100;
+}
+
+.language-switcher .lang-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    background: rgba(2, 6, 23, 0.85);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease, background .25s ease;
+}
+
+.language-switcher .lang-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(2, 132, 199, 0.18);
+}
+
+.language-switcher .lang-btn.active {
+    background: var(--primary-color);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
+}
+
+.language-switcher .lang-flag {
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .language-switcher {
+        right: 14px;
+        bottom: 74px;
+        gap: 8px;
+    }
+
+    .language-switcher .lang-btn,
+    .scroll-to-top-btn {
+        width: 40px;
+        height: 40px;
+    }
+}
+
 /* Scroll-reveal animations */
 .reveal {
     opacity: 0;
