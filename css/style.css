@@ -492,8 +492,8 @@ footer {
     position: fixed;
     right: 20px;
     bottom: 20px;
-    width: 44px;
-    height: 44px;
+    width: 52px;
+    height: 52px;
     border-radius: 999px;
     border: 1px solid rgba(148, 163, 184, 0.25);
     background: rgba(2, 6, 23, 0.85);
@@ -523,8 +523,8 @@ footer {
 /* Fixed UI: Language switcher */
 .language-switcher {
     position: fixed;
-    right: 20px;
-    bottom: 80px; /* stacked above scroll button */
+    left: 20px;
+    bottom: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -562,15 +562,15 @@ footer {
 
 @media (max-width: 768px) {
     .language-switcher {
-        right: 14px;
-        bottom: 74px;
+        left: 14px;
+        bottom: 14px;
         gap: 8px;
     }
 
     .language-switcher .lang-btn,
     .scroll-to-top-btn {
-        width: 40px;
-        height: 40px;
+        width: 46px;
+        height: 46px;
     }
 }
 

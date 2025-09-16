@@ -200,6 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             localStorage.setItem('preferred_lang', lang);
         } catch {}
+        try {
+            document.documentElement.setAttribute('lang', lang);
+        } catch {}
     }
 
     if (langBtns.length) {
@@ -210,8 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Initialize language from storage or default to 'en'
-        let initialLang = 'en';
+        // Initialize language from storage or default to 'nl'
+        let initialLang = 'nl';
         try {
             const stored = localStorage.getItem('preferred_lang');
             if (stored === 'nl' || stored === 'en') initialLang = stored;
