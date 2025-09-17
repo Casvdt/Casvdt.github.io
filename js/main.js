@@ -15,12 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
             navLinks.style.top = '100%';
             navLinks.style.left = '0';
             navLinks.style.right = '0';
-            navLinks.style.background = 'white';
+            navLinks.style.background = 'rgba(2, 6, 23, 0.98)';
             navLinks.style.padding = '1rem';
-            navLinks.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            navLinks.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.35)';
+            navLinks.style.zIndex = '1200';
         } else {
             // Als menu dicht is: verbergen
             navLinks.style.display = 'none';
+            navLinks.removeAttribute('style');
         }
     });
 
@@ -33,15 +35,28 @@ document.addEventListener('DOMContentLoaded', () => {
             const className = hash.replace('#', '.'); // wordt .home
             const target = document.querySelector(className);
             if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
-                // Als menu open is, sluit het na klikken op link
+                // Eerst menu sluiten, dan scrollen, om klik-problemen te voorkomen
                 if (isMenuOpen) {
                     isMenuOpen = false;
                     navLinks.style.display = 'none';
+                    navLinks.removeAttribute('style');
                 }
+                // Gebruik setTimeout om layout te laten updaten voor scrollen
+                setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
             }
         });
     });
+
+    // Zorg dat klikken buiten het menu het menu sluit op mobiel
+    document.addEventListener('click', (e) => {
+        const clickedHamburger = hamburger.contains(e.target);
+        const clickedMenu = navLinks.contains(e.target);
+        if (isMenuOpen && !clickedHamburger && !clickedMenu) {
+            isMenuOpen = false;
+            navLinks.style.display = 'none';
+            navLinks.removeAttribute('style');
+        }
+    }, true);
 
     // ===== TOAST BERICHTEN (kleine pop-up meldingen) =====
     const toast = document.createElement('div');
