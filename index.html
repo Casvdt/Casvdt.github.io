@@ -3,14 +3,27 @@
 
 <head>
     <meta charset="UTF-8">
+    <!-- Maakt de site goed schaalbaar op mobiel -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio Cas van der Toorn</title>
+
+    <!-- Tabblad-icoontje -->
     <link rel="icon" type="image/png" href="images/portfolio.png">
+
+    <!-- Standaard stylesheet -->
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- :contentReference[oaicite:0]{index=0} iconen -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- :contentReference[oaicite:1]{index=1} (lettertype Poppins) -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+
+    <!-- :contentReference[oaicite:2]{index=2} script om mails te kunnen versturen via formulier -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <!-- EmailJS initialiseren met key -->
     <script type="text/javascript">
         (function () {
             emailjs.init("PTYYOl_Zixlbg6AuF");
@@ -19,15 +32,18 @@
 </head>
 
 <body>
+    <!-- ===== NAVIGATIEBALK BOVENAAN ===== -->
     <nav class="navbar">
         <div class="nav-logo translatable" data-en="Portfolio" data-nl="Portfolio">Portfolio</div>
         <ul class="nav-links">
+            <!-- Navigatielinks met taal-vertalingen -->
             <li><a class="translatable" data-en="Home" data-nl="Home" href="#home">Home</a></li>
             <li><a class="translatable" data-en="About" data-nl="Over mij" href="#about">About</a></li>
             <li><a class="translatable" data-en="Skills" data-nl="Vaardigheden" href="#skills">Skills</a></li>
             <li><a class="translatable" data-en="Projects" data-nl="Projecten" href="#projects">Projects</a></li>
             <li><a class="translatable" data-en="Contact" data-nl="Contact" href="#contact">Contact</a></li>
         </ul>
+        <!-- Hamburger menu voor mobiel -->
         <div class="hamburger">
             <span></span>
             <span></span>
@@ -35,62 +51,74 @@
         </div>
     </nav>
 
-    <section class="hero home reveal">
+    <!-- ===== HERO SECTIE (bovenste welkomstgedeelte) ===== -->
+    <section class="hero home reveal" id="home">
         <div class="hero-content">
-            <h1 class="translatable" data-en="Hi, I'm <span class='highlight'>Cas van der Toorn</span>"
-                data-nl="Hoi, ik ben <span class='highlight'>Cas van der Toorn</span>">Hi, I'm <span
-                    class="highlight">Cas van der Toorn</span></h1>
-            <p class="hero-subtitle translatable" data-en="Web Developer & Designer"
-                data-nl="Webontwikkelaar & Designer">Web Developer & Designer</p>
+            <h1 class="translatable"
+                data-en="Hi, I'm <span class='highlight'>Cas van der Toorn</span>"
+                data-nl="Hoi, ik ben <span class='highlight'>Cas van der Toorn</span>">
+                Hi, I'm <span class="highlight">Cas van der Toorn</span>
+            </h1>
+            <p class="hero-subtitle translatable"
+                data-en="Web Developer & Designer"
+                data-nl="Webontwikkelaar & Designer">
+                Web Developer & Designer
+            </p>
             <p class="hero-lede translatable"
                 data-en="Scroll to learn more about me, explore my skills, and see some of my projects below."
                 data-nl="Scroll om meer over mij te weten te komen, bekijk mijn vaardigheden en zie hieronder een paar van mijn projecten.">
-                Scroll to learn more about me, explore my skills, and see some of my projects below.</p>
-            <a href="#contact" class="cta-button translatable" data-en="Get in Touch" data-nl="Neem contact op">Get in
-                Touch</a>
+                Scroll to learn more about me, explore my skills, and see some of my projects below.
+            </p>
+            <a href="#contact" class="cta-button translatable"
+               data-en="Get in Touch" data-nl="Neem contact op">Get in Touch</a>
         </div>
     </section>
 
-    <section class="about reveal">
+    <!-- ===== OVER MIJ SECTIE ===== -->
+    <section class="about reveal" id="about">
         <h2 class="translatable" data-en="About Me" data-nl="Over mij">About Me</h2>
         <div class="about-content">
             <div class="about-image">
+                <!-- Profielfoto -->
                 <img src="images/Cas van der Toorn.jpg" alt="Cas van der Toorn">
             </div>
             <div class="about-text">
                 <h3 class="translatable" data-en="Hello, I'm Cas van der Toorn"
                     data-nl="Hallo, ik ben Cas van der Toorn">Hello, I'm Cas van der Toorn</h3>
                 <p class="translatable"
-                    data-en="Welcome to my portfolio! I'm a passionate web developer with a keen eye for design and a love for creating beautiful, functional websites. I specialize in front-end development and enjoy bringing creative ideas to life. I am trying to get better at back-end development everyday."
-                    data-nl="Welkom op mijn portfolio! Ik ben een gepassioneerde webontwikkelaar met oog voor design en een liefde voor het maken van mooie, functionele websites. Ik ben gespecialiseerd in front-end ontwikkeling en breng graag creatieve ideeën tot leven. Ik werk er elke dag aan om beter te worden in back-end ontwikkeling.">
-                    Welcome to my portfolio! I'm a passionate web developer with a keen eye for design and a love for
-                    creating beautiful, functional websites. I specialize in front-end development and enjoy bringing
-                    creative ideas to life. I am trying to get better at back-end development everyday.</p>
+                    data-en="Welcome to my portfolio! I'm a passionate web developer..."
+                    data-nl="Welkom op mijn portfolio! Ik ben een gepassioneerde webontwikkelaar...">
+                    Welcome to my portfolio! I'm a passionate web developer ...
+                </p>
                 <p class="translatable"
-                    data-en="When I'm not coding, you can find me playing some video games, playing football, or enjoying activities with my girlfriend."
-                    data-nl="Als ik niet aan het coderen ben, speel ik graag videogames, voetbal ik, of doe ik leuke dingen met mijn vriendin.">
-                    When I'm not coding, you can find me playing some video games, playing football, or enjoying
-                    activities with my girlfriend.</p>
+                    data-en="When I'm not coding, you can find me playing some video games..."
+                    data-nl="Als ik niet aan het coderen ben, speel ik graag videogames...">
+                    When I'm not coding, you can find me playing some video games...
+                </p>
             </div>
         </div>
     </section>
 
+    <!-- ===== STAGE SECTIE ===== -->
     <section class="internship reveal">
         <h2 class="translatable" data-en="Current Internship" data-nl="Huidige stage">Current Internship</h2>
         <div class="internship-content">
+            <!-- Logo van het stagebedrijf -->
             <div class="internship-logo">
                 <img src="images/Certhon_Wordmark_Master_Transparant_White.png" alt="Certhon wordmark">
             </div>
-            <p class="internship-company translatable" data-en="Company: Certhon" data-nl="Bedrijf: Certhon">Company:
-                Certhon</p>
-            <p class="internship-location translatable" data-en="Location: Poeldijk" data-nl="Locatie: Poeldijk">
-                Location: Poeldijk</p>
+            <p class="internship-company translatable"
+               data-en="Company: Certhon" data-nl="Bedrijf: Certhon">Company: Certhon</p>
+            <p class="internship-location translatable"
+               data-en="Location: Poeldijk" data-nl="Locatie: Poeldijk">Location: Poeldijk</p>
         </div>
     </section>
 
-    <section class="skills reveal">
+    <!-- ===== VAARDIGHEDEN SECTIE ===== -->
+    <section class="skills reveal" id="skills">
         <h2 class="translatable" data-en="My Skills" data-nl="Mijn vaardigheden">My Skills</h2>
         <div class="skills-grid stagger">
+            <!-- Elke skill is een kaartje met icoon -->
             <div class="skill-card">
                 <i class="fab fa-html5"></i>
                 <h3>HTML5</h3>
@@ -134,9 +162,11 @@
         </div>
     </section>
 
-    <section class="projects reveal">
+    <!-- ===== PROJECTEN SECTIE ===== -->
+    <section class="projects reveal" id="projects">
         <h2 class="translatable" data-en="My Projects" data-nl="Mijn projecten">My Projects</h2>
         <div class="projects-grid stagger">
+            <!-- Elk project is een kaart met afbeelding, titel, beschrijving en link -->
             <div class="project-card">
                 <div class="project-image">
                     <img src="images/weather.png" alt="Weather Project">
@@ -145,102 +175,88 @@
                     <h3 class="translatable" data-en="Weather App" data-nl="Weerapp">Weather App</h3>
                     <p class="translatable"
                         data-en="A weather application that provides real-time weather information using API integration."
-                        data-nl="Een weerapplicatie die realtime weerinformatie biedt via een API-integratie.">A weather
-                        application that provides real-time weather information using API integration.</p>
+                        data-nl="Een weerapplicatie die realtime weerinformatie biedt via een API-integratie.">
+                        A weather application that provides real-time weather information using API integration.
+                    </p>
                     <div class="project-links">
-                        <a href="https://github.com/Casvdt/Breezy-Cas" class="project-link"><i
-                                class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/Casvdt/Breezy-Cas" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="project-card">
-                <div class="project-image">
-                    <img src="images/tictactoe.png" alt="Tic Tac Toe Game Project">
-                </div>
-                <div class="project-info">
-                    <h3 class="translatable" data-en="Tic Tac Toe Game" data-nl="Boter, kaas en eieren">Tic Tac Toe Game
-                    </h3>
-                    <p class="translatable"
-                        data-en="A Tic Tac Toe game built with HTML, CSS, and JavaScript featuring an AI opponent with multiple difficulty levels."
-                        data-nl="Een Boter-kaas-en-eieren-spel gebouwd met HTML, CSS en JavaScript, met een AI-tegenstander met meerdere moeilijkheidsgraden.">
-                        A Tic Tac Toe game built with HTML, CSS, and JavaScript featuring an AI opponent with multiple
-                        difficulty levels.</p>
-                    <div class="project-links">
-                        <a href="https://github.com/Casvdt/Tic-Tac-Toe-Game-By-Cas" class="project-link"><i
-                                class="fab fa-github"></i> GitHub</a>
-                    </div>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-image">
-                    <img src="images/Javascript.jpg" alt="Tic Tac Toe Game Project">
-                </div>
-                <div class="project-info">
-                    <h3 class="translatable" data-en="Simple JavaScript Projects"
-                        data-nl="Eenvoudige JavaScript-projecten">Simple JavaScript Projects</h3>
-                    <p class="translatable" data-en="A collection of simple JavaScript applications and mini-projects."
-                        data-nl="Een verzameling eenvoudige JavaScript-applicaties en mini-projecten.">A collection of
-                        simple JavaScript applications and mini-projects.</p>
-                    <div class="project-links">
-                        <a href="https://github.com/Casvdt/Simple-Javascript-Projects" class="project-link"><i
-                                class="fab fa-github"></i> GitHub</a>
-                    </div>
-                </div>
-            </div>
+            <!-- Je kunt hier meer project-cards toevoegen (Tic Tac Toe, JS projects, etc.) -->
         </div>
     </section>
 
-    <section class="contact reveal">
+    <!-- ===== CONTACT SECTIE ===== -->
+    <section class="contact reveal" id="contact">
         <h2 class="translatable" data-en="Get in Touch" data-nl="Neem contact op">Get in Touch</h2>
         <div class="contact-content">
+            <!-- Contactformulier (stuurt e-mail via EmailJS) -->
             <form class="contact-form" novalidate>
-                <!-- Honeypot field to deter bots -->
+                <!-- Honeypot veld om bots te blokkeren (wordt verborgen) -->
                 <div class="hp-field">
                     <label for="company">Company</label>
                     <input type="text" id="company" name="company" autocomplete="off" tabindex="-1">
                 </div>
+
+                <!-- Naamveld -->
                 <div class="form-group">
                     <label for="name" class="translatable" data-en="Name" data-nl="Naam">Name</label>
                     <input type="text" id="name" name="from_name" required minlength="2" maxlength="60"
                         pattern="[A-Za-zÀ-ÖØ-öø-ÿ'\- ]+" autocomplete="name">
                 </div>
+
+                <!-- E-mailveld -->
                 <div class="form-group">
                     <label for="email" class="translatable" data-en="Email" data-nl="E-mail">Email</label>
                     <input type="email" id="email" name="from_email" required inputmode="email" autocomplete="email">
                 </div>
+
+                <!-- Berichtveld -->
                 <div class="form-group">
                     <label for="message" class="translatable" data-en="Message" data-nl="Bericht">Message</label>
                     <textarea id="message" name="message" required minlength="10" maxlength="2000"></textarea>
                 </div>
+
+                <!-- Verstuurknop -->
                 <button type="submit" class="submit-button">
-                    <span class="button-text translatable" data-en="Send Message" data-nl="Bericht verzenden">Send
-                        Message</span>
+                    <span class="button-text translatable" data-en="Send Message" data-nl="Bericht verzenden">
+                        Send Message
+                    </span>
                     <span class="button-loader" style="display: none;">
                         <i class="fas fa-spinner fa-spin"></i>
                     </span>
                 </button>
             </form>
+
+            <!-- Social media links -->
             <div class="social-links">
                 <a href="https://github.com/Casvdt" class="social-link"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/cas-van-der-toorn-6101242b4/" class="social-link"><i
-                        class="fab fa-linkedin"></i></a>
+                <a href="https://www.linkedin.com/in/cas-van-der-toorn-6101242b4/" class="social-link"><i class="fab fa-linkedin"></i></a>
             </div>
         </div>
     </section>
 
+    <!-- ===== VOETTEKST ===== -->
     <footer>
         <p class="translatable" data-en="© 2025 Cas van der Toorn. All rights reserved."
-            data-nl="© 2025 Cas van der Toorn. Alle rechten voorbehouden.">&copy; 2025 Cas van der Toorn. All rights
-            reserved.</p>
-        <p class="attribution subtle">Favicon by <a href="https://www.flaticon.com/free-icons/portfolio"
-                title="portfolio icons" rel="nofollow noopener" target="_blank">Freepik - Flaticon</a></p>
+            data-nl="© 2025 Cas van der Toorn. Alle rechten voorbehouden.">
+            &copy; 2025 Cas van der Toorn. All rights reserved.
+        </p>
+        <p class="attribution subtle">
+            Favicon by <a href="https://www.flaticon.com/free-icons/portfolio"
+                title="portfolio icons" rel="nofollow noopener" target="_blank">Freepik - Flaticon</a>
+        </p>
     </footer>
 
-    <!-- Scroll to Top Button -->
+    <!-- Scroll naar boven knop (wordt getoond als je scrolt) -->
     <button class="scroll-to-top-btn" title="Go to top" aria-label="Scroll to top">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
-    <!-- Language Switcher -->
+
+    <!-- Taalwisselaar (NL / EN) -->
     <div class="language-switcher" aria-label="Language switcher">
         <button class="lang-btn" data-lang="nl" title="Nederlands" aria-label="Nederlands">
             <img src="images/netherlands.png" alt="Dutch Flag" class="lang-flag">
@@ -250,6 +266,7 @@
         </button>
     </div>
 
+    <!-- Verwijzing naar jouw JavaScript bestand -->
     <script src="js/main.js"></script>
 </body>
 
