@@ -250,4 +250,36 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch {}
         applyLanguage(initialLang);
     }
+
+    // ===== THEMA TOGGLE (Donker/Licht) =====
+    const themeToggleBtn = document.querySelector('.theme-toggle');
+    const themeIcon = themeToggleBtn ? themeToggleBtn.querySelector('i') : null;
+
+    function applyTheme(theme) {
+        const root = document.documentElement;
+        root.classList.toggle('light', theme === 'light');
+        if (themeIcon) {
+            themeIcon.className = theme === 'light' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+        try { localStorage.setItem('preferred_theme', theme); } catch {}
+    }
+
+    function detectInitialTheme() {
+        try {
+            const stored = localStorage.getItem('preferred_theme');
+            if (stored === 'light' || stored === 'dark') return stored;
+        } catch {}
+        // fallback to prefers-color-scheme
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches
+            ? 'light'
+            : 'dark';
+    }
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const isLight = document.documentElement.classList.contains('light');
+            applyTheme(isLight ? 'dark' : 'light');
+        });
+        applyTheme(detectInitialTheme());
+    }
 });
