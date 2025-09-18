@@ -122,6 +122,14 @@ body {
 /* Extra spacing between hero text and CTA */
 .hero .cta-button { margin-top: 0.5rem; }
 
+/* About: Download CV button spacing */
+.download-cv-button {
+    margin-top: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 /* Sections */
 section {
     padding: 5rem 5%;
