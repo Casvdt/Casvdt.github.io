@@ -424,15 +424,17 @@ h2::after {
 
 .project-link {
     text-decoration: none;
-    color: var(--primary-color);
+    color: #e5e7eb;
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
 .project-link:hover {
-    color: var(--primary-color-hover);
+    color: #ffffff;
 }
+
+.project-link i { color: inherit; }
 
 /* Contact Section */
 .contact-content {
