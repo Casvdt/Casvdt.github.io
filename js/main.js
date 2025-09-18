@@ -280,4 +280,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         applyTheme(detectInitialTheme());
     }
+
+    // ===== NAV LOGO -> SCROLL NAAR BOVEN / TERUG NAAR HOME =====
+    const navLogo = document.querySelector('.nav-logo');
+    if (navLogo) {
+        navLogo.addEventListener('click', (e) => {
+            e.preventDefault();
+            const path = (location.pathname || '').toLowerCase();
+            const onIndex = path.endsWith('/') || path.endsWith('/index.html') || path === '';
+            if (onIndex) {
+                const homeSection = document.querySelector('.home');
+                if (homeSection) {
+                    homeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            } else {
+                window.location.href = 'index.html#home';
+            }
+        });
+    }
 });

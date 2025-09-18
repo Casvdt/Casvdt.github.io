@@ -119,6 +119,7 @@ html.light .social-link:hover { color: #1e40af; }
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--text-color);
+    cursor: pointer;
 }
 
 .nav-links {
