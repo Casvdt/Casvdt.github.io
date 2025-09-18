@@ -43,6 +43,8 @@ html.light .navbar {
     box-shadow: 0 2px 10px rgba(0,0,0,0.06);
 }
 html.light .nav-links a { color: var(--text-color); }
+html.light .nav-logo { color: var(--text-color); }
+html.light .hero-content h1 { color: var(--text-color); }
 html.light .cta-button { color: #ffffff; }
 html.light .about { background-color: #ffffff; }
 html.light .internship { background-color: #f8fafc; }
@@ -62,6 +64,9 @@ html.light .form-group textarea {
     color: #0f172a;
     border-color: #cbd5e1;
 }
+html.light .social-link { color: #0f172a; }
+html.light .social-link i { color: inherit; }
+html.light .nav-links a:hover { color: #0b1220; }
 html.light footer {
     background: #ffffff;
     color: #334155;
