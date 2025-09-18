@@ -78,6 +78,23 @@ html.light .theme-toggle {
     border-color: rgba(15, 23, 42, 0.12);
 }
 
+/* Improve readability in light theme */
+html.light h1,
+html.light h2,
+html.light h3,
+html.light .hero-subtitle,
+html.light .hero-lede,
+html.light .project-info p,
+html.light .internship-company,
+html.light .internship-location,
+html.light .social-link {
+    color: #0f172a;
+}
+html.light .highlight { color: var(--secondary-color); }
+html.light .project-link { color: #1d4ed8; }
+html.light .project-link:hover { color: #1e40af; }
+html.light .social-link:hover { color: #1e40af; }
+
 /* Navigation */
 .navbar {
     position: fixed;

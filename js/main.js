@@ -269,10 +269,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const stored = localStorage.getItem('preferred_theme');
             if (stored === 'light' || stored === 'dark') return stored;
         } catch {}
-        // fallback to prefers-color-scheme
-        return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches
-            ? 'light'
-            : 'dark';
+        // Default to dark if no stored preference
+        return 'dark';
     }
 
     if (themeToggleBtn) {
