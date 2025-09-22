@@ -55,13 +55,17 @@ html.light .skill-card,
 html.light .project-card {
     background: #ffffff;
     border: 1px solid rgba(15, 23, 42, 0.08);
-    box-shadow: 0 4px 10px rgba(15,23,42,0.05);
+    box-shadow: 0 6px 16px rgba(15,23,42,0.10);
 }
 html.light .skill-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 10px 20px rgba(15,23,42,0.10);
 }
 html.light .project-image img { background: #e2e8f0; }
+html.light .project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 28px rgba(15,23,42,0.16);
+}
 html.light .form-group input,
 html.light .form-group textarea {
     background: #ffffff;
@@ -85,6 +89,15 @@ html.light .theme-toggle {
     background: rgba(255,255,255,0.9);
     color: #0f172a;
     border-color: rgba(15, 23, 42, 0.12);
+}
+
+/* Light theme: add clear but subtle elevation to internship logo */
+html.light .internship-logo {
+    box-shadow: 0 6px 16px rgba(15,23,42,0.10);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+}
+html.light .internship-logo:hover {
+    box-shadow: 0 16px 28px rgba(15,23,42,0.16);
 }
 
 /* Improve readability in light theme */
