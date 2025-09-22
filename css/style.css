@@ -57,6 +57,10 @@ html.light .project-card {
     border: 1px solid rgba(15, 23, 42, 0.08);
     box-shadow: 0 4px 10px rgba(15,23,42,0.05);
 }
+html.light .skill-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(15,23,42,0.10);
+}
 html.light .project-image img { background: #e2e8f0; }
 html.light .form-group input,
 html.light .form-group textarea {
@@ -272,6 +276,18 @@ h2::after {
     display: block;
 }
 
+/* Hover effects for images */
+.about-image img,
+.internship-logo img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+}
+.about-image:hover img,
+.internship-logo:hover img {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 16px 28px rgba(0,0,0,0.22);
+    filter: drop-shadow(0 10px 18px rgba(0,0,0,0.35));
+}
+
 .internship-company {
     color: var(--light-text);
 }
@@ -341,6 +357,13 @@ h2::after {
 .skill-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
+}
+
+/* Make entire skill card clickable when used as an anchor */
+.skills-grid a.skill-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
 }
 
 .skill-card i {
