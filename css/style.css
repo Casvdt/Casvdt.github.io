@@ -369,8 +369,8 @@ h2::after {
 }
 
 .skill-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.18);
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 12px 22px rgba(2, 132, 199, 0.22);
 }
 
 /* Make entire skill card clickable when used as an anchor */
@@ -406,8 +406,8 @@ h2::after {
 }
 
 .project-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 14px 28px rgba(2, 132, 199, 0.18);
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 16px 28px rgba(2, 132, 199, 0.22);
 }
 
 .project-image {
