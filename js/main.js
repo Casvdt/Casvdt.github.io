@@ -111,6 +111,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (contactForm) {
+        // Genereer simpele rekenuitdaging (bijv. 3 + 5)
+        const qEl = document.getElementById('challenge-q');
+        const challengeInput = document.getElementById('challenge');
+        const a = Math.floor(2 + Math.random() * 8);
+        const b = Math.floor(2 + Math.random() * 8);
+        const expected = a + b;
+        if (qEl) qEl.textContent = `${a} + ${b} =`;
+
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -132,10 +140,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const nameInput = contactForm.querySelector('#name');
             const emailInput = contactForm.querySelector('#email');
             const messageInput = contactForm.querySelector('#message');
+            const confirmProfessional = contactForm.querySelector('#confirmProfessional');
 
             const nameVal = nameInput.value.trim();
             const emailVal = emailInput.value.trim();
             const messageVal = messageInput.value.trim();
+            const challengeVal = (challengeInput ? challengeInput.value.trim() : '');
+            const confirmOk = confirmProfessional ? confirmProfessional.checked : false;
 
             // Eenvoudige controles
             const nameOk = /^[A-Za-zÀ-ÖØ-öø-ÿ'\- ]{2,60}$/.test(nameVal);
@@ -168,6 +179,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const wordCount = messageVal.split(/\s+/).filter(Boolean).length;
             if (wordCount < 4) {
                 showToast('Schrijf een iets uitgebreider bericht (minimaal 4 woorden).', 'error');
+                return;
+            }
+            // Professionele bevestiging vereist
+            if (!confirmOk) {
+                showToast('Bevestig dat dit een professionele vraag is.', 'error');
+                return;
+            }
+            // Controleren rekenuitdaging
+            if (!challengeVal || Number(challengeVal) !== expected) {
+                showToast('Rekenuitdaging onjuist. Probeer opnieuw.', 'error');
                 return;
             }
 

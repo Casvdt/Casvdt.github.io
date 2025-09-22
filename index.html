@@ -275,6 +275,23 @@
                     <textarea id="message" name="message" required minlength="10" maxlength="2000"></textarea>
                 </div>
 
+                <!-- Simpele anti-spam uitdaging -->
+                <div class="form-group">
+                    <label class="translatable" data-en="Solve this to prove you're human" data-nl="Los dit op om te bewijzen dat je mens bent">Solve this to prove you're human</label>
+                    <div class="challenge-row">
+                        <span id="challenge-q">0 + 0 =</span>
+                        <input type="text" id="challenge" inputmode="numeric" pattern="\d+" maxlength="3" autocomplete="off" required>
+                    </div>
+                </div>
+
+                <!-- Bevestiging professionele vraag -->
+                <div class="form-group">
+                    <label for="confirmProfessional" style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" id="confirmProfessional">
+                        <span class="translatable" data-en="I confirm this is a professional inquiry." data-nl="Ik bevestig dat dit een professionele vraag is.">I confirm this is a professional inquiry.</span>
+                    </label>
+                </div>
+
                 <!-- Verstuurknop -->
                 <button type="submit" class="submit-button">
                     <span class="button-text translatable" data-en="Send Message" data-nl="Bericht verzenden">
