@@ -58,7 +58,6 @@ html.light .project-card {
     box-shadow: 0 6px 16px rgba(15,23,42,0.10);
 }
 html.light .skill-card:hover {
-    transform: translateY(-6px);
     box-shadow: 0 10px 20px rgba(15,23,42,0.10);
 }
 html.light .project-image img { background: #e2e8f0; }
