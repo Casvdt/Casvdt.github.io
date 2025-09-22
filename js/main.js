@@ -76,13 +76,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===== CONTACTFORMULIER MET VALIDATIE EN COOLDOWN =====
     const contactForm = document.querySelector('.contact-form');
-    const COOLDOWN_MS = 8000; // 8 seconden tussen berichten
+    const COOLDOWN_MS = 15000; // 15 seconden tussen berichten
     let lastSubmitAt = 0;
+    try {
+        const storedLast = sessionStorage.getItem('last_submit_at');
+        if (storedLast) lastSubmitAt = parseInt(storedLast, 10) || 0;
+    } catch {}
 
     // Functie om te checken of bericht een link bevat
     function containsUrl(text) {
         const urlRegex = /(https?:\/\/|www\.)/i;
         return urlRegex.test(text);
+    }
+
+    // Bekende disposable/wegwerp e-maildomeinen blokkeren
+    const DISPOSABLE_DOMAINS = new Set([
+        'mailinator.com','mailinator.net','mailinator.org','maildrop.cc','dispostable.com','getnada.com','nada.ltd',
+        'tempmail.dev','temp-mail.org','tempmailo.com','tempmail.email','tempmail.plus','tempail.com','moakt.com',
+        '10minutemail.com','10minutemail.net','10minemail.com','guerrillamail.com','sharklasers.com','grr.la',
+        'yopmail.com','yopmail.fr','yopmail.net','yopmail.org','yopmail.de','cool.fr.nf','jetable.fr.nf',
+        'throwawaymail.com','fakemail.net','fakeinbox.com','trashmail.com','trashmail.de','mytrashmail.com',
+        'mailcatch.com','mailnesia.com','mintemail.com','spambog.com','spamgourmet.com','mail-temporaire.fr',
+        'tempinbox.com','mohmal.com','nowmymail.com','emailondeck.com','burnermail.io','sp disposable.com'
+    ]);
+    function isDisposableEmail(email) {
+        const parts = String(email).toLowerCase().split('@');
+        if (parts.length !== 2) return true;
+        const domain = parts[1].trim();
+        if (!domain) return true;
+        // Check exact domain and common subdomains
+        if (DISPOSABLE_DOMAINS.has(domain)) return true;
+        const base = domain.replace(/^.*?([^\.]+\.[^\.]+)$/,'$1');
+        return DISPOSABLE_DOMAINS.has(base);
     }
 
     if (contactForm) {
@@ -114,14 +139,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Eenvoudige controles
             const nameOk = /^[A-Za-zÀ-ÖØ-öø-ÿ'\- ]{2,60}$/.test(nameVal);
-            const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailVal);
+            // Stricter email pattern incl. basic TLD and disallowing consecutive dots
+            const emailOk = /^(?!.*\.\.)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,63}$/.test(emailVal);
             const messageOk = messageVal.length >= 10 && messageVal.length <= 2000;
 
             if (!nameOk) {
                 showToast('Vul een geldige naam in.', 'error');
                 return;
             }
-            if (!emailOk) {
+            if (!emailOk || isDisposableEmail(emailVal)) {
                 showToast('Vul een geldig e-mailadres in.', 'error');
                 return;
             }
@@ -131,6 +157,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (containsUrl(messageVal)) {
                 showToast('Verwijder links uit het bericht.', 'error');
+                return;
+            }
+            // Disallow duplicate characters spam (e.g., "!!!!!!!" or very long repeated chars)
+            if (/(.)\1{6,}/.test(messageVal)) {
+                showToast('Gebruik minder herhalende tekens in het bericht.', 'error');
+                return;
+            }
+            // Minimaal aantal woorden voor duidelijk bericht
+            const wordCount = messageVal.split(/\s+/).filter(Boolean).length;
+            if (wordCount < 4) {
+                showToast('Schrijf een iets uitgebreider bericht (minimaal 4 woorden).', 'error');
                 return;
             }
 
@@ -156,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
 
                 lastSubmitAt = Date.now();
+                try { sessionStorage.setItem('last_submit_at', String(lastSubmitAt)); } catch {}
                 showToast('Bericht succesvol verzonden!', 'success');
                 contactForm.reset();
             } catch (error) {
