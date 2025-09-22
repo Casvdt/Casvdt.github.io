@@ -364,7 +364,7 @@ h2::after {
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.35);
     border: 1px solid rgba(148, 163, 184, 0.15);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.16s ease, box-shadow 0.16s ease;
     will-change: transform, box-shadow;
 }
 
@@ -400,7 +400,7 @@ h2::after {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.35);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.16s ease, box-shadow 0.16s ease;
     will-change: transform, box-shadow;
     border: 1px solid rgba(148, 163, 184, 0.15);
 }
