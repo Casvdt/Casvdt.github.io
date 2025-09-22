@@ -192,6 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
         children.forEach((child, index) => {
             child.style.transitionDelay = `${index * 90}ms`;
         });
+        // Verwijder de delay na de eerste animatie zodat hover direct reageert
+        setTimeout(() => {
+            children.forEach((child) => {
+                child.style.transitionDelay = '0ms';
+            });
+        }, 1000);
     });
 
     // ===== SCROLL NAAR BOVEN KNOP =====
