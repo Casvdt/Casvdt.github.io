@@ -15,7 +15,7 @@
     --light-text: #94a3b8; 
     --background: #0b1220; 
     --section-bg: #0b1220;
-    --transition: all 0.1s ease;
+    --transition: all 0.3s ease;
 }
 
 body {
@@ -58,7 +58,8 @@ html.light .project-card {
     box-shadow: 0 6px 16px rgba(15,23,42,0.10);
 }
 html.light .skill-card:hover {
-    box-shadow: 0 10px 20px rgba(15,23,42,0.10);
+    transform: translateY(-6px);
+    box-shadow: 0 14px 24px rgba(0,0,0,0.20);
 }
 html.light .project-image img { background: #e2e8f0; }
 html.light .project-card:hover {
@@ -363,7 +364,8 @@ h2::after {
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.35);
     border: 1px solid rgba(148, 163, 184, 0.15);
-    transition: var(--transition);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform, box-shadow;
 }
 
 .skill-card:hover {
