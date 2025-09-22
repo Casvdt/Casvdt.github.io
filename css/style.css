@@ -64,7 +64,7 @@ html.light .skill-card:hover {
 html.light .project-image img { background: #e2e8f0; }
 html.light .project-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 16px 28px rgba(15,23,42,0.16);
+    box-shadow: 0 16px 28px rgba(0,0,0,0.18);
 }
 html.light .form-group input,
 html.light .form-group textarea {
@@ -400,7 +400,8 @@ h2::after {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.35);
-    transition: var(--transition);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform, box-shadow;
     border: 1px solid rgba(148, 163, 184, 0.15);
 }
 
