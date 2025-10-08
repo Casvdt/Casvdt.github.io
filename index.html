@@ -20,6 +20,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
+    <!-- Tailwind CSS (CDN) for immediate prototyping; build setup also present for production -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1c3b6d',
+                        primaryHover: '#152b4d',
+                        secondary: '#ef4444',
+                        accent: '#22c55e',
+                        accent2: '#f59e0b',
+                    },
+                    boxShadow: {
+                        card: '0 4px 6px rgba(0, 0, 0, 0.35)'
+                    }
+                }
+            }
+        }
+    </script>
+
     <!-- :contentReference[oaicite:2]{index=2} script om mails te kunnen versturen via formulier -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
@@ -33,7 +55,7 @@
 
 <body>
     <!-- ===== NAVIGATIEBALK BOVENAAN ===== -->
-    <nav class="navbar">
+    <nav class="navbar fixed top-0 inset-x-0 z-50 bg-slate-950/90 backdrop-blur flex items-center justify-between px-5 py-5 shadow">
         <div class="nav-logo translatable" data-en="Portfolio" data-nl="Portfolio">Portfolio</div>
         <ul class="nav-links">
             <!-- Navigatielinks met taal-vertalingen -->
@@ -56,22 +78,22 @@
     </nav>
 
     <!-- ===== HERO SECTIE (bovenste welkomstgedeelte) ===== -->
-    <section class="hero home reveal" id="home">
-        <div class="hero-content">
-            <h1 class="translatable" data-en="Hi, I'm <span class='highlight'>Cas van der Toorn</span>"
+    <section class="hero home reveal min-h-screen grid place-items-center text-center px-4" id="home">
+        <div class="hero-content container-page">
+            <h1 class="translatable text-5xl md:text-6xl font-bold text-slate-50" data-en="Hi, I'm <span class='highlight'>Cas van der Toorn</span>"
                 data-nl="Hoi, ik ben <span class='highlight'>Cas van der Toorn</span>">
                 Hi, I'm <span class="highlight">Cas van der Toorn</span>
             </h1>
-            <p class="hero-subtitle translatable" data-en="Web Developer & Designer"
+            <p class="hero-subtitle translatable text-lg md:text-xl" data-en="Web Developer & Designer"
                 data-nl="Webontwikkelaar & Designer">
                 Web Developer & Designer
             </p>
-            <p class="hero-lede translatable"
+            <p class="hero-lede translatable max-w-2xl mx-auto"
                 data-en="Scroll to learn more about me, explore my skills, and see some of my projects below."
                 data-nl="Scroll om meer over mij te weten te komen, bekijk mijn vaardigheden en zie hieronder een paar van mijn projecten.">
                 Scroll to learn more about me, explore my skills, and see some of my projects below.
             </p>
-            <a href="#contact" class="cta-button translatable" data-en="Get in Touch" data-nl="Neem contact op">Get in
+            <a href="#contact" class="cta-button translatable inline-flex items-center gap-2 rounded-md" data-en="Get in Touch" data-nl="Neem contact op">Get in
                 Touch</a>
         </div>
     </section>
@@ -127,47 +149,47 @@
     <!-- ===== VAARDIGHEDEN SECTIE ===== -->
     <section class="skills reveal" id="skills">
         <h2 class="translatable" data-en="My Skills" data-nl="Mijn vaardigheden">My Skills</h2>
-        <div class="skills-grid stagger">
+        <div class="skills-grid stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
             <!-- Elke skill is een kaartje met icoon -->
-            <a class="skill-card" href="https://developer.mozilla.org/docs/Web/HTML" target="_blank" rel="noopener">
+            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition" href="https://developer.mozilla.org/docs/Web/HTML" target="_blank" rel="noopener">
                 <i class="fab fa-html5"></i>
                 <h3>HTML5</h3>
             </a>
-            <a class="skill-card" href="https://developer.mozilla.org/docs/Web/CSS" target="_blank" rel="noopener">
+            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition" href="https://developer.mozilla.org/docs/Web/CSS" target="_blank" rel="noopener">
                 <i class="fab fa-css3-alt"></i>
                 <h3>CSS3</h3>
             </a>
-            <a class="skill-card" href="https://developer.mozilla.org/docs/Web/JavaScript" target="_blank"
+            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition" href="https://developer.mozilla.org/docs/Web/JavaScript" target="_blank"
                 rel="noopener">
                 <i class="fab fa-js"></i>
                 <h3>JavaScript</h3>
             </a>
-            <a class="skill-card" href="https://nodejs.org/docs/latest/api/" target="_blank" rel="noopener">
+            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition" href="https://nodejs.org/docs/latest/api/" target="_blank" rel="noopener">
                 <i class="fab fa-node-js"></i>
                 <h3>Node.js</h3>
             </a>
-            <a class="skill-card" href="https://www.php.net/docs.php" target="_blank" rel="noopener">
+            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition" href="https://www.php.net/docs.php" target="_blank" rel="noopener">
                 <i class="fab fa-php"></i>
                 <h3>PHP</h3>
             </a>
-            <a class="skill-card" href="https://symfony.com/doc" target="_blank" rel="noopener">
+            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition" href="https://symfony.com/doc" target="_blank" rel="noopener">
                 <i class="fa-brands fa-symfony"></i>
                 <h3>Symfony</h3>
             </a>
-            <a class="skill-card" href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">
+            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition" href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">
                 <i class="fas fa-database"></i>
                 <h3>SQL</h3>
             </a>
-            <a class="skill-card" href="https://getbootstrap.com/docs/5.3/getting-started/introduction/" target="_blank"
+            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition" href="https://getbootstrap.com/docs/5.3/getting-started/introduction/" target="_blank"
                 rel="noopener">
                 <i class="fa-brands fa-bootstrap"></i>
                 <h3>Bootstrap 5</h3>
             </a>
-            <a class="skill-card" href="https://www.swift.org/documentation/" target="_blank" rel="noopener">
+            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition" href="https://www.swift.org/documentation/" target="_blank" rel="noopener">
                 <i class="fa-brands fa-swift"></i>
                 <h3>Swift</h3>
             </a>
-            <a class="skill-card" href="https://www.kernel.org/doc/html/latest/" target="_blank" rel="noopener">
+            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition" href="https://www.kernel.org/doc/html/latest/" target="_blank" rel="noopener">
                 <i class="fa-brands fa-linux"></i>
                 <h3>Linux</h3>
             </a>
@@ -177,9 +199,9 @@
     <!-- ===== PROJECTEN SECTIE ===== -->
     <section class="projects reveal" id="projects">
         <h2 class="translatable" data-en="My Projects" data-nl="Mijn projecten">My Projects</h2>
-        <div class="projects-grid stagger">
+        <div class="projects-grid stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
             <!-- Elk project is een kaart met afbeelding, titel, beschrijving en link -->
-            <div class="project-card">
+            <div class="project-card rounded-lg border border-slate-700/40 shadow-card transition hover:shadow-lg hover:scale-[1.01]">
                 <div class="project-image">
                     <img src="images/weather.png" alt="Weather Project">
                 </div>
@@ -190,7 +212,7 @@
                         data-nl="Een weerapplicatie die realtime weerinformatie biedt via een API-integratie.">
                         A weather application that provides real-time weather information using API integration.
                     </p>
-                    <div class="project-links">
+                    <div class="project-links mt-3">
                         <a href="https://github.com/Casvdt/Breezy-Cas" class="project-link">
                             <i class="fab fa-github"></i> GitHub
                         </a>
@@ -207,7 +229,7 @@
                 </div>
             </div>
             <!-- Tic Tac Toe Project -->
-            <div class="project-card">
+            <div class="project-card rounded-lg border border-slate-700/40 shadow-card transition hover:shadow-lg hover:scale-[1.01]">
                 <div class="project-image">
                     <img src="images/tictactoe.png" alt="Tic Tac Toe Game Project">
                 </div>
@@ -220,7 +242,7 @@
                         A Tic Tac Toe game built with HTML, CSS, and JavaScript featuring an AI opponent with multiple
                         difficulty levels.
                     </p>
-                    <div class="project-links">
+                    <div class="project-links mt-3">
                         <a href="https://github.com/Casvdt/Tic-Tac-Toe-Game-By-Cas" class="project-link">
                             <i class="fab fa-github"></i> GitHub
                         </a>
@@ -237,7 +259,7 @@
                 </div>
             </div>
             <!-- Calendar Project -->
-            <div class="project-card">
+            <div class="project-card rounded-lg border border-slate-700/40 shadow-card transition hover:shadow-lg hover:scale-[1.01]">
                 <div class="project-image">
                     <img src="images/calendar-image.png" alt="Calendar Task Manager Project">
                 </div>
@@ -250,7 +272,7 @@
                         An interactive calendar to browse months, select a day, and add tasks with priority and optional
                         time with a browser reminder — plus confetti on completion.
                     </p>
-                    <div class="project-links">
+                    <div class="project-links mt-3">
                         <a href="https://github.com/Casvdt/Dagplanner" class="project-link" target="_blank"
                             rel="noopener">
                             <i class="fab fa-github"></i> GitHub

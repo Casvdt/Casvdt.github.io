@@ -322,7 +322,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function applyTheme(theme) {
         const root = document.documentElement;
+        // Keep existing light theme for custom CSS, and also apply Tailwind's dark mode class
         root.classList.toggle('light', theme === 'light');
+        root.classList.toggle('dark', theme === 'dark');
         if (themeIcon) {
             themeIcon.className = theme === 'light' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
         }
