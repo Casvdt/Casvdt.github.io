@@ -396,7 +396,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const isLight = document.documentElement.classList.contains('light');
             // Slightly different opacities per theme
             return {
-                bg: isLight ? 'rgba(248, 250, 252, 0)' : 'rgba(2, 6, 23, 0)',
+                // Use a low alpha so previous frame fades out instead of accumulating
+                bg: isLight ? 'rgba(248, 250, 252, 0.06)' : 'rgba(2, 6, 23, 0.08)',
                 glyph: isLight ? 'rgba(30, 41, 59, 0.55)' : 'rgba(148, 163, 184, 0.55)',
                 head: isLight ? 'rgba(30, 41, 59, 0.85)' : 'rgba(226, 232, 240, 0.85)'
             };
@@ -418,6 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let lastTime = 0;
         const frameInterval = 1000 / 28; // ~28 FPS to save CPU
+        let frameCounter = 0; // used for occasional hard clears
 
         function draw(ts) {
             if (!lastTime) lastTime = ts;
@@ -436,6 +438,12 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillStyle = colors.bg;
             ctx.fillRect(0, 0, rect.width, rect.height);
 
+            // Occasionally perform a hard clear to avoid very long-term ghosting
+            frameCounter++;
+            if (frameCounter % 900 === 0) { // roughly every ~32s at 28 FPS
+                ctx.clearRect(0, 0, rect.width, rect.height);
+            }
+
             for (let i = 0; i < columns; i++) {
                 const char = CHARS[Math.floor(Math.random() * CHARS.length)];
                 const x = i * fontSize + (fontSize * 0.1);
@@ -452,7 +460,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 // Reset drop randomly when reaching bottom
-                if (y > rect.height && Math.random() > 0.975) {
+                // Slightly increase reset rate to keep scene fresh over time
+                if (y > rect.height && Math.random() > 0.965) {
                     drops[i] = Math.floor(Math.random() * -10);
                 } else {
                     drops[i] += 1;
@@ -499,6 +508,179 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('beforeunload', () => {
             themeObserver.disconnect();
             if (rafId) cancelAnimationFrame(rafId);
+        });
+    })();
+
+    // ===== HERO: 3D CODE RING (Three.js) =====
+    (function initCodeRing3D() {
+        const mount = document.getElementById('code-3d');
+        if (!mount) return;
+        if (typeof THREE === 'undefined') return;
+
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReduced) return;
+
+        let renderer, scene, camera, ring, rafId = null;
+
+        function themeColors() {
+            const isLight = document.documentElement.classList.contains('light');
+            return {
+                bg: 'transparent',
+                particle: isLight ? 0x1e293b : 0x93a3b8, // slate-800 (light) vs slate-400 (dark)
+                highlight: isLight ? 0x0ea5e9 : 0x22d3ee  // cyan-ish highlights
+            };
+        }
+
+        function createRenderer(width, height) {
+            const r = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+            r.setSize(width, height, false);
+            r.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+            r.outputColorSpace = THREE.SRGBColorSpace;
+            r.setClearColor(0x000000, 0); // transparent
+            return r;
+        }
+
+        function createScene(width, height) {
+            scene = new THREE.Scene();
+
+            const fov = 45;
+            const aspect = width / Math.max(1, height);
+            const near = 0.1;
+            const far = 100;
+            camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+            camera.position.set(0, 0, 6);
+
+            // Particles arranged on a torus
+            const group = new THREE.Group();
+            const colors = themeColors();
+
+            // Main torus points
+            const rMajor = 2.4;
+            const rMinor = 0.65;
+            const tubularSegments = 550;
+            const radialSegments = 180;
+            const torus = new THREE.TorusGeometry(rMajor, rMinor, radialSegments, tubularSegments);
+            torus.deleteAttribute('normal');
+            torus.deleteAttribute('uv');
+            const ptsGeo = new THREE.BufferGeometry();
+            const positions = torus.attributes.position.array;
+            ptsGeo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+
+            const material = new THREE.PointsMaterial({
+                color: colors.particle,
+                size: 0.02,
+                sizeAttenuation: true,
+                transparent: true,
+                opacity: 0.7,
+                depthWrite: false
+            });
+            const points = new THREE.Points(ptsGeo, material);
+            group.add(points);
+
+            // Sparse highlight particles sprinkled around ring
+            const sprinkleCount = 900;
+            const sprinkleGeo = new THREE.BufferGeometry();
+            const sprinklePositions = new Float32Array(sprinkleCount * 3);
+            for (let i = 0; i < sprinkleCount; i++) {
+                // Sample near torus surface with slight jitter for depth
+                const u = Math.random() * Math.PI * 2;
+                const v = Math.random() * Math.PI * 2;
+                const jitter = (Math.random() - 0.5) * 0.18;
+                const x = (rMajor + (rMinor + jitter) * Math.cos(v)) * Math.cos(u);
+                const y = (rMajor + (rMinor + jitter) * Math.cos(v)) * Math.sin(u);
+                const z = (rMinor + jitter) * Math.sin(v);
+                sprinklePositions[i * 3] = x;
+                sprinklePositions[i * 3 + 1] = y;
+                sprinklePositions[i * 3 + 2] = z;
+            }
+            sprinkleGeo.setAttribute('position', new THREE.BufferAttribute(sprinklePositions, 3));
+            const sprinkleMat = new THREE.PointsMaterial({
+                color: colors.highlight,
+                size: 0.028,
+                sizeAttenuation: true,
+                transparent: true,
+                opacity: 0.55,
+                depthWrite: false
+            });
+            const sprinklePts = new THREE.Points(sprinkleGeo, sprinkleMat);
+            group.add(sprinklePts);
+
+            ring = group;
+            scene.add(group);
+        }
+
+        function updateTheme() {
+            if (!ring) return;
+            const colors = themeColors();
+            ring.traverse(obj => {
+                if (obj.isPoints && obj.material) {
+                    if (obj.material.color) obj.material.color.setHex(obj === ring.children[0] ? colors.particle : colors.highlight);
+                    obj.material.needsUpdate = true;
+                }
+            });
+        }
+
+        function resize() {
+            const rect = mount.getBoundingClientRect();
+            const w = Math.max(1, Math.floor(rect.width));
+            const h = Math.max(1, Math.floor(rect.height));
+            if (!renderer) renderer = createRenderer(w, h);
+            renderer.setSize(w, h, false);
+            if (camera) {
+                camera.aspect = w / h;
+                camera.updateProjectionMatrix();
+            }
+        }
+
+        function animate(ts) {
+            // subtle motion
+            if (ring) {
+                ring.rotation.x = 0.25 + Math.sin(ts * 0.00015) * 0.08;
+                ring.rotation.y += 0.0006;
+            }
+            renderer.render(scene, camera);
+            rafId = requestAnimationFrame(animate);
+        }
+
+        // Initialize
+        const rect = mount.getBoundingClientRect();
+        renderer = createRenderer(rect.width, rect.height);
+        mount.appendChild(renderer.domElement);
+        createScene(rect.width, rect.height);
+        resize();
+
+        // Theme observer
+        const themeObserver = new MutationObserver(() => updateTheme());
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+        // Resize + visibility
+        const onResize = () => resize();
+        window.addEventListener('resize', onResize, { passive: true });
+        const onVisibility = () => {
+            if (document.hidden) {
+                if (rafId) cancelAnimationFrame(rafId);
+                rafId = null;
+            } else if (!rafId) {
+                rafId = requestAnimationFrame(animate);
+            }
+        };
+        document.addEventListener('visibilitychange', onVisibility);
+
+        // Start
+        rafId = requestAnimationFrame(animate);
+
+        // Cleanup
+        window.addEventListener('beforeunload', () => {
+            themeObserver.disconnect();
+            if (rafId) cancelAnimationFrame(rafId);
+            renderer.dispose();
+            // dispose geometries/materials
+            if (ring) {
+                ring.traverse(obj => {
+                    if (obj.geometry) obj.geometry.dispose();
+                    if (obj.material) obj.material.dispose?.();
+                });
+            }
         });
     })();
 
