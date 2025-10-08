@@ -254,6 +254,8 @@ h2 {
     /* Let Tailwind control font-size and color via utility classes */
     margin-bottom: 2.5rem;
     text-align: center;
+    /* Ensure underline doesn't collide with the next content */
+    padding-bottom: 0.75rem;
 }
 
 h2 { position: relative; }
@@ -262,7 +264,7 @@ h2::after {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: -12px;
+    bottom: 0;
     width: 80px;
     height: 3px;
     border-radius: 999px;
