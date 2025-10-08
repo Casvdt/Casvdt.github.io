@@ -520,7 +520,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (prefersReduced) return;
 
-        let renderer, scene, camera, ring, rafId = null;
+        let renderer, scene, camera, ring, outerRing, rafId = null;
+        let mouseX = 0, mouseY = 0, targetRotX = 0.25, targetRotY = 0;
 
         function themeColors() {
             const isLight = document.documentElement.classList.contains('light');
@@ -571,7 +572,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 size: 0.02,
                 sizeAttenuation: true,
                 transparent: true,
-                opacity: 0.7,
+                opacity: 0.65,
                 depthWrite: false
             });
             const points = new THREE.Points(ptsGeo, material);
@@ -599,25 +600,83 @@ document.addEventListener('DOMContentLoaded', () => {
                 size: 0.028,
                 sizeAttenuation: true,
                 transparent: true,
-                opacity: 0.55,
-                depthWrite: false
+                opacity: 0.5,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
             });
             const sprinklePts = new THREE.Points(sprinkleGeo, sprinkleMat);
             group.add(sprinklePts);
 
             ring = group;
             scene.add(group);
+
+            // Create a second, larger outer ring for a more complex look
+            const outerGroup = new THREE.Group();
+            const rMajor2 = rMajor * 1.35;
+            const rMinor2 = rMinor * 0.85;
+            const torus2 = new THREE.TorusGeometry(rMajor2, rMinor2, radialSegments, tubularSegments);
+            torus2.deleteAttribute('normal');
+            torus2.deleteAttribute('uv');
+            const ptsGeo2 = new THREE.BufferGeometry();
+            ptsGeo2.setAttribute('position', new THREE.Float32BufferAttribute(torus2.attributes.position.array, 3));
+            const mat2 = new THREE.PointsMaterial({
+                color: colors.particle,
+                size: 0.016,
+                sizeAttenuation: true,
+                transparent: true,
+                opacity: 0.5,
+                depthWrite: false
+            });
+            const points2 = new THREE.Points(ptsGeo2, mat2);
+            outerGroup.add(points2);
+
+            const sprinkleCount2 = 700;
+            const sprinkleGeo2 = new THREE.BufferGeometry();
+            const sprinklePositions2 = new Float32Array(sprinkleCount2 * 3);
+            for (let i = 0; i < sprinkleCount2; i++) {
+                const u = Math.random() * Math.PI * 2;
+                const v = Math.random() * Math.PI * 2;
+                const jitter = (Math.random() - 0.5) * 0.22;
+                const x = (rMajor2 + (rMinor2 + jitter) * Math.cos(v)) * Math.cos(u);
+                const y = (rMajor2 + (rMinor2 + jitter) * Math.cos(v)) * Math.sin(u);
+                const z = (rMinor2 + jitter) * Math.sin(v);
+                sprinklePositions2[i * 3] = x;
+                sprinklePositions2[i * 3 + 1] = y;
+                sprinklePositions2[i * 3 + 2] = z;
+            }
+            sprinkleGeo2.setAttribute('position', new THREE.BufferAttribute(sprinklePositions2, 3));
+            const sprinkleMat2 = new THREE.PointsMaterial({
+                color: colors.highlight,
+                size: 0.022,
+                sizeAttenuation: true,
+                transparent: true,
+                opacity: 0.45,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
+            });
+            const sprinklePts2 = new THREE.Points(sprinkleGeo2, sprinkleMat2);
+            outerGroup.add(sprinklePts2);
+
+            scene.add(outerGroup);
+            outerRing = outerGroup;
         }
 
         function updateTheme() {
             if (!ring) return;
             const colors = themeColors();
-            ring.traverse(obj => {
-                if (obj.isPoints && obj.material) {
-                    if (obj.material.color) obj.material.color.setHex(obj === ring.children[0] ? colors.particle : colors.highlight);
-                    obj.material.needsUpdate = true;
-                }
-            });
+            const applyColors = (root, primaryColor, highlightColor) => {
+                root.traverse(obj => {
+                    if (obj.isPoints && obj.material) {
+                        if (obj.material.color) {
+                            const isHighlight = obj.material.size > 0.02 || obj.material.blending === THREE.AdditiveBlending;
+                            obj.material.color.setHex(isHighlight ? highlightColor : primaryColor);
+                        }
+                        obj.material.needsUpdate = true;
+                    }
+                });
+            };
+            applyColors(ring, colors.particle, colors.highlight);
+            if (outerRing) applyColors(outerRing, colors.particle, colors.highlight);
         }
 
         function resize() {
@@ -633,11 +692,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function animate(ts) {
-            // subtle motion
+            // mouse parallax target
+            targetRotX += (mouseY * 0.08 + 0.25 - targetRotX) * 0.05;
+            targetRotY += (mouseX * 0.12 - targetRotY) * 0.05;
+
+            // subtle motion + parallax
             if (ring) {
-                ring.rotation.x = 0.25 + Math.sin(ts * 0.00015) * 0.08;
+                ring.rotation.x = targetRotX + Math.sin(ts * 0.00015) * 0.06;
                 ring.rotation.y += 0.0006;
             }
+            if (outerRing) {
+                outerRing.rotation.x = targetRotX * 0.9 + Math.cos(ts * 0.00012) * 0.05;
+                outerRing.rotation.y -= 0.00045; // opposite direction for complexity
+            }
+
+            // gentle color cycling for highlights
+            const hue = (ts * 0.00003) % 1;
+            const hue2 = (ts * 0.00002 + 0.2) % 1;
+            const setHsl = (root, h) => {
+                root.traverse(obj => {
+                    if (obj.isPoints && obj.material && obj.material.blending === THREE.AdditiveBlending) {
+                        // Keep saturation/lightness modest for premium look
+                        obj.material.color.setHSL(h, 0.6, 0.6);
+                    }
+                });
+            };
+            if (ring) setHsl(ring, hue);
+            if (outerRing) setHsl(outerRing, hue2);
+
             renderer.render(scene, camera);
             rafId = requestAnimationFrame(animate);
         }
@@ -666,6 +748,16 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         document.addEventListener('visibilitychange', onVisibility);
 
+        // Interaction: mouse parallax (within hero only)
+        const onPointerMove = (e) => {
+            const rect2 = mount.getBoundingClientRect();
+            const x = (e.clientX - rect2.left) / Math.max(1, rect2.width);
+            const y = (e.clientY - rect2.top) / Math.max(1, rect2.height);
+            mouseX = (x - 0.5); // -0.5..0.5
+            mouseY = (0.5 - y); // -0.5..0.5 invert for natural tilt
+        };
+        window.addEventListener('pointermove', onPointerMove, { passive: true });
+
         // Start
         rafId = requestAnimationFrame(animate);
 
@@ -681,6 +773,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (obj.material) obj.material.dispose?.();
                 });
             }
+            if (outerRing) {
+                outerRing.traverse(obj => {
+                    if (obj.geometry) obj.geometry.dispose();
+                    if (obj.material) obj.material.dispose?.();
+                });
+            }
+            window.removeEventListener('pointermove', onPointerMove, { passive: true });
         });
     })();
 
