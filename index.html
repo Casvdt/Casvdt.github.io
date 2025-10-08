@@ -78,7 +78,9 @@
     </nav>
 
     <!-- ===== HERO SECTIE (bovenste welkomstgedeelte) ===== -->
-    <section class="hero home reveal min-h-screen grid place-items-center text-center px-4" id="home">
+    <section class="hero home reveal relative overflow-hidden min-h-screen grid place-items-center text-center px-4" id="home">
+        <!-- Animated coding background canvas -->
+        <canvas id="code-bg" class="absolute inset-0 w-full h-full -z-10 opacity-[0.18] pointer-events-none" aria-hidden="true"></canvas>
         <div class="hero-content container-page">
             <h1 class="translatable text-5xl md:text-7xl font-extrabold leading-tight text-slate-50" data-en="Hi, I'm <span class='highlight'>Cas van der Toorn</span>"
                 data-nl="Hoi, ik ben <span class='highlight'>Cas van der Toorn</span>">

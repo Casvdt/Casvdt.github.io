@@ -373,6 +373,135 @@ document.addEventListener('DOMContentLoaded', () => {
         applyTheme(detectInitialTheme());
     }
 
+    // ===== HERO: ANIMATED CODING BACKGROUND (Canvas) =====
+    (function initCodeBackground() {
+        const canvas = document.getElementById('code-bg');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        // Respect reduced motion
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReduced) return;
+
+        let rafId = null;
+        let width = 0, height = 0, dpr = Math.max(1, window.devicePixelRatio || 1);
+        let columns = 0;
+        let drops = [];
+
+        const CHARS = '01{}[]()<>=+-*/.;:,|&^~%!$#@?ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+        function themeColors() {
+            const isLight = document.documentElement.classList.contains('light');
+            // Slightly different opacities per theme
+            return {
+                bg: isLight ? 'rgba(248, 250, 252, 0)' : 'rgba(2, 6, 23, 0)',
+                glyph: isLight ? 'rgba(30, 41, 59, 0.55)' : 'rgba(148, 163, 184, 0.55)',
+                head: isLight ? 'rgba(30, 41, 59, 0.85)' : 'rgba(226, 232, 240, 0.85)'
+            };
+        }
+
+        function resize() {
+            const rect = canvas.getBoundingClientRect();
+            width = Math.floor(rect.width * dpr);
+            height = Math.floor(rect.height * dpr);
+            canvas.width = width;
+            canvas.height = height;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            const fontSize = Math.max(12, Math.min(24, Math.floor(rect.width / 40)));
+            ctx.font = `${fontSize}px 'Poppins', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace`;
+            columns = Math.ceil(rect.width / fontSize);
+            drops = new Array(columns).fill(0).map(() => Math.floor(Math.random() * -20));
+        }
+
+        let lastTime = 0;
+        const frameInterval = 1000 / 28; // ~28 FPS to save CPU
+
+        function draw(ts) {
+            if (!lastTime) lastTime = ts;
+            const delta = ts - lastTime;
+            if (delta < frameInterval) {
+                rafId = requestAnimationFrame(draw);
+                return;
+            }
+            lastTime = ts;
+
+            const colors = themeColors();
+            const rect = canvas.getBoundingClientRect();
+            const fontSize = parseInt(ctx.font, 10) || 16;
+
+            // Fade the entire canvas slightly to create trailing effect
+            ctx.fillStyle = colors.bg;
+            ctx.fillRect(0, 0, rect.width, rect.height);
+
+            for (let i = 0; i < columns; i++) {
+                const char = CHARS[Math.floor(Math.random() * CHARS.length)];
+                const x = i * fontSize + (fontSize * 0.1);
+                const y = drops[i] * fontSize;
+
+                // Draw trail
+                ctx.fillStyle = colors.glyph;
+                ctx.fillText(char, x, y);
+
+                // Draw brighter head occasionally
+                if (Math.random() < 0.08) {
+                    ctx.fillStyle = colors.head;
+                    ctx.fillText(char, x, y + fontSize);
+                }
+
+                // Reset drop randomly when reaching bottom
+                if (y > rect.height && Math.random() > 0.975) {
+                    drops[i] = Math.floor(Math.random() * -10);
+                } else {
+                    drops[i] += 1;
+                }
+            }
+
+            rafId = requestAnimationFrame(draw);
+        }
+
+        // Handle resize (throttled)
+        let resizeTimeout = null;
+        function onResize() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                resize();
+            }, 150);
+        }
+
+        // Pause when tab hidden
+        function onVisibility() {
+            if (document.hidden) {
+                if (rafId) cancelAnimationFrame(rafId);
+                rafId = null;
+            } else if (!rafId) {
+                lastTime = 0;
+                rafId = requestAnimationFrame(draw);
+            }
+        }
+
+        // React to theme changes (repaint immediately)
+        const themeObserver = new MutationObserver(() => {
+            // Force quick repaint by resetting lastTime
+            lastTime = 0;
+        });
+        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+        window.addEventListener('resize', onResize, { passive: true });
+        document.addEventListener('visibilitychange', onVisibility);
+
+        resize();
+        rafId = requestAnimationFrame(draw);
+
+        // Cleanup on unload
+        window.addEventListener('beforeunload', () => {
+            themeObserver.disconnect();
+            if (rafId) cancelAnimationFrame(rafId);
+        });
+    })();
+
     // ===== NAV LOGO -> SCROLL NAAR BOVEN / TERUG NAAR HOME =====
     const navLogo = document.querySelector('.nav-logo');
     if (navLogo) {
