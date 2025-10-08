@@ -251,10 +251,9 @@ section {
 /* Removed alternating gray backgrounds; we set explicit section colors below */
 
 h2 {
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
+    /* Let Tailwind control font-size and color via utility classes */
+    margin-bottom: 2.5rem;
     text-align: center;
-    color: #f1f5f9;
 }
 
 h2 { position: relative; }
@@ -265,7 +264,7 @@ h2::after {
     transform: translateX(-50%);
     bottom: -12px;
     width: 80px;
-    height: 4px;
+    height: 3px;
     border-radius: 999px;
     background: var(--secondary-color);
 }
@@ -357,8 +356,7 @@ h2::after {
 
 /* Skills Section */
 .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /* Grid layout handled by Tailwind classes in index.html */
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
@@ -395,8 +393,7 @@ h2::after {
 
 /* Projects Section */
 .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(280px, 1fr));
+    /* Grid layout handled by Tailwind classes in index.html */
     gap: 2rem;
     width: 100%;
     max-width: 1200px;
