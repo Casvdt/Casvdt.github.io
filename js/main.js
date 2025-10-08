@@ -61,6 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===== TOAST BERICHTEN (kleine pop-up meldingen) =====
     const toast = document.createElement('div');
     toast.className = 'toast';
+    // Accessibility for live messages
+    try {
+        toast.setAttribute('role', 'status');
+        toast.setAttribute('aria-live', 'polite');
+        toast.setAttribute('aria-atomic', 'true');
+    } catch {}
     document.body.appendChild(toast);
 
     // Functie om toast weer te geven
@@ -111,6 +117,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (contactForm) {
+        function clearAriaInvalid() {
+            ['#name', '#email', '#message', '#challenge'].forEach(sel => {
+                const el = contactForm.querySelector(sel);
+                if (el) el.removeAttribute('aria-invalid');
+            });
+        }
+        function markInvalid(el) {
+            if (!el) return;
+            try { el.setAttribute('aria-invalid', 'true'); } catch {}
+            try { el.focus({ preventScroll: true }); } catch {}
+        }
         // Genereer simpele rekenuitdaging (bijv. 3 + 5)
         const qEl = document.getElementById('challenge-q');
         const challengeInput = document.getElementById('challenge');
@@ -121,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            clearAriaInvalid();
 
             const now = Date.now();
             // Als er te snel opnieuw verzonden wordt
@@ -156,18 +174,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!nameOk) {
                 showToast('Vul een geldige naam in.', 'error');
+                markInvalid(nameInput);
                 return;
             }
             if (!emailOk || isDisposableEmail(emailVal)) {
                 showToast('Vul een geldig e-mailadres in.', 'error');
+                markInvalid(emailInput);
                 return;
             }
             if (!messageOk) {
                 showToast('Bericht moet tussen 10 en 2000 tekens zijn.', 'error');
+                markInvalid(messageInput);
                 return;
             }
             if (containsUrl(messageVal)) {
                 showToast('Verwijder links uit het bericht.', 'error');
+                markInvalid(messageInput);
                 return;
             }
             // Disallow duplicate characters spam (e.g., "!!!!!!!" or very long repeated chars)
@@ -179,6 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const wordCount = messageVal.split(/\s+/).filter(Boolean).length;
             if (wordCount < 4) {
                 showToast('Schrijf een iets uitgebreider bericht (minimaal 4 woorden).', 'error');
+                markInvalid(messageInput);
                 return;
             }
             // Professionele bevestiging vereist
@@ -189,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Controleren rekenuitdaging
             if (!challengeVal || Number(challengeVal) !== expected) {
                 showToast('Rekenuitdaging onjuist. Probeer opnieuw.', 'error');
+                markInvalid(challengeInput);
                 return;
             }
 
@@ -215,6 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 lastSubmitAt = Date.now();
                 try { sessionStorage.setItem('last_submit_at', String(lastSubmitAt)); } catch {}
+                clearAriaInvalid();
                 showToast('Bericht succesvol verzonden!', 'success');
                 contactForm.reset();
             } catch (error) {
