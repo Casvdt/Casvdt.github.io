@@ -5,6 +5,13 @@
     box-sizing: border-box;
 }
 
+/* Desktop to tablet: show two cards per row for medium screens */
+@media (max-width: 1200px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, minmax(280px, 1fr));
+    }
+}
+
 :root {
     --primary-color: #1c3b6d;
     --primary-color-hover: #152b4d;
@@ -389,9 +396,10 @@ h2::after {
 /* Projects Section */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(300px, 360px));
+    grid-template-columns: repeat(3, minmax(280px, 1fr));
     gap: 2rem;
-    width: fit-content;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
     justify-content: center;
 }
