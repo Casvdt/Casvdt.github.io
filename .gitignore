@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Build artifacts (adjust as needed)
+.dist/
+*.log
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
