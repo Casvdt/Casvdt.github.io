@@ -59,7 +59,8 @@ html.light .skills { background-color: #f8fafc; }
 html.light .projects { background-color: #ffffff; }
 html.light .contact { background-color: #f8fafc; }
 html.light .skill-card,
-html.light .project-card {
+html.light .project-card,
+html.light .cert-card {
     background: #ffffff;
     border: 1px solid rgba(15, 23, 42, 0.08);
     box-shadow: 0 6px 16px rgba(15,23,42,0.10);
@@ -69,7 +70,8 @@ html.light .skill-card:hover {
     box-shadow: 0 14px 24px rgba(0,0,0,0.20);
 }
 html.light .project-image img { background: #e2e8f0; }
-html.light .project-card:hover {
+html.light .project-card:hover,
+html.light .cert-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 16px 28px rgba(0,0,0,0.18);
 }
@@ -325,6 +327,7 @@ h2::after {
 .skills { background-color: #0a1f1f; }
 .projects { background-color: #0e1b12; }
 .contact { background-color: #1a1320; }
+.certificates { background-color: #0b141e; }
 .about-content {
     max-width: 1000px;
     margin: 0 auto;
@@ -450,6 +453,46 @@ h2::after {
 }
 
 /* Projects Section */
+.cert-grid {
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.cert-card {
+    background: #0f172a;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.35);
+    transition: transform 0.16s ease, box-shadow 0.16s ease;
+    will-change: transform, box-shadow;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+}
+
+.cert-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 16px 28px rgba(2, 132, 199, 0.22);
+}
+
+.cert-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: rgba(14, 165, 233, 0.12);
+    color: #38bdf8;
+}
+
+.cert-icon i { font-size: 1.25rem; }
+
+.cert-info h3 { margin: 0; }
 .projects-grid {
     /* Grid layout handled by Tailwind classes in index.html */
     gap: 2rem;
