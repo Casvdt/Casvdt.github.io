@@ -356,6 +356,62 @@ h2::after {
     margin-bottom: 1rem;
 }
 
+/* About timeline */
+.timeline {
+    position: relative;
+    margin: 1rem 0 1.25rem;
+}
+
+.timeline-list {
+    list-style: none;
+    margin: 0;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.timeline-list::before {
+    content: "";
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(148, 163, 184, 0.25);
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 1.5rem;
+    margin: 0.75rem 0;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 0.5rem;
+    top: 0.5rem;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: var(--secondary-color);
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.45);
+}
+
+.timeline-item.future .timeline-dot {
+    background: var(--accent-color);
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.45);
+}
+
+.timeline-title {
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+    .timeline-list { padding-left: 0.9rem; }
+    .timeline-item { padding-left: 1.25rem; }
+}
+
 /* Skills Section */
 .skills-grid {
     /* Grid layout handled by Tailwind classes in index.html */
