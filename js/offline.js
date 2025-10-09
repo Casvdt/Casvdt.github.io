@@ -140,7 +140,7 @@
 
   // Verwerk een bug-fix en tel 'lines saved' op
   function awardFix(bugEl, fromShield){
-    score++; scoreEl.textContent = String(score);
+    score++; if (scoreEl) scoreEl.textContent = String(score);
     const gained = 90 + Math.floor(Math.random() * 61); // 90-150 lines
     linesSaved += gained;
     if (linesEl) linesEl.textContent = String(linesSaved);
@@ -154,7 +154,8 @@
   function start(){
     if (running) return; running = true;
     score = 0; linesSaved = 0; level = 1; time = 30;
-    scoreEl.textContent = '0'; timeEl.textContent = String(time);
+    if (scoreEl) scoreEl.textContent = '0';
+    timeEl.textContent = String(time);
     if (linesEl) linesEl.textContent = '0';
     if (levelEl) levelEl.textContent = '1';
     resultEl.textContent = '';
