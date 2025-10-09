@@ -1,6 +1,14 @@
-// Offline pagina uitbreidingen (NL):
-// - Eenvoudige typewriter-animatie voor tekst
-// - Mini-game met bugs vangen inclusief levels, power-ups en score
+/*
+ * Offline pagina JavaScript (NL)
+ * Inhoud/secties:
+ * 1) Typewriter-animatie: typt regels tekst met kleine pauzes en cursor.
+ * 2) Mini‑game: bugs vangen met levels, power‑ups en score (delta‑time animatie).
+ * 3) Offline Chatbot: simpele rule‑based antwoorden, grappen/quotes, NL tips.
+ * 4) Offline Coding Challenge: random puzzels met kleine bugfix‑gok.
+ * 5) Reconnect: toast wanneer online en automatische terugkeer naar de site.
+ *
+ * Doel: eenvoudige, duidelijke offline‑ervaring met weinig afhankelijkheden.
+ */
 
 // Typewriter animatie: typt regels tekst één voor één
 (function(){

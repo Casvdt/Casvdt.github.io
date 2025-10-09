@@ -1,27 +1,31 @@
+/*
+ * Offline CSS (NL)
+ * Doel: eenvoudige, lichte styling voor de offline/404 pagina's.
+ * Focus op leesbaarheid, minimale animaties en duidelijke UI-blokken.
+ */
 /* Offline/404 shared styles */
-:root { --bg: #0b1220; --fg: #e5e7eb; --dim: #93a3b8; --accent: #22c55e; }
+/* Kleurenpalet: donkere achtergrond, lichte tekst, gedempte randkleur, accentkleur */
+:root { --bg: #020617; --fg: #e2e8f0; --dim: #94a3b8; --accent: #22c55e; }
 @media (prefers-color-scheme: light) {
   :root { --bg: #f8fafc; --fg: #0f172a; --dim: #475569; --accent: #0ea5e9; }
 }
 html, body { height: 100%; }
 body {
+  /* Achtergrondkleur, tekstkleur, randkleur en accentkleur */
   margin: 0; background: var(--bg); color: var(--fg);
-  font: 15px/1.6 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  display: grid; place-items: center; padding: 24px;
+  /* Monospace font voor codeblokken en ASCII-art */
+  font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-.wrap { max-width: 920px; width: 100%; }
-pre { white-space: pre; overflow: auto; }
+.wrap { max-width: 880px; margin: 0 auto; padding: 16px; }
 .dim { color: var(--dim); }
+.cta { display:inline-block; margin-top: 16px; border:1px solid var(--dim); padding:8px 12px; border-radius:8px; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
-.cta { display:inline-block; margin-top: 16px; border:1px solid var(--dim); padding:8px 12px; border-radius:8px; }
-
-/* ASCII animation + pixel art */
 .ascii { font-size: 13px; line-height: 1.2; }
 .ascii .cursor { display:inline-block; width:10px; background: currentColor; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* Mini-game styles */
+/* Mini-game: container + HUD + speelbord + knoppen */
 .game { margin-top: 24px; border:1px solid var(--dim); border-radius: 8px; padding: 12px; }
 .hud { display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom: 8px; }
 .hud-actions { display:flex; gap:8px; }
@@ -31,11 +35,11 @@ a:hover { text-decoration: underline; }
 .btn:hover { border-color: var(--accent); }
 .success { color: var(--accent); }
 
-/* helpers */
+/* Helpers: marges en statusruimte voor berichten */
 .m-quote { margin: 8px 0 16px; }
 .result-msg { margin-top: 8px; min-height: 20px; }
 
-/* Offline Chatbot */
+/* Offline Chatbot: chatcontainer met licht kader, log met bericht-bubbels */
 .chatbot { margin-top: 24px; border: 1px solid var(--dim); border-radius: 8px; padding: 12px; box-shadow: 0 6px 12px rgba(0,0,0,0.08); }
 .chat-log {
   margin-top: 8px; height: 200px; overflow: auto; border: 1px dashed var(--dim);
@@ -50,11 +54,11 @@ a:hover { text-decoration: underline; }
 .chat-input { flex: 1; border: 1px solid var(--dim); border-radius: 8px; padding: 8px; color: var(--fg); background: transparent; }
 .chat-send { white-space: nowrap; }
 
-/* Chat legend keywords */
+/* Chat legend: kleine "pill" labels met suggesties */
 .chat-legend { margin-top: 6px; line-height: 1.8; }
 .chat-legend .kw { display: inline-block; border:1px solid var(--dim); border-radius: 999px; padding: 2px 8px; margin: 2px 4px; font-size: 12px; }
 
-/* Offline Coding Challenge */
+/* Offline Coding Challenge: puzzelvak met code-voorbeeld en invoer */
 .challenge { margin-top: 24px; border: 1px solid var(--dim); border-radius: 8px; padding: 12px; }
 .ch-desc { margin: 4px 0 8px; }
 .ch-code { white-space: pre; overflow: auto; border:1px dashed var(--dim); border-radius: 6px; padding: 8px; background: linear-gradient(180deg, rgba(148,163,184,0.06), transparent); }
@@ -62,7 +66,7 @@ a:hover { text-decoration: underline; }
 .ch-input { flex: 1; }
 .ch-result { min-height: 22px; margin-top: 8px; }
 
-/* Reconnect toast */
+/* Reconnect toast: kleine vaste melding onderin bij terug online */
 .toast {
   position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%);
   background: rgba(2,6,23,0.9); color: var(--fg); border: 1px solid var(--dim);

@@ -1,5 +1,16 @@
-// Vroege offline-detectie: als er geen internet is bij het openen van de site,
-// stuur direct naar offline.html (tenzij ?debugOnline=1 in de URL).
+/*
+ * Hoofdsite JavaScript (NL)
+ * Overzicht functies:
+ * - Vroege offline-detectie: direct naar 404 bij geen internet (voorkomt cached pagina).
+ * - Mobiel menu (hamburger): open/dicht en klik buiten om te sluiten.
+ * - Smooth scroll naar secties (door #hash te mappen naar .class).
+ * - Toast meldingen helper (success/error).
+ * - Contactformulier: validatie, eenvoudige anti-spam, cooldown en EmailJS-verzending.
+ * - Scroll-reveal animaties en staggered children.
+ * - Scroll-to-top knop.
+ * - Taalwissel (NL/EN) en thema (licht/donker) met opslag van voorkeur.
+ * - Hero effecten: canvas code-regen en Three.js "coding nebula".
+ */
 (function earlyOfflineRedirect(){
     try {
         const debugBypass = /(?:[?&])debugOnline=1\b/.test(location.search);
