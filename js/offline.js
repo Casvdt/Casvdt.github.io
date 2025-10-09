@@ -431,4 +431,12 @@
     showToast('🔌 Verbonden! Deploying happiness…');
     setTimeout(()=>{ try { location.replace('/'); } catch { location.href = '/'; } }, 1500);
   });
+
+  // Als iemand offline.html direct bezoekt terwijl we online zijn: stuur terug
+  const debugBypass = /(?:[?&])debugOffline=1\b/.test(location.search);
+  if (navigator.onLine && !debugBypass) {
+    // korte melding en direct terug
+    showToast('🌐 Online gedetecteerd. Terug naar de site…');
+    setTimeout(()=>{ try { location.replace('/'); } catch { location.href = '/'; } }, 600);
+  }
 })();
