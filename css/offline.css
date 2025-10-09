@@ -90,10 +90,17 @@ a:hover { text-decoration: underline; }
   position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%);
   /* Donkere achtergrond voor consistent contrast, met vaste lichte tekstkleur */
   background: rgba(2,6,23,0.92);
-  color: #e2e8f0 !important;
-  border: 1px solid rgba(226,232,240,0.25);
+  color: #f1f5f9 !important; /* slate-100/200 */
+  border: 1px solid rgba(226,232,240,0.35);
   padding: 10px 14px; border-radius: 10px; box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-  z-index: 9999; font-size: 14px; font-weight: 500;
+  z-index: 9999; font-size: 14px; font-weight: 600; letter-spacing: .2px;
   animation: toast-in 240ms ease-out;
+}
+/* Licht thema: lichte achtergrond en donkere tekst voor maximale leesbaarheid */
+html.light .toast {
+  background: rgba(255,255,255,0.96);
+  color: #0f172a !important; /* slate-900 */
+  border: 1px solid rgba(15,23,42,0.2);
+  box-shadow: 0 8px 24px rgba(2,6,23,0.15);
 }
 @keyframes toast-in { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
