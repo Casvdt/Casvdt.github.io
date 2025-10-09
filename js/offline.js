@@ -30,6 +30,7 @@
 (function(){
   const board = document.querySelector('.board');
   const startBtn = document.querySelector('.start');
+  const stopBtn = document.querySelector('.stop');
   const scoreEl = document.querySelector('.score');
   const timeEl = document.querySelector('.time');
   const bugCountEl = document.querySelector('.bug-count');
@@ -191,6 +192,7 @@
   }
 
   startBtn.addEventListener('click', start);
+  if (stopBtn) stopBtn.addEventListener('click', ()=>{ if (running) end(); });
 
   // Plan periodieke spawns; bij hogere levels soms een extra bug tegelijk
   function scheduleSpawns(rateMs){

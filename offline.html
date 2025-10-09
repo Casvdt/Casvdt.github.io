@@ -55,7 +55,10 @@
     <div class="game" aria-label="Catch the bugs before deploy mini-game">
       <div class="hud">
         <div>🪲 Bugs: <span id="bug-count" class="bug-count">0</span> • 📈 Lines saved: <span id="lines" class="lines">0</span> • 🗺️ Level: <span id="level" class="level">1</span> • ⏱️ Time: <span id="time" class="time">30</span>s</div>
-        <button id="start" class="btn start">Start</button>
+        <div class="hud-actions">
+          <button id="start" class="btn start">Start</button>
+          <button class="btn stop" aria-label="Stop">Stop</button>
+        </div>
       </div>
       <div class="board" id="board" role="application" aria-label="Game board"></div>
       <div id="result" class="result-msg result"></div>
@@ -63,7 +66,7 @@
 
     <!-- Offline Chatbot (humor / quotes) -->
     <section class="chatbot" aria-label="Offline chatbot">
-      <h3 class="dim">🤖 Offline Chatbot</h3>
+      <h3 class="dim" style="display:flex;align-items:center;gap:8px;">🤖 Offline Chatbot <span style="font-size:0.9em;opacity:0.8;">(low-bandwidth)</span></h3>
       <div class="chat-log" role="log" aria-live="polite"></div>
       <div class="chat-controls">
         <input type="text" class="chat-input" placeholder="Typ je vraag... (bijv. 'grap', 'quote', 'help')" aria-label="Chat invoer">

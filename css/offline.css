@@ -24,6 +24,7 @@ a:hover { text-decoration: underline; }
 /* Mini-game styles */
 .game { margin-top: 24px; border:1px solid var(--dim); border-radius: 8px; padding: 12px; }
 .hud { display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom: 8px; }
+.hud-actions { display:flex; gap:8px; }
 .board { position: relative; height: 220px; border:1px dashed var(--dim); border-radius: 6px; overflow:hidden; background: linear-gradient(180deg, rgba(148,163,184,0.08), transparent); }
 .bug { position:absolute; font-size: 18px; user-select:none; cursor:pointer; }
 .btn { border:1px solid var(--dim); padding:6px 10px; border-radius:8px; background:transparent; color:var(--fg); cursor:pointer; }
@@ -35,14 +36,14 @@ a:hover { text-decoration: underline; }
 .result-msg { margin-top: 8px; min-height: 20px; }
 
 /* Offline Chatbot */
-.chatbot { margin-top: 24px; border: 1px solid var(--dim); border-radius: 8px; padding: 12px; }
+.chatbot { margin-top: 24px; border: 1px solid var(--dim); border-radius: 8px; padding: 12px; box-shadow: 0 6px 12px rgba(0,0,0,0.08); }
 .chat-log {
-  margin-top: 8px; height: 180px; overflow: auto; border: 1px dashed var(--dim);
-  border-radius: 6px; padding: 8px; background: linear-gradient(180deg, rgba(148,163,184,0.06), transparent);
+  margin-top: 8px; height: 200px; overflow: auto; border: 1px dashed var(--dim);
+  border-radius: 6px; padding: 8px; background: linear-gradient(180deg, rgba(148,163,184,0.05), transparent);
 }
 .chat-msg { margin: 6px 0; display: flex; gap: 8px; align-items: flex-start; }
 .chat-msg.you { justify-content: flex-end; }
-.bubble { max-width: 80%; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--dim); }
+.bubble { max-width: 80%; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--dim); line-height: 1.35; }
 .you .bubble { background: rgba(34,197,94,0.12); }
 .bot .bubble { background: rgba(14,165,233,0.10); }
 .chat-controls { display: flex; gap: 8px; margin-top: 8px; }
