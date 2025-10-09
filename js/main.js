@@ -839,6 +839,127 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     })();
 
+    // ===== CUSTOM CURSOR (ring + dot) =====
+    (function initCustomCursor() {
+        const cursor = document.querySelector('.custom-cursor');
+        if (!cursor) return;
+        // Respect reduced motion and coarse (touch) pointers
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isCoarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+        if (prefersReduced || isCoarse) return;
+
+        const ring = cursor.querySelector('.cursor-ring');
+        const dot = cursor.querySelector('.cursor-dot');
+        if (!ring || !dot) return;
+
+        let x = window.innerWidth / 2, y = window.innerHeight / 2;
+        let tx = x, ty = y; // target
+        let rafId = null;
+
+        const lerp = (a, b, t) => a + (b - a) * t;
+
+        function animate() {
+            x = lerp(x, tx, 0.18);
+            y = lerp(y, ty, 0.18);
+            ring.style.transform = `translate(${x}px, ${y}px)`;
+            dot.style.transform = `translate(${tx}px, ${ty}px)`; // dot is more snappy
+            rafId = requestAnimationFrame(animate);
+        }
+
+        const move = (e) => {
+            tx = e.clientX; ty = e.clientY;
+        };
+        window.addEventListener('pointermove', move, { passive: true });
+
+        // Hover detection on interactive elements
+        const hoverSelectors = 'a, button, .cta-button, .skill-card, .project-card, .cert-card, input, textarea, select, .theme-toggle, .lang-btn';
+        function addHoverListeners(root) {
+            root.querySelectorAll(hoverSelectors).forEach(el => {
+                el.addEventListener('pointerenter', () => cursor.classList.add('is-hovering'));
+                el.addEventListener('pointerleave', () => cursor.classList.remove('is-hovering'));
+            });
+        }
+        addHoverListeners(document);
+
+        // Click pulse
+        window.addEventListener('pointerdown', () => cursor.classList.add('is-active'));
+        window.addEventListener('pointerup', () => cursor.classList.remove('is-active'));
+
+        // Pause when hidden
+        const onVisibility = () => {
+            if (document.hidden) {
+                if (rafId) cancelAnimationFrame(rafId);
+                rafId = null;
+            } else if (!rafId) {
+                rafId = requestAnimationFrame(animate);
+            }
+        };
+        document.addEventListener('visibilitychange', onVisibility);
+
+        rafId = requestAnimationFrame(animate);
+
+        // Cleanup
+        window.addEventListener('beforeunload', () => {
+            if (rafId) cancelAnimationFrame(rafId);
+            window.removeEventListener('pointermove', move, { passive: true });
+        });
+    })();
+
+    // ===== PARALLAX SCROLL EFFECTS =====
+    (function initParallax() {
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReduced) return;
+
+        // Targets: light-touch parallax on major blocks
+        const targets = [
+            '.hero-content',
+            '.about-image img',
+            '.about-text',
+            '.cert-grid',
+            '.internship-logo',
+            '.skills-grid',
+            '.projects-grid',
+            '.contact-content'
+        ]
+        .map(sel => document.querySelector(sel))
+        .filter(Boolean);
+
+        if (!targets.length) return;
+
+        // Set will-change for smoother transforms
+        targets.forEach(el => { try { el.style.willChange = 'transform'; } catch {} });
+
+        const viewportH = () => Math.max(1, window.innerHeight || document.documentElement.clientHeight || 1);
+
+        function applyParallax() {
+            const vh = viewportH();
+            targets.forEach((el, idx) => {
+                const rect = el.getBoundingClientRect();
+                const middle = rect.top + rect.height / 2;
+                const ratio = (middle - vh / 2) / vh; // -1..1 centered
+                const strength = 12 + idx * 2; // slight variance per block
+                const translateY = Math.max(-24, Math.min(24, -ratio * strength));
+                el.style.transform = `translateY(${translateY}px)`;
+            });
+        }
+
+        // Throttle with rAF
+        let ticking = false;
+        function onScroll() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    applyParallax();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        // Initial
+        applyParallax();
+    })();
+
     // ===== NAV LOGO -> SCROLL NAAR BOVEN / TERUG NAAR HOME =====
     const navLogo = document.querySelector('.nav-logo');
     if (navLogo) {
