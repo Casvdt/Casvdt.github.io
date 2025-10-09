@@ -524,7 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // - ES Modules van Three worden in index.html geladen en hier als window.THREE gebruikt
     // - Houdt rekening met reduced motion en pauzeert bij tab-wechsel
     (function initCodingNebula3D() {
-        const mount = document.getElementById('code-3d');
+        const mount = document.querySelector('.code-3d') || document.getElementById('code-3d');
         if (!mount) return;
         if (typeof THREE === 'undefined') return;
 
