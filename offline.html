@@ -24,11 +24,25 @@
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
     .cta { display:inline-block; margin-top: 16px; border:1px solid var(--dim); padding:8px 12px; border-radius:8px; }
+
+    /* ASCII animation + pixel art */
+    .ascii { font-size: 13px; line-height: 1.2; }
+    .ascii .cursor { display:inline-block; width:10px; background: currentColor; animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Mini-game styles */
+    .game { margin-top: 24px; border:1px solid var(--dim); border-radius: 8px; padding: 12px; }
+    .hud { display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom: 8px; }
+    .board { position: relative; height: 220px; border:1px dashed var(--dim); border-radius: 6px; overflow:hidden; background: linear-gradient(180deg, rgba(148,163,184,0.08), transparent); }
+    .bug { position:absolute; font-size: 18px; user-select:none; cursor:pointer; }
+    .btn { border:1px solid var(--dim); padding:6px 10px; border-radius:8px; background:transparent; color:var(--fg); cursor:pointer; }
+    .btn:hover { border-color: var(--accent); }
+    .success { color: var(--accent); }
   </style>
 </head>
 <body>
   <div class="wrap" role="main" aria-label="Offline version">
-<pre>
+<pre class="ascii">
 <span class="dim">┌───────────────────────────────────────────────────────────────────────────────┐</span>
 │   <strong>Cas van der Toorn</strong> — Web Developer & Designer                                 │
 <span class="dim">├───────────────────────────────────────────────────────────────────────────────┤</span>
@@ -55,10 +69,120 @@
 │  LinkedIn: cas-van-der-toorn-6101242b4                                         │
 <span class="dim">└───────────────────────────────────────────────────────────────────────────────┘</span>
 </pre>
+    <div class="dim" style="margin:8px 0 16px;">
+      <em>“Zelfs offline blijf ik functioneel.”</em>
+    </div>
+    <!-- ASCII animation: typing name and techs -->
+    <pre id="typewriter" class="ascii" aria-live="polite"></pre>
+
+    <!-- Pixel art (simplified avatar) -->
+    <pre class="ascii" aria-hidden="true">
+  ▗▄▖   ▗▄▄▖    ▗▄▄▄   ▗▄▄▖
+  ▐▌▐▌  ▐▌ ▐▌  ▐▌   ▌  ▐▌ ▐▌
+  ▐▌▝▚▖ ▐▌ ▐▌  ▐▌ ▝▜▌  ▐▌ ▐▌
+  ▐▌ ▝▜▖▐▌ ▐▌  ▐▙▄▄▟▌  ▐▙▄▟▌   Be right back…
+    </pre>
+
+    <!-- Mini-game: Catch the bugs before deploy! -->
+    <div class="game" aria-label="Catch the bugs before deploy mini-game">
+      <div class="hud">
+        <div>🪲 Bugs: <span id="bug-count">0</span> • ✅ Fixed: <span id="score">0</span> • ⏱️ Time: <span id="time">30</span>s</div>
+        <button id="start" class="btn">Start</button>
+      </div>
+      <div class="board" id="board" role="application" aria-label="Game board"></div>
+      <div id="result" style="margin-top:8px;"></div>
+    </div>
+
     <div>
       <a class="cta" href="/">Try to load full site</a>
     </div>
     <p class="dim">PWA offline fallback • Cached by Service Worker</p>
   </div>
+
+  <script>
+    // Typewriter animation
+    (function(){
+      const el = document.getElementById('typewriter');
+      if (!el) return;
+      const lines = [
+        'Cas van der Toorn',
+        'Stack: HTML • CSS • JS • Node • PHP • SQL',
+        'Mode: OFFLINE (ASCII)'
+      ];
+      let i = 0, j = 0;
+      function tick(){
+        if (i >= lines.length) { el.innerHTML += '\n'; i = 0; j = 0; }
+        const line = lines[i];
+        el.innerHTML = lines.slice(0, i).join('\n') + (i? '\n':'') + line.slice(0, j) + '<span class="cursor"> \u00a0</span>';
+        j++;
+        if (j > line.length) { i++; j = 0; setTimeout(tick, 700); }
+        else { setTimeout(tick, 40); }
+      }
+      tick();
+    })();
+
+    // Mini-game: Catch the bugs
+    (function(){
+      const board = document.getElementById('board');
+      const startBtn = document.getElementById('start');
+      const scoreEl = document.getElementById('score');
+      const timeEl = document.getElementById('time');
+      const bugCountEl = document.getElementById('bug-count');
+      const resultEl = document.getElementById('result');
+      if (!board || !startBtn) return;
+
+      let running = false, score = 0, time = 30, spawnInt, tickInt;
+
+      function spawnBug(){
+        const bug = document.createElement('div');
+        bug.className = 'bug';
+        bug.textContent = Math.random() < 0.5 ? '🐞' : '🪲';
+        const startX = Math.random() * (board.clientWidth - 24) + 6;
+        bug.style.left = startX + 'px';
+        bug.style.top = '-24px';
+        const speed = 0.8 + Math.random() * 1.8; // px per ms
+        let y = -24;
+        const move = (ts)=>{
+          if (!running) return;
+          y += speed * 16; // approx per frame
+          bug.style.top = y + 'px';
+          if (y > board.clientHeight) { bug.remove(); updateBugs(-1); return; }
+          bug._raf = requestAnimationFrame(move);
+        };
+        bug.addEventListener('click',()=>{ score++; scoreEl.textContent = score; bug.remove(); updateBugs(-1); });
+        updateBugs(1);
+        board.appendChild(bug);
+        bug._raf = requestAnimationFrame(move);
+      }
+
+      function updateBugs(delta){
+        bugCountEl.textContent = Math.max(0, (parseInt(bugCountEl.textContent)||0) + delta);
+      }
+
+      function start(){
+        if (running) return; running = true;
+        score = 0; time = 30; scoreEl.textContent = '0'; timeEl.textContent = String(time);
+        resultEl.textContent = '';
+        Array.from(board.querySelectorAll('.bug')).forEach(b=>{ cancelAnimationFrame(b._raf); b.remove(); });
+        bugCountEl.textContent = '0';
+        spawnInt = setInterval(spawnBug, 600);
+        tickInt = setInterval(()=>{
+          time--; timeEl.textContent = String(time);
+          if (time <= 0) end();
+        }, 1000);
+      }
+
+      function end(){
+        running = false;
+        clearInterval(spawnInt); clearInterval(tickInt);
+        Array.from(board.querySelectorAll('.bug')).forEach(b=>{ cancelAnimationFrame(b._raf); b.remove(); });
+        bugCountEl.textContent = '0';
+        const msg = score >= 10 ? '✅ Ready to deploy! Great job catching bugs.' : '🛠️ A few bugs slipped through. Try again!';
+        resultEl.innerHTML = '<span class="' + (score>=10?'success':'') + '\">' + msg + '</span>';
+      }
+
+      startBtn.addEventListener('click', start);
+    })();
+  </script>
 </body>
 </html>

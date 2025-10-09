@@ -41,7 +41,7 @@ self.addEventListener('fetch', (event) => {
         .then((response) => {
           const copy = response.clone();
           // update cache in background
-          caches.open(CACHE_NAME).then((cache) => cache.put('/', copy)).catch(() => {});
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)).catch(() => {});
           return response;
         })
         .catch(() => caches.match(OFFLINE_URL))
