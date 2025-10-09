@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 • Offline/ASCII • Cas van der Toorn</title>
+  <meta name="robots" content="noindex" />
+  <style>
+    :root { --bg:#0b1220; --fg:#e5e7eb; --dim:#93a3b8; --accent:#22c55e; }
+    @media (prefers-color-scheme: light) {
+      :root { --bg:#f8fafc; --fg:#0f172a; --dim:#475569; --accent:#0ea5e9; }
+    }
+    html, body { height: 100%; }
+    body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.6 ui-monospace, Menlo, Consolas, "Courier New", monospace; display:grid; place-items:center; padding:24px; }
+    .wrap { max-width: 920px; width: 100%; }
+    pre { white-space: pre; overflow:auto; }
+    .dim { color: var(--dim); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .cta { display:inline-block; margin-top: 16px; border:1px solid var(--dim); padding:8px 12px; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main" aria-label="404 offline fallback">
+<pre>
+<span class="dim">┌───────────────────────────────────────────────────────────────────────────────┐</span>
+│  <strong>404</strong> — Page not found                                                         │
+│  You found the ASCII easter egg of Cas's portfolio.                           │
+│  If you are offline, content is limited.                                      │
+<span class="dim">├───────────────────────────────────────────────────────────────────────────────┤</span>
+│  <strong>Quick links</strong>                                                                 │
+│  • Home                                                                        │
+│  • Projects                                                                    │
+│  • Contact                                                                     │
+<span class="dim">└───────────────────────────────────────────────────────────────────────────────┘</span>
+</pre>
+    <div>
+      <a class="cta" href="/">Go to Home</a>
+      <a class="cta" href="/offline.html">Offline version</a>
+    </div>
+  </div>
+</body>
+</html>
