@@ -129,8 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
             try { el.focus({ preventScroll: true }); } catch {}
         }
         // Genereer simpele rekenuitdaging (bijv. 3 + 5)
-        const qEl = document.getElementById('challenge-q');
-        const challengeInput = document.getElementById('challenge');
+        // Gebruik klassen waar mogelijk; val terug op IDs voor compatibiliteit
+        const qEl = document.querySelector('.challenge-q') || document.getElementById('challenge-q');
+        const challengeInput = document.querySelector('.challenge-input') || document.getElementById('challenge');
         const a = Math.floor(2 + Math.random() * 8);
         const b = Math.floor(2 + Math.random() * 8);
         const expected = a + b;
@@ -155,10 +156,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Velden ophalen
-            const nameInput = contactForm.querySelector('#name');
-            const emailInput = contactForm.querySelector('#email');
-            const messageInput = contactForm.querySelector('#message');
-            const confirmProfessional = contactForm.querySelector('#confirmProfessional');
+            const nameInput = contactForm.querySelector('.js-name') || contactForm.querySelector('#name');
+            const emailInput = contactForm.querySelector('.js-email') || contactForm.querySelector('#email');
+            const messageInput = contactForm.querySelector('.js-message') || contactForm.querySelector('#message');
+            const confirmProfessional = contactForm.querySelector('.js-confirm') || contactForm.querySelector('#confirmProfessional');
 
             const nameVal = nameInput.value.trim();
             const emailVal = emailInput.value.trim();

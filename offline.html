@@ -40,7 +40,7 @@
       <em>“Zelfs offline blijf ik functioneel.”</em>
     </div>
     <!-- ASCII animation: typing name and techs -->
-    <pre id="typewriter" class="ascii" aria-live="polite"></pre>
+    <pre id="typewriter" class="ascii typewriter" aria-live="polite"></pre>
 
     <!-- ASCII wordmark: CAS -->
     <pre class="ascii" aria-hidden="true">
@@ -54,11 +54,11 @@
     <!-- Mini-game: Catch the bugs before deploy! -->
     <div class="game" aria-label="Catch the bugs before deploy mini-game">
       <div class="hud">
-        <div>🪲 Bugs: <span id="bug-count">0</span> • 📈 Lines saved: <span id="lines">0</span> • 🗺️ Level: <span id="level">1</span> • ⏱️ Time: <span id="time">30</span>s</div>
-        <button id="start" class="btn">Start</button>
+        <div>🪲 Bugs: <span id="bug-count" class="bug-count">0</span> • 📈 Lines saved: <span id="lines" class="lines">0</span> • 🗺️ Level: <span id="level" class="level">1</span> • ⏱️ Time: <span id="time" class="time">30</span>s</div>
+        <button id="start" class="btn start">Start</button>
       </div>
       <div class="board" id="board" role="application" aria-label="Game board"></div>
-      <div id="result" class="result-msg"></div>
+      <div id="result" class="result-msg result"></div>
     </div>
 
     <div>

@@ -4,7 +4,7 @@
 
 // Typewriter animatie: typt regels tekst één voor één
 (function(){
-  const el = document.getElementById('typewriter');
+  const el = document.querySelector('.typewriter');
   if (!el) return;
   const lines = [
     'Cas van der Toorn',
@@ -28,14 +28,14 @@
 
 // Mini-game: Vang de bugs voordat je deployt
 (function(){
-  const board = document.getElementById('board');
-  const startBtn = document.getElementById('start');
-  const scoreEl = document.getElementById('score');
-  const timeEl = document.getElementById('time');
-  const bugCountEl = document.getElementById('bug-count');
-  const resultEl = document.getElementById('result');
-  const linesEl = document.getElementById('lines');
-  const levelEl = document.getElementById('level');
+  const board = document.querySelector('.board');
+  const startBtn = document.querySelector('.start');
+  const scoreEl = document.querySelector('.score');
+  const timeEl = document.querySelector('.time');
+  const bugCountEl = document.querySelector('.bug-count');
+  const resultEl = document.querySelector('.result');
+  const linesEl = document.querySelector('.lines');
+  const levelEl = document.querySelector('.level');
   if (!board || !startBtn) return;
 
   // Spelstatus

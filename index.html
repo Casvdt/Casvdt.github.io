@@ -80,7 +80,7 @@
     <!-- ===== HERO SECTIE (bovenste welkomstgedeelte) ===== -->
     <section class="hero home reveal relative overflow-hidden min-h-screen grid place-items-center text-center px-4" id="home">
         <!-- 3D code ring background mounts here -->
-        <div id="code-3d" class="absolute inset-0 w-full h-full -z-10 pointer-events-none" aria-hidden="true"></div>
+        <div id="code-3d" class="code-3d absolute inset-0 w-full h-full -z-10 pointer-events-none" aria-hidden="true"></div>
         <div class="hero-content container-page">
             <h1 class="translatable text-5xl md:text-7xl font-extrabold leading-tight text-slate-50" data-en="Hi, I'm <span class='highlight'>Cas van der Toorn</span>"
                 data-nl="Hoi, ik ben <span class='highlight'>Cas van der Toorn</span>">
@@ -369,21 +369,21 @@
                 <!-- Naamveld -->
                 <div class="form-group space-y-2">
                     <label for="name" class="translatable font-medium" data-en="Name" data-nl="Naam">Name</label>
-                    <input class="rounded-md bg-slate-900/80 dark:bg-white border border-slate-600/50 text-slate-200 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/60 transition" type="text" id="name" name="from_name" required minlength="2" maxlength="60"
+                    <input class="js-name rounded-md bg-slate-900/80 dark:bg-white border border-slate-600/50 text-slate-200 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/60 transition" type="text" id="name" name="from_name" required minlength="2" maxlength="60"
                         pattern="[A-Za-zÀ-ÖØ-öø-ÿ'\- ]+" autocomplete="name">
                 </div>
 
                 <!-- E-mailveld -->
                 <div class="form-group space-y-2">
                     <label for="email" class="translatable font-medium" data-en="Email" data-nl="E-mail">Email</label>
-                    <input class="rounded-md bg-slate-900/80 dark:bg-white border border-slate-600/50 text-slate-200 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/60 transition" type="email" id="email" name="from_email" required inputmode="email" autocomplete="email"
+                    <input class="js-email rounded-md bg-slate-900/80 dark:bg-white border border-slate-600/50 text-slate-200 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/60 transition" type="email" id="email" name="from_email" required inputmode="email" autocomplete="email"
                         maxlength="254" spellcheck="false">
                 </div>
 
                 <!-- Berichtveld -->
                 <div class="form-group space-y-2">
                     <label for="message" class="translatable font-medium" data-en="Message" data-nl="Bericht">Message</label>
-                    <textarea class="rounded-md bg-slate-900/80 dark:bg-white border border-slate-600/50 text-slate-200 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/60 transition" id="message" name="message" required minlength="10" maxlength="2000"></textarea>
+                    <textarea class="js-message rounded-md bg-slate-900/80 dark:bg-white border border-slate-600/50 text-slate-200 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/60 transition" id="message" name="message" required minlength="10" maxlength="2000"></textarea>
                 </div>
 
                 <!-- Simpele anti-spam uitdaging -->
@@ -392,8 +392,8 @@
                         data-nl="Los dit op om te bewijzen dat je een mens bent">Solve this to prove you're a
                         human</label>
                     <div class="challenge-row flex items-center gap-2">
-                        <span id="challenge-q">0 + 0 =</span>
-                        <input class="rounded-md bg-slate-900/80 dark:bg-white border border-slate-600/50 text-slate-200 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/60 transition" type="text" id="challenge" inputmode="numeric" pattern="\d+" maxlength="3"
+                        <span id="challenge-q" class="challenge-q">0 + 0 =</span>
+                        <input class="challenge-input rounded-md bg-slate-900/80 dark:bg-white border border-slate-600/50 text-slate-200 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/60 transition" type="text" id="challenge" inputmode="numeric" pattern="\d+" maxlength="3"
                             autocomplete="off" required>
                     </div>
                 </div>
@@ -401,7 +401,7 @@
                 <!-- Bevestiging professionele vraag -->
                 <div class="form-group">
                     <label for="confirmProfessional" style="display: flex; align-items: center; gap: 0.5rem;">
-                        <input type="checkbox" id="confirmProfessional">
+                        <input type="checkbox" id="confirmProfessional" class="js-confirm">
                         <span class="translatable" data-en="I accept the terms."
                             data-nl="Ik accepteer de voorwaarden.">I accept the terms.</span>
                     </label>
