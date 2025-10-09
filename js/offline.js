@@ -218,19 +218,65 @@
     '“It works on my machine.” – Iedereen ooit',
     '“First, solve the problem. Then, write the code.” – John Johnson',
     '“Premature optimization is the root of all evil.” – Donald Knuth',
-    '“Talk is cheap. Show me the code.” – Linus Torvalds'
+    '“Talk is cheap. Show me the code.” – Linus Torvalds',
+    '“Simplicity is the soul of efficiency.” – Austin Freeman',
+    '“Any fool can write code that a computer can understand. Good programmers write code that humans can understand.” – Martin Fowler',
+    '“Make it work, make it right, make it fast.” – Kent Beck',
+    '“Programs must be written for people to read.” – Harold Abelson',
+    '“The only way to go fast, is to go well.” – Robert C. Martin'
   ];
   const jokes = [
     'Waarom was de JavaScript developer verdrietig? Omdat hij Node hoe Express hij zich voelde.',
     'Ik heb 99 problemen, maar een semicolon is er geen; of juist wel? ;)',
-    'There are only 10 types of people: those who understand binary and those who don’t.'
+    'There are only 10 types of people: those who understand binary and those who don’t.',
+    'CSS is geweldig: één regel en je layout is kapot in 12 verschillende browsers.',
+    'Bug free? Dan heb je vast je code nog niet gedraaid.',
+    'Git commit -m "final fix" — drie commits later…',
+    'Ik schrijf geen bugs, ik creëer onbedoelde features.'
   ];
   const eggs = {
-    help: 'Typ: "grap", "quote", "ascii", of stel een vraag over code (bijv. "array", "async").',
-    ascii: '┌( ಠ‿ಠ)┘  └(ಠ‿ಠ )┐  Dance mode: ASCII enabled!',
-    array: 'Arrays zijn geordende lijsten. Pro tip: .map/.filter/.reduce zijn je beste vrienden.',
-    async: 'Async/await maakt async code leesbaar. Vergeet niet try/catch en Promise.all waar zinnig!',
-    css: 'CSS tip: gebruik custom properties (variabelen) en "will-change" met beleid voor performance.'
+    // Meta
+    help: 'Typ: "grap", "quote", "ascii" of een onderwerp zoals: let/const, arrow, map, filter, reduce, fetch, promise, async, json, dom, event, regex, storage, module, css, flex, grid, responsive, media, var, box, git, npm, node, react.',
+    ascii: '┌( ಠ‿ಠ)┘  └(ಠ‿ಠ )┐  Dance mode: ASCII enabled! Try: "grap" of "quote"',
+
+    // JavaScript basics
+    var: 'CSS/JS variabelen? In JS gebruik je meestal let (veranderbaar) of const (niet her-toewijzen).',
+    let: 'let = variabele die je later kunt aanpassen. Blok-scope: alleen zichtbaar binnen {}.',
+    const: 'const = naam blijft aan dezelfde waarde/collectie gekoppeld. De inhoud van object/array kan wel muteren.',
+    arrow: 'Arrow functions: const add = (a,b) => a + b; Korter, en leent this niet automatisch.',
+    map: 'Array.map(fn) maakt een NIEUWE array met getransformeerde waarden. Voorbeeld: [1,2].map(x=>x*2) => [2,4].',
+    filter: 'Array.filter(fn) houdt alleen items die true geven. Voorbeeld: [1,2,3].filter(x=>x>1) => [2,3].',
+    reduce: 'Array.reduce((acc,x)=>acc+x, start) vouwt samen tot één waarde. Voorbeeld som: [1,2,3].reduce((a,b)=>a+b,0).',
+    find: 'Array.find(fn) geeft het eerste item dat voldoet of undefined. Handig voor zoeken.',
+    includes: 'Array.includes(v) checkt of een waarde erin zit. Voor strings ook beschikbaar.',
+
+    // Async / web
+    fetch: 'fetch(url).then(r=>r.json()) of met async/await: const data = await (await fetch(url)).json();',
+    promise: 'Een Promise is een resultaat in de toekomst. then/catch of async/await om ermee te werken.',
+    async: 'async/await maakt async code leesbaar: try { const r = await fetch(url) } catch(e) { ... }',
+    json: 'JSON is tekst met data. Parse met JSON.parse(str) en maak met JSON.stringify(obj).',
+    storage: 'localStorage.setItem("k","v"); const v = localStorage.getItem("k"); Blijft staan na refresh.',
+    dom: 'DOM manipulatie: document.querySelector(".btn").addEventListener("click", fn);',
+    event: 'Events: element.addEventListener("click", (e)=> { e.preventDefault(); ... })',
+    regex: 'RegEx: /\d+/ test nummers. "abc123".match(/\d+/) -> ["123"]. Gebruik spaarzaam en test goed.',
+    module: 'Modules: export function x(){} en import { x } from "./file.js". type="module" in script tag.',
+
+    // CSS basics
+    css: 'Stijl met klassen. Gebruik :root variabelen en utility-classes. Houd specifiteit laag.',
+    flex: 'Flexbox: .parent{display:flex; gap:8px; align-items:center; justify-content:space-between;}',
+    grid: 'CSS Grid: .g{display:grid; grid-template-columns: repeat(3,1fr); gap:12px;}',
+    responsive: 'Responsief: gebruik fluid units (%, rem) en media queries voor breekpunten.',
+    media: '@media (min-width:768px){ ... } voor tablet/desktop aanpassingen.',
+    var: 'CSS custom properties: :root{--accent:#22c55e} .btn{ color: var(--accent); }',
+    box: 'Box model: width/height + padding + border + margin. Gebruik box-sizing: border-box;',
+
+    // Tooling & framework
+    git: 'Git basics: git add . → git commit -m "msg" → git push. Gebruik branches voor features.',
+    npm: 'npm init -y, npm install pakket. Scripts in package.json. Gebruik npx voor tools zonder globale install.',
+    node: 'Node.js runt JS op de server/CLI. Start script met: node index.js of via npm scripts.',
+    react: 'React: componenten met props/state. useState en useEffect voor gedrag. Houd componenten klein.',
+    vue: 'Vue: template + script + style in één SFC. reactivity eenvoudig en leesbaar.',
+    svelte: 'Svelte: compile-time framework. Minder boilerplate, reactivity via toewijzing: count += 1;'
   };
 
   // Helper om berichten toe te voegen aan de chat
