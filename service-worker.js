@@ -1,8 +1,17 @@
-/* Portfolio PWA Service Worker */
+/*
+ * Portfolio PWA Service Worker
+ *
+ * Uitleg (NL):
+ * - We cachen kernbestanden zodat de site offline werkt.
+ * - Navigatieverzoeken (HTML-pagina's) proberen eerst het netwerk (network-first)
+ *   en vallen bij een fout terug op offline.html.
+ * - Statische assets (css/js/afbeeldingen) gebruiken een cache-first aanpak met
+ *   achtergrond-update zodat ze snel laden en toch verversen.
+ */
 const CACHE_NAME = 'portfolio-cache-v1.0.1';
 const OFFLINE_URL = '/offline.html';
 
-// Assets to pre-cache (keep small and self-hosted only)
+// Assets om vooraf te cachen (klein houden en alleen self-hosted bestanden)
 const PRECACHE = [
   '/',
   '/index.html',
@@ -15,12 +24,14 @@ const PRECACHE = [
   '/images/portfolio.png'
 ];
 
+// Install-fase: cache vullen en direct de nieuwe SW klaarzetten
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE)).then(() => self.skipWaiting())
   );
 });
 
+// Activate-fase: oude caches opruimen en controle nemen over open pagina's
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -29,7 +40,9 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Network-first for navigations; cache-first for static assets
+// Fetch-afhandeling:
+// - Navigaties: network-first (bij fail -> offline.html)
+// - Statische assets: cache-first (met netwerk-update)
 self.addEventListener('fetch', (event) => {
   const { request } = event;
 
@@ -39,11 +52,12 @@ self.addEventListener('fetch', (event) => {
   const isNavigation = request.mode === 'navigate' || (request.headers.get('accept') || '').includes('text/html');
 
   if (isNavigation) {
+    // HTML-pagina's: eerst proberen via netwerk, anders offline fallback
     event.respondWith(
       fetch(request)
         .then((response) => {
           const copy = response.clone();
-          // update cache in background
+          // Cache op achtergrond verversen met de echte URL als key
           caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)).catch(() => {});
           return response;
         })
@@ -52,7 +66,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // For same-origin CSS/JS/images: cache, then network fallback
+  // Voor same-origin CSS/JS/afbeeldingen: eerst cache, dan netwerk (en cache updaten)
   const url = new URL(request.url);
   const sameOrigin = url.origin === self.location.origin;
 

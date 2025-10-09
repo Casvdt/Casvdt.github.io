@@ -374,6 +374,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ===== HERO: ANIMATED CODING BACKGROUND (Canvas) =====
+    // NL: Lichtgewicht "code regen" effect op een <canvas> achter de hero
+    // - Respecteert "prefers-reduced-motion"
+    // - Verkleint CPU-gebruik door lagere FPS en frame-fading
     (function initCodeBackground() {
         const canvas = document.getElementById('code-bg');
         if (!canvas) return;
@@ -404,6 +407,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function resize() {
+            // NL: Pas resolutie aan scherm + DPR aan en herbereken kolommen/lettergrootte
             const rect = canvas.getBoundingClientRect();
             width = Math.floor(rect.width * dpr);
             height = Math.floor(rect.height * dpr);
@@ -422,6 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let frameCounter = 0; // used for occasional hard clears
 
         function draw(ts) {
+            // NL: Ratelimiter ~28 FPS en trail-effect door met semi-transparant vlak te "wissen"
             if (!lastTime) lastTime = ts;
             const delta = ts - lastTime;
             if (delta < frameInterval) {
@@ -445,6 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             for (let i = 0; i < columns; i++) {
+                // NL: Kies willekeurige glyphs en laat kolommen naar beneden "druipen"
                 const char = CHARS[Math.floor(Math.random() * CHARS.length)];
                 const x = i * fontSize + (fontSize * 0.1);
                 const y = drops[i] * fontSize;
@@ -493,6 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // React to theme changes (repaint immediately)
         const themeObserver = new MutationObserver(() => {
+            // NL: Thema-wissel -> forceer repaint door lastTime te resetten
             // Force quick repaint by resetting lastTime
             lastTime = 0;
         });
@@ -512,6 +519,9 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
 
     // ===== HERO: 3D CODING NEBULA (Three.js) =====
+    // NL: 3D-achtergrond met sterrenveld, grid, code-panelen en wireframes
+    // - ES Modules van Three worden in index.html geladen en hier als window.THREE gebruikt
+    // - Houdt rekening met reduced motion en pauzeert bij tab-wechsel
     (function initCodingNebula3D() {
         const mount = document.getElementById('code-3d');
         if (!mount) return;
@@ -530,6 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let wireframes = [];
 
         function themeColors() {
+            // NL: Kleuren wisselen mee met licht/donker thema
             const isLight = document.documentElement.classList.contains('light');
             return {
                 base: isLight ? 0x0f172a : 0xe2e8f0, // slate-900 vs slate-200
@@ -550,6 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function makeCodeTexture(lines, color) {
+            // NL: Render regels code op een canvas en gebruik dat als texture
             const canvas = document.createElement('canvas');
             canvas.width = 512;
             canvas.height = 256;
@@ -586,6 +598,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function createWireframe(radius, color) {
+            // NL: Eenvoudige icosahedron-wireframe met lichtgevende punten op vertices
             const geo = new THREE.IcosahedronGeometry(radius, 1);
             const mat = new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity: 0.6 });
             const mesh = new THREE.Mesh(geo, mat);
@@ -600,6 +613,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function createScene(width, height) {
+            // NL: Camera + mist, sterren (Points), grid, drie "code panelen" en wireframes
             scene = new THREE.Scene();
 
             const fov = 45;
@@ -683,6 +697,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function updateTheme() {
+            // NL: Herkleur objecten wanneer thema wisselt
             if (!scene) return;
             const colors = themeColors();
             // update fog
@@ -735,6 +750,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function animate(ts) {
+            // NL: Parallax d.m.v. muis en subtiele rotatie; kleurcycli op highlight-points
             // mouse parallax target
             targetRotX += (mouseY * 0.15 - targetRotX) * 0.05;
             targetRotY += (mouseX * 0.25 - targetRotY) * 0.05;
@@ -810,6 +826,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Interaction: mouse parallax
         const onPointerMove = (e) => {
+            // NL: Normalizeer muispositie binnen de hero naar [-0.5, 0.5]
             const rect2 = mount.getBoundingClientRect();
             const x = (e.clientX - rect2.left) / Math.max(1, rect2.width);
             const y = (e.clientY - rect2.top) / Math.max(1, rect2.height);
@@ -840,6 +857,8 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
 
     // ===== CUSTOM CURSOR (ring + dot) =====
+    // NL: Aangepaste cursor (ring + dot) met traagheid (lerp) en hover/klik feedback
+    // - Uitgeschakeld voor touch apparaten en reduced motion
     (function initCustomCursor() {
         const cursor = document.querySelector('.custom-cursor');
         if (!cursor) return;
@@ -856,7 +875,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let tx = x, ty = y; // target
         let rafId = null;
 
-        const lerp = (a, b, t) => a + (b - a) * t;
+        const lerp = (a, b, t) => a + (b - a) * t; // NL: lineaire interpolatie
 
         function animate() {
             x = lerp(x, tx, 0.18);
@@ -871,7 +890,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         window.addEventListener('pointermove', move, { passive: true });
 
-        // Hover detection on interactive elements
+        // NL: Hover-detectie op interactieve elementen voor ring-animatie
         const hoverSelectors = 'a, button, .cta-button, .skill-card, .project-card, .cert-card, input, textarea, select, .theme-toggle, .lang-btn';
         function addHoverListeners(root) {
             root.querySelectorAll(hoverSelectors).forEach(el => {
@@ -885,7 +904,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('pointerdown', () => cursor.classList.add('is-active'));
         window.addEventListener('pointerup', () => cursor.classList.remove('is-active'));
 
-        // Pause when hidden
+        // NL: Pauzeren wanneer tab niet zichtbaar is
         const onVisibility = () => {
             if (document.hidden) {
                 if (rafId) cancelAnimationFrame(rafId);
@@ -906,6 +925,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
 
     // ===== PARALLAX SCROLL EFFECTS =====
+    // NL: Subtiele translateY op secties afhankelijk van scrollpositie (performant met rAF)
     (function initParallax() {
         const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (prefersReduced) return;
@@ -929,9 +949,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Set will-change for smoother transforms
         targets.forEach(el => { try { el.style.willChange = 'transform'; } catch {} });
 
-        const viewportH = () => Math.max(1, window.innerHeight || document.documentElement.clientHeight || 1);
+        const viewportH = () => Math.max(1, window.innerHeight || document.documentElement.clientHeight || 1); // NL: robuuste viewport-hoogte
 
         function applyParallax() {
+            // NL: Bereken ratio t.o.v. middelpunt van viewport en map dat naar pixels
             const vh = viewportH();
             targets.forEach((el, idx) => {
                 const rect = el.getBoundingClientRect();
@@ -946,6 +967,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Throttle with rAF
         let ticking = false;
         function onScroll() {
+            // NL: Throttle updates met requestAnimationFrame
             if (!ticking) {
                 requestAnimationFrame(() => {
                     applyParallax();

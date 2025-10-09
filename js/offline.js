@@ -1,6 +1,8 @@
-// Offline page enhancements
+// Offline pagina uitbreidingen (NL):
+// - Eenvoudige typewriter-animatie voor tekst
+// - Mini-game met bugs vangen inclusief levels, power-ups en score
 
-// Typewriter animation
+// Typewriter animatie: typt regels tekst één voor één
 (function(){
   const el = document.getElementById('typewriter');
   if (!el) return;
@@ -11,17 +13,20 @@
   ];
   let i = 0, j = 0;
   function tick(){
+    // Als alle regels klaar zijn, opnieuw beginnen
     if (i >= lines.length) { el.innerHTML += '\n'; i = 0; j = 0; }
     const line = lines[i];
+    // Bouw de huidige weergave op met een knipperende cursor
     el.innerHTML = lines.slice(0, i).join('\n') + (i? '\n':'') + line.slice(0, j) + '<span class="cursor"> \u00a0</span>';
     j++;
+    // Kleine pauze aan het einde van een regel
     if (j > line.length) { i++; j = 0; setTimeout(tick, 700); }
     else { setTimeout(tick, 40); }
   }
   tick();
 })();
 
-// Mini-game: Catch the bugs
+// Mini-game: Vang de bugs voordat je deployt
 (function(){
   const board = document.getElementById('board');
   const startBtn = document.getElementById('start');
@@ -33,6 +38,7 @@
   const levelEl = document.getElementById('level');
   if (!board || !startBtn) return;
 
+  // Spelstatus
   let running = false,
       score = 0,
       linesSaved = 0,
@@ -44,10 +50,12 @@
       globalSlowUntil = 0,
       shieldUntil = 0;
 
+  // Bepaalt of een tijdelijke vertraging (React power-up) actief is
   function currentSpeedMultiplier() {
     return Date.now() < globalSlowUntil ? 0.6 : 1.0; // slow when React power-up active
   }
 
+  // Maakt een nieuwe bug die naar beneden valt
   function spawnBug(){
     const bug = document.createElement('div');
     bug.className = 'bug';
@@ -64,13 +72,13 @@
     let last = performance.now();
     const move = (now)=>{
       if (!running) return;
-      const dt = Math.min(50, now - last); // cap delta
+      const dt = Math.min(50, now - last); // begrens frame-delta voor stabiliteit
       last = now;
       const mult = currentSpeedMultiplier();
-      y += (speedPerSec * mult) * (dt / 1000);
+      y += (speedPerSec * mult) * (dt / 1000); // positie op basis van tijd i.p.v. frames
       bug.style.top = y + 'px';
       if (y > board.clientHeight) {
-        // If shield active, convert missed bug into a fix
+        // Als schild actief is: gemiste bug telt als gefixt
         if (Date.now() < shieldUntil) {
           awardFix(bug, true);
         }
@@ -80,12 +88,14 @@
       }
       bug._raf = requestAnimationFrame(move);
     };
+    // Klikken op een bug telt als fix
     bug.addEventListener('click',()=> awardFix(bug, false));
     updateBugs(1);
     board.appendChild(bug);
     bug._raf = requestAnimationFrame(move);
   }
 
+  // Laat af en toe een power-up vallen: ⚛️ = slow, 🟩 = schild
   function spawnPowerUp(){
     // Low chance power-up
     if (!running) return;
@@ -99,12 +109,12 @@
     pu.style.left = (Math.random() * Math.max(10, (board.clientWidth - 28)) + 6) + 'px';
     pu.style.top = '-24px';
 
-    const speedPerSec = 70; // slower drop for power-ups
+    const speedPerSec = 70; // langzamere val voor power-ups
     let y = -24;
     let last = performance.now();
     const fall = (now) => {
       if (!running) return;
-      const dt = Math.min(50, now - last); last = now;
+      const dt = Math.min(50, now - last); last = now; // zelfde delta-begrenzing
       y += speedPerSec * (dt / 1000);
       pu.style.top = y + 'px';
       if (y > board.clientHeight) { pu.remove(); return; }
@@ -112,10 +122,10 @@
     };
     pu.addEventListener('click', ()=>{
       if (isReact) {
-        // Slow bugs for 5s
+        // React: vertraag bugs voor 5s
         globalSlowUntil = Date.now() + 5000;
       } else {
-        // Shield for 5s (auto-fix next missed bug)
+        // Node: schild voor 5s (volgende gemiste bug wordt gefixt)
         shieldUntil = Date.now() + 5000;
       }
       pu.remove();
@@ -128,6 +138,7 @@
     bugCountEl.textContent = Math.max(0, (parseInt(bugCountEl.textContent)||0) + delta);
   }
 
+  // Verwerk een bug-fix en tel 'lines saved' op
   function awardFix(bugEl, fromShield){
     score++; scoreEl.textContent = String(score);
     const gained = 90 + Math.floor(Math.random() * 61); // 90-150 lines
@@ -139,6 +150,7 @@
     if (!fromShield && Math.random() < 0.15) spawnPowerUp();
   }
 
+  // Start het spel en plan spawns + level-ups
   function start(){
     if (running) return; running = true;
     score = 0; linesSaved = 0; level = 1; time = 30;
@@ -148,21 +160,22 @@
     resultEl.textContent = '';
     Array.from(board.querySelectorAll('.bug')).forEach(b=>{ cancelAnimationFrame(b._raf); b.remove(); });
     bugCountEl.textContent = '0';
-    scheduleSpawns(900);
+    scheduleSpawns(900); // begin met relatief rustig tempo
     tickInt = setInterval(()=>{
-      time--; timeEl.textContent = String(time);
+      time--; timeEl.textContent = String(time); // aftellen
       if (time <= 0) end();
     }, 1000);
     // Level up every 8s: increase level and make spawns faster
     levelInt = setInterval(()=>{
       level++; if (levelEl) levelEl.textContent = String(level);
-      const newRate = Math.max(350, 900 - level * 80);
+      const newRate = Math.max(350, 900 - level * 80); // minimale interval begrensd
       scheduleSpawns(newRate);
       // Occasional power-up drop
       if (Math.random() < 0.7) spawnPowerUp();
     }, 8000);
   }
 
+  // Stop het spel en toon eindresultaat
   function end(){
     running = false;
     if (spawnTimer) { clearInterval(spawnTimer); spawnTimer = null; }
@@ -177,6 +190,7 @@
 
   startBtn.addEventListener('click', start);
 
+  // Plan periodieke spawns; bij hogere levels soms een extra bug tegelijk
   function scheduleSpawns(rateMs){
     if (spawnTimer) clearInterval(spawnTimer);
     spawnTimer = setInterval(()=>{
