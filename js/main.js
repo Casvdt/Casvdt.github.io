@@ -1,3 +1,17 @@
+// Vroege offline-detectie: als er geen internet is bij het openen van de site,
+// stuur direct naar offline.html (tenzij ?debugOnline=1 in de URL).
+(function earlyOfflineRedirect(){
+    try {
+        const debugBypass = /(?:[?&])debugOnline=1\b/.test(location.search);
+        if (!debugBypass && typeof navigator !== 'undefined' && 'onLine' in navigator) {
+            if (!navigator.onLine) {
+                location.replace('/404.html');
+                return;
+            }
+        }
+    } catch {}
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
     // ===== MOBIELE MENU FUNCTIE =====
     const hamburger = document.querySelector('.hamburger');

@@ -8,7 +8,7 @@
  * - Statische assets (css/js/afbeeldingen) gebruiken een cache-first aanpak met
  *   achtergrond-update zodat ze snel laden en toch verversen.
  */
-const CACHE_NAME = 'portfolio-cache-v1.0.5';
+const CACHE_NAME = 'portfolio-cache-v1.0.7';
 const OFFLINE_URL = '/offline.html';
 
 // Assets om vooraf te cachen (klein houden en alleen self-hosted bestanden)
@@ -28,6 +28,48 @@ const PRECACHE = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE)).then(() => self.skipWaiting())
+  );
+});
+
+// Push melding (voor DevTools 'Push' test en echte push)
+self.addEventListener('push', (event) => {
+  // Probeer payload te lezen (DevTools kan tekst of JSON sturen)
+  let title = 'Portfolio update';
+  let body = 'Er is iets nieuws!';
+  try {
+    if (event.data) {
+      const txt = event.data.text();
+      try {
+        const obj = JSON.parse(txt);
+        title = obj.title || title;
+        body = obj.body || body;
+      } catch {
+        body = txt || body;
+      }
+    }
+  } catch {}
+
+  const options = {
+    body,
+    icon: '/images/portfolio.png',
+    badge: '/images/portfolio.png',
+    data: { url: '/' }
+  };
+
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+// Klik op notificatie: focus bestaande tab of open nieuwe
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const targetUrl = (event.notification && event.notification.data && event.notification.data.url) || '/';
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      for (const client of clientList) {
+        if ('focus' in client) return client.focus();
+      }
+      if (clients.openWindow) return clients.openWindow(targetUrl);
+    })
   );
 });
 
@@ -52,14 +94,14 @@ self.addEventListener('fetch', (event) => {
   const isNavigation = request.mode === 'navigate' || (request.headers.get('accept') || '').includes('text/html');
 
   if (isNavigation) {
-    // Navigaties: network-first; bij fail ALTIJD offline.html (Option A)
+    // Navigaties: network-first; bij fail ALTIJD 404.html
     event.respondWith(
       fetch(request)
         .then((response) => {
           // Niet meer cachen van navigatie-antwoorden om verwarring te voorkomen
           return response;
         })
-        .catch(() => caches.match(OFFLINE_URL))
+        .catch(() => caches.match('/404.html'))
     );
     return;
   }
