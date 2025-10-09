@@ -338,85 +338,112 @@
   addMsg('🤖 Hoi! Internet is weg, maar ik kan nog steeds over code praten. Typ "grap", "quote" of "help".', 'bot');
 })();
 
-// Offline Coding Challenge: kleine puzzels met een bug
+// Offline Coding Challenge (NL): eenvoudige editor + console
 (function(){
-  const codeEl = document.querySelector('.ch-code');
-  const inputEl = document.querySelector('.ch-input');
-  const checkBtn = document.querySelector('.ch-check');
+  const taskEl = document.querySelector('.ch-task');
+  const editor = document.querySelector('.ch-editor');
+  const consoleEl = document.querySelector('.ch-console');
+  const runBtn = document.querySelector('.ch-run');
+  const resetBtn = document.querySelector('.ch-reset');
   const newBtn = document.querySelector('.ch-new');
   const resultEl = document.querySelector('.ch-result');
-  if (!codeEl || !inputEl || !checkBtn || !newBtn || !resultEl) return;
+  if (!taskEl || !editor || !consoleEl || !runBtn || !resetBtn || !newBtn || !resultEl) return;
 
-  // Voorraad van simpele, herkenbare bugs (JS/CSS mix)
+  // Puzzels: id + opdracht + startcode + validator (controleert console output)
   const puzzles = [
     {
-      lang: 'js',
-      snippet: 'if (x = 5) {\n  console.log("ok");\n}',
-      keywords: ['==', '===', 'vergelijk'],
-      hint: 'Gebruik vergelijking (== of ===) i.p.v. toewijzing (=).',
-      punch: 'Hint: probeer verbinding te herstellen 😉 (en gebruik ===).'
+      id: 'square',
+      task: 'Maak een functie square(n) die n*n teruggeeft. Verwachte uitvoer: 9 en 16.',
+      starter: 'function square(n){\n  // TODO: geef het kwadraat terug\n}\n\nconsole.log(square(3));\nconsole.log(square(4));',
+      validate: (out)=> out.join('\n').trim() === '9\n16'
     },
     {
-      lang: 'js',
-      snippet: 'async function go(){\n  const data = fetch("/api");\n  console.log(data.json());\n}',
-      keywords: ['await', 'then'],
-      hint: 'Je moet op het antwoord wachten (await) of then() gebruiken.',
-      punch: 'Offline? Wachten… wachten… Probeer: const r = await fetch(...);'
+      id: 'map-vs-foreach',
+      task: 'Fix: map i.p.v. forEach. Log [2,4,6].',
+      starter: 'const nums = [1,2,3];\nconst doubled = nums.forEach(n => n*2); // BUG: forEach geeft niets terug\nconsole.log(doubled);',
+      validate: (out)=> out.length && out[0].replace(/\s/g,'') === '[2,4,6]'
     },
     {
-      lang: 'js',
-      snippet: 'const nums = [1,2,3];\nconst doubled = nums.forEach(n => n*2);\nconsole.log(doubled);',
-      keywords: ['map'],
-      hint: 'forEach geeft niets terug. Gebruik map voor een nieuwe array.',
-      punch: 'Gebruik: const doubled = nums.map(n=>n*2);'
+      id: 'optional-chaining',
+      task: 'Gebruik optional chaining om user.name veilig te loggen (verwacht: undefined, dan "Cas").',
+      starter: 'let user = null;\nconsole.log(user.name); // BUG: kan crashen\nuser = { name: "Cas" };\nconsole.log(user.name);',
+      validate: (out)=> out.length>=2 && /undefined/i.test(out[0]) && /Cas/.test(out[1])
     },
     {
-      lang: 'css',
-      snippet: '.box {\n  display: flex;\n  align-items: center;\n  justify-content: middle;\n}',
-      keywords: ['center'],
-      hint: 'justify-content gebruikt center, niet middle.',
-      punch: 'Tip: justify-content: center;'
+      id: 'async-answer',
+      task: 'Maak een async functie die 42 retourneert en log de waarde via await.',
+      starter: 'async function answer(){\n  // TODO: return 42\n}\n\n(async()=>{\n  const v = await answer();\n  console.log(v); // verwacht 42\n})();',
+      validate: (out)=> out.join('').trim() === '42'
     },
     {
-      lang: 'js',
-      snippet: 'function add(a,b){\n  return\n    a + b;\n}\nconsole.log(add(2,3));',
-      keywords: ['return', 'same', 'zelfde lijn', 'semicolon'],
-      hint: 'Automatic Semicolon Insertion breekt de return. Zet de waarde op dezelfde regel.',
-      punch: 'Zet: return a + b; op één regel.'
+      id: 'sum-reduce',
+      task: 'Tel alle getallen op met reduce. Verwacht: 10.',
+      starter: 'const arr = [1,2,3,4];\n// TODO: gebruik reduce om de som te berekenen\nconst total = 0;\nconsole.log(total);',
+      validate: (out)=> out.join('').trim() === '10'
     },
     {
-      lang: 'js',
-      snippet: 'const user = null;\nconsole.log(user.name);',
-      keywords: ['optional', '?.', 'null check'],
-      hint: 'Bescherm toegang als iets null/undefined kan zijn.',
-      punch: 'Gebruik optional chaining: user?.name'
+      id: 'reverse-string',
+      task: 'Schrijf reverse(str) die een string omdraait. Verwacht: "olleh".',
+      starter: 'function reverse(str){\n  // TODO\n}\n\nconsole.log(reverse("hello"));',
+      validate: (out)=> out.join('').trim() === 'olleh'
+    },
+    {
+      id: 'palindrome',
+      task: 'Schrijf isPalindrome(str) (case-insensitive). Verwacht: true, false.',
+      starter: 'function isPalindrome(str){\n  // TODO: negeer hoofd/kleine letters\n}\n\nconsole.log(isPalindrome("Level"));\nconsole.log(isPalindrome("Code"));',
+      validate: (out)=> out.length>=2 && /true/i.test(out[0]) && /false/i.test(out[1])
     }
   ];
 
   let current = null;
 
+  function setConsole(lines){
+    consoleEl.textContent = lines.join('\n');
+  }
+
+  function storageKey(p){ return 'offline_ch_editor_' + (p && p.id ? p.id : 'unknown'); }
+
   function pickPuzzle(){
     current = puzzles[Math.floor(Math.random()*puzzles.length)];
-    codeEl.textContent = current.snippet;
-    resultEl.textContent = '';
-    inputEl.value = '';
-  }
-
-  function check(){
-    const guess = (inputEl.value || '').trim().toLowerCase();
-    if (!guess) { resultEl.textContent = 'Typ je gok (bijv. ===, await, map, center, ?. ).'; return; }
-    // simpele keyword match
-    const ok = current.keywords.some(k => guess.includes(k));
-    if (ok) {
-      resultEl.innerHTML = '<span class="success">✅ Goed! ' + (current.hint || '') + '</span>';
-    } else {
-      resultEl.textContent = current.punch;
+    taskEl.textContent = 'Opdracht: ' + current.task;
+    // Herstel lokale voortgang indien aanwezig
+    try {
+      const saved = localStorage.getItem(storageKey(current));
+      editor.value = saved != null ? saved : current.starter;
+    } catch {
+      editor.value = current.starter;
     }
+    setConsole([]);
+    resultEl.textContent = '';
   }
 
-  checkBtn.addEventListener('click', check);
-  inputEl.addEventListener('keydown', (e)=>{ if (e.key==='Enter') check(); });
+  async function runCode(){
+    const logs = [];
+    // Simpele console-capture
+    const fakeConsole = { log: (...args)=> logs.push(args.map(String).join(' ')) };
+    try {
+      // Voer in een Async IIFE uit, zodat await werkt
+      const fn = new Function('console', 'return (async()=>{\n' + editor.value + '\n})()');
+      await fn(fakeConsole);
+      setConsole(logs);
+      const ok = current.validate(logs);
+      resultEl.innerHTML = ok ? '<span class="success">✅ Correct!</span>' : '❌ Nog niet goed. Tip: lees de opdracht goed.';
+    } catch (e) {
+      setConsole(logs.concat('Error: ' + (e && e.message ? e.message : String(e))));
+      resultEl.textContent = '❌ Runtime error — los de fout op.';
+    }
+    // Sla huidige code op voor deze puzzel
+    try { localStorage.setItem(storageKey(current), editor.value); } catch {}
+  }
+
+  function resetCode(){ editor.value = current.starter; setConsole([]); resultEl.textContent = ''; try { localStorage.removeItem(storageKey(current)); } catch {} }
+
+  runBtn.addEventListener('click', runCode);
+  resetBtn.addEventListener('click', resetCode);
   newBtn.addEventListener('click', pickPuzzle);
+
+  // Live opslaan bij typen (lichtgewicht)
+  editor.addEventListener('input', ()=>{ try { localStorage.setItem(storageKey(current), editor.value); } catch {} });
 
   // Init
   pickPuzzle();

@@ -66,6 +66,25 @@ a:hover { text-decoration: underline; }
 .ch-input { flex: 1; }
 .ch-result { min-height: 22px; margin-top: 8px; }
 
+/* Nieuwe editor/console lay-out */
+.ch-area { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: stretch; }
+.ch-editor-wrap, .ch-console-wrap { display: grid; grid-template-rows: auto 1fr; gap: 8px; }
+.ch-task { font-size: 13px; }
+.ch-editor {
+  width: 100%; min-height: 220px; resize: vertical;
+  border: 1px solid var(--dim); border-radius: 6px; padding: 8px;
+  color: var(--fg); background: transparent; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 13px; line-height: 1.4;
+}
+.ch-console {
+  min-height: 220px; border: 1px dashed var(--dim); border-radius: 6px; padding: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 13px; line-height: 1.4;
+  background: linear-gradient(180deg, rgba(148,163,184,0.05), transparent);
+  white-space: pre-wrap; word-break: break-word;
+}
+@media (max-width: 720px) {
+  .ch-area { grid-template-columns: 1fr; }
+}
+
 /* Reconnect toast: kleine vaste melding onderin bij terug online */
 .toast {
   position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%);
