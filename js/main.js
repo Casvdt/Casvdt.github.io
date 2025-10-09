@@ -511,8 +511,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     })();
 
-    // ===== HERO: 3D CODE RING (Three.js) =====
-    (function initCodeRing3D() {
+    // ===== HERO: 3D CODING NEBULA (Three.js) =====
+    (function initCodingNebula3D() {
         const mount = document.getElementById('code-3d');
         if (!mount) return;
         if (typeof THREE === 'undefined') return;
@@ -520,15 +520,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (prefersReduced) return;
 
-        let renderer, scene, camera, ring, outerRing, rafId = null;
-        let mouseX = 0, mouseY = 0, targetRotX = 0.25, targetRotY = 0;
+        let renderer, scene, camera, rafId = null;
+        let mouseX = 0, mouseY = 0, targetRotX = 0, targetRotY = 0;
+
+        // Scene content holders
+        let starfield, starVelocities;
+        let grid;
+        let codePanels = [];
+        let wireframes = [];
 
         function themeColors() {
             const isLight = document.documentElement.classList.contains('light');
             return {
-                bg: 'transparent',
-                particle: isLight ? 0x1e293b : 0x93a3b8, // slate-800 (light) vs slate-400 (dark)
-                highlight: isLight ? 0x0ea5e9 : 0x22d3ee  // cyan-ish highlights
+                base: isLight ? 0x0f172a : 0xe2e8f0, // slate-900 vs slate-200
+                accent: isLight ? 0x0ea5e9 : 0x22d3ee, // cyan 500 vs cyan 400
+                accent2: isLight ? 0x22c55e : 0x84cc16, // green vs lime-ish
+                fog: isLight ? 0xf8fafc : 0x020617,
+                glyph: isLight ? '#1e293b' : '#93a3b8'
             };
         }
 
@@ -537,8 +545,58 @@ document.addEventListener('DOMContentLoaded', () => {
             r.setSize(width, height, false);
             r.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
             r.outputColorSpace = THREE.SRGBColorSpace;
-            r.setClearColor(0x000000, 0); // transparent
+            r.setClearColor(0x000000, 0);
             return r;
+        }
+
+        function makeCodeTexture(lines, color) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 256;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return null;
+            ctx.fillStyle = 'rgba(0,0,0,0)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.font = "18px 'Poppins', ui-monospace, Menlo, Consolas, 'Courier New', monospace";
+            ctx.textBaseline = 'top';
+            ctx.shadowColor = color;
+            ctx.shadowBlur = 8;
+            ctx.fillStyle = color;
+            const lh = 22;
+            lines.slice(0, 10).forEach((line, i) => {
+                ctx.fillText(line, 16, 16 + i * lh);
+            });
+            const tex = new THREE.CanvasTexture(canvas);
+            tex.colorSpace = THREE.SRGBColorSpace;
+            tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
+            return tex;
+        }
+
+        function createCodePanel(textLines, colorHex) {
+            const tex = makeCodeTexture(textLines, colorHex);
+            const geo = new THREE.PlaneGeometry(2.8, 1.4);
+            const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.9, depthWrite: false });
+            const mesh = new THREE.Mesh(geo, mat);
+            // Subtle glow via additive duplicate
+            const glowMat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.35, depthWrite: false, blending: THREE.AdditiveBlending });
+            const glow = new THREE.Mesh(geo.clone(), glowMat);
+            glow.scale.set(1.04, 1.06, 1);
+            mesh.add(glow);
+            return mesh;
+        }
+
+        function createWireframe(radius, color) {
+            const geo = new THREE.IcosahedronGeometry(radius, 1);
+            const mat = new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity: 0.6 });
+            const mesh = new THREE.Mesh(geo, mat);
+            // vertex glow points
+            const verts = geo.attributes.position.array;
+            const ptsGeo = new THREE.BufferGeometry();
+            ptsGeo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+            const ptsMat = new THREE.PointsMaterial({ color, size: 0.03, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false });
+            const pts = new THREE.Points(ptsGeo, ptsMat);
+            mesh.add(pts);
+            return mesh;
         }
 
         function createScene(width, height) {
@@ -546,137 +604,122 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const fov = 45;
             const aspect = width / Math.max(1, height);
-            const near = 0.1;
-            const far = 100;
-            camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-            camera.position.set(0, 0, 6);
+            camera = new THREE.PerspectiveCamera(fov, aspect, 0.1, 150);
+            camera.position.set(0, 0.3, 6);
 
-            // Particles arranged on a torus
-            const group = new THREE.Group();
             const colors = themeColors();
+            // Subtle fog for depth cohesion
+            scene.fog = new THREE.FogExp2(colors.fog, 0.04);
 
-            // Main torus points
-            const rMajor = 2.4;
-            const rMinor = 0.65;
-            const tubularSegments = 550;
-            const radialSegments = 180;
-            const torus = new THREE.TorusGeometry(rMajor, rMinor, radialSegments, tubularSegments);
-            torus.deleteAttribute('normal');
-            torus.deleteAttribute('uv');
-            const ptsGeo = new THREE.BufferGeometry();
-            const positions = torus.attributes.position.array;
-            ptsGeo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-
-            const material = new THREE.PointsMaterial({
-                color: colors.particle,
-                size: 0.02,
-                sizeAttenuation: true,
-                transparent: true,
-                opacity: 0.65,
-                depthWrite: false
-            });
-            const points = new THREE.Points(ptsGeo, material);
-            group.add(points);
-
-            // Sparse highlight particles sprinkled around ring
-            const sprinkleCount = 900;
-            const sprinkleGeo = new THREE.BufferGeometry();
-            const sprinklePositions = new Float32Array(sprinkleCount * 3);
-            for (let i = 0; i < sprinkleCount; i++) {
-                // Sample near torus surface with slight jitter for depth
-                const u = Math.random() * Math.PI * 2;
-                const v = Math.random() * Math.PI * 2;
-                const jitter = (Math.random() - 0.5) * 0.18;
-                const x = (rMajor + (rMinor + jitter) * Math.cos(v)) * Math.cos(u);
-                const y = (rMajor + (rMinor + jitter) * Math.cos(v)) * Math.sin(u);
-                const z = (rMinor + jitter) * Math.sin(v);
-                sprinklePositions[i * 3] = x;
-                sprinklePositions[i * 3 + 1] = y;
-                sprinklePositions[i * 3 + 2] = z;
+            // Starfield (warp)
+            const starCount = 3000;
+            const positions = new Float32Array(starCount * 3);
+            starVelocities = new Float32Array(starCount);
+            for (let i = 0; i < starCount; i++) {
+                positions[i * 3] = (Math.random() - 0.5) * 24; // x
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 14; // y
+                positions[i * 3 + 2] = -Math.random() * 60; // z (towards camera)
+                starVelocities[i] = 0.05 + Math.random() * 0.35;
             }
-            sprinkleGeo.setAttribute('position', new THREE.BufferAttribute(sprinklePositions, 3));
-            const sprinkleMat = new THREE.PointsMaterial({
-                color: colors.highlight,
-                size: 0.028,
-                sizeAttenuation: true,
-                transparent: true,
-                opacity: 0.5,
-                depthWrite: false,
-                blending: THREE.AdditiveBlending
-            });
-            const sprinklePts = new THREE.Points(sprinkleGeo, sprinkleMat);
-            group.add(sprinklePts);
+            const starGeo = new THREE.BufferGeometry();
+            starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const starMat = new THREE.PointsMaterial({ color: colors.base, size: 0.02, sizeAttenuation: true, transparent: true, opacity: 0.9 });
+            starfield = new THREE.Points(starGeo, starMat);
+            scene.add(starfield);
 
-            ring = group;
-            scene.add(group);
+            // Holographic grid floor
+            grid = new THREE.GridHelper(60, 60, new THREE.Color(colors.accent), new THREE.Color(colors.accent));
+            grid.material.transparent = true;
+            grid.material.opacity = 0.15;
+            grid.position.y = -3;
+            grid.rotation.x = Math.PI / 2.6;
+            scene.add(grid);
 
-            // Create a second, larger outer ring for a more complex look
-            const outerGroup = new THREE.Group();
-            const rMajor2 = rMajor * 1.35;
-            const rMinor2 = rMinor * 0.85;
-            const torus2 = new THREE.TorusGeometry(rMajor2, rMinor2, radialSegments, tubularSegments);
-            torus2.deleteAttribute('normal');
-            torus2.deleteAttribute('uv');
-            const ptsGeo2 = new THREE.BufferGeometry();
-            ptsGeo2.setAttribute('position', new THREE.Float32BufferAttribute(torus2.attributes.position.array, 3));
-            const mat2 = new THREE.PointsMaterial({
-                color: colors.particle,
-                size: 0.016,
-                sizeAttenuation: true,
-                transparent: true,
-                opacity: 0.5,
-                depthWrite: false
-            });
-            const points2 = new THREE.Points(ptsGeo2, mat2);
-            outerGroup.add(points2);
+            // Floating code panels
+            const codeSnippet1 = [
+                'function greet(name) {',
+                "  return `Hello, ${name}!`;",
+                '}',
+                'const user = "Cas";',
+                'console.log(greet(user));'
+            ];
+            const codeSnippet2 = [
+                'SELECT name, stars',
+                'FROM repos',
+                "WHERE language = 'JavaScript'",
+                'ORDER BY stars DESC',
+                'LIMIT 10;'
+            ];
+            const codeSnippet3 = [
+                'const app = express();',
+                "app.get('/', (req, res) => res.send('OK'));",
+                'app.listen(3000);'
+            ];
 
-            const sprinkleCount2 = 700;
-            const sprinkleGeo2 = new THREE.BufferGeometry();
-            const sprinklePositions2 = new Float32Array(sprinkleCount2 * 3);
-            for (let i = 0; i < sprinkleCount2; i++) {
-                const u = Math.random() * Math.PI * 2;
-                const v = Math.random() * Math.PI * 2;
-                const jitter = (Math.random() - 0.5) * 0.22;
-                const x = (rMajor2 + (rMinor2 + jitter) * Math.cos(v)) * Math.cos(u);
-                const y = (rMajor2 + (rMinor2 + jitter) * Math.cos(v)) * Math.sin(u);
-                const z = (rMinor2 + jitter) * Math.sin(v);
-                sprinklePositions2[i * 3] = x;
-                sprinklePositions2[i * 3 + 1] = y;
-                sprinklePositions2[i * 3 + 2] = z;
-            }
-            sprinkleGeo2.setAttribute('position', new THREE.BufferAttribute(sprinklePositions2, 3));
-            const sprinkleMat2 = new THREE.PointsMaterial({
-                color: colors.highlight,
-                size: 0.022,
-                sizeAttenuation: true,
-                transparent: true,
-                opacity: 0.45,
-                depthWrite: false,
-                blending: THREE.AdditiveBlending
-            });
-            const sprinklePts2 = new THREE.Points(sprinkleGeo2, sprinkleMat2);
-            outerGroup.add(sprinklePts2);
+            const p1 = createCodePanel(codeSnippet1, themeColors().glyph);
+            p1.position.set(-2.2, 1.0, -3);
+            p1.rotation.set(0.1, 0.3, -0.05);
 
-            scene.add(outerGroup);
-            outerRing = outerGroup;
+            const p2 = createCodePanel(codeSnippet2, themeColors().glyph);
+            p2.position.set(2.3, -0.2, -4.5);
+            p2.rotation.set(-0.05, -0.25, 0.06);
+
+            const p3 = createCodePanel(codeSnippet3, themeColors().glyph);
+            p3.position.set(0.2, 1.6, -6);
+            p3.rotation.set(0.12, -0.15, 0);
+
+            codePanels = [p1, p2, p3];
+            codePanels.forEach(p => scene.add(p));
+
+            // Wireframe tech nodes
+            const w1 = createWireframe(0.9, themeColors().accent);
+            w1.position.set(-3.2, -0.6, -5.5);
+            const w2 = createWireframe(0.7, themeColors().accent2);
+            w2.position.set(3.0, 1.2, -7);
+            const w3 = createWireframe(0.55, themeColors().accent);
+            w3.position.set(0.0, -1.2, -3.8);
+            wireframes = [w1, w2, w3];
+            wireframes.forEach(w => scene.add(w));
         }
 
         function updateTheme() {
-            if (!ring) return;
+            if (!scene) return;
             const colors = themeColors();
-            const applyColors = (root, primaryColor, highlightColor) => {
-                root.traverse(obj => {
-                    if (obj.isPoints && obj.material) {
-                        if (obj.material.color) {
-                            const isHighlight = obj.material.size > 0.02 || obj.material.blending === THREE.AdditiveBlending;
-                            obj.material.color.setHex(isHighlight ? highlightColor : primaryColor);
-                        }
-                        obj.material.needsUpdate = true;
-                    }
-                });
-            };
-            applyColors(ring, colors.particle, colors.highlight);
-            if (outerRing) applyColors(outerRing, colors.particle, colors.highlight);
+            // update fog
+            scene.fog.color = new THREE.Color(colors.fog);
+            // update grid color/opacity
+            if (grid && grid.material) {
+                grid.material.opacity = 0.15;
+                grid.material.color = new THREE.Color(colors.accent);
+            }
+            // update star color
+            if (starfield && starfield.material) {
+                starfield.material.color = new THREE.Color(colors.base);
+                starfield.material.needsUpdate = true;
+            }
+            // refresh code panel textures for contrast
+            const snippets = [
+                ['function greet(name) {', "  return `Hello, ${name}!`;", '}', 'const user = "Cas";', 'console.log(greet(user));'],
+                ['SELECT name, stars', 'FROM repos', "WHERE language = 'JavaScript'", 'ORDER BY stars DESC', 'LIMIT 10;'],
+                ['const app = express();', "app.get('/', (req, res) => res.send('OK'));", 'app.listen(3000);']
+            ];
+            codePanels.forEach((panel, idx) => {
+                const newTex = makeCodeTexture(snippets[idx], colors.glyph);
+                if (panel.material && newTex) {
+                    panel.material.map = newTex; panel.material.needsUpdate = true;
+                }
+                // child[0] is glow duplicate
+                const glow = panel.children[0];
+                if (glow && glow.material && newTex) {
+                    glow.material.map = newTex; glow.material.needsUpdate = true;
+                }
+            });
+            // wireframe colors
+            const wfColors = [colors.accent, colors.accent2, colors.accent];
+            wireframes.forEach((w, i) => {
+                if (w.material) w.material.color = new THREE.Color(wfColors[i % wfColors.length]);
+                if (w.children[0] && w.children[0].material) w.children[0].material.color = new THREE.Color(wfColors[i % wfColors.length]);
+            });
         }
 
         function resize() {
@@ -693,32 +736,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function animate(ts) {
             // mouse parallax target
-            targetRotX += (mouseY * 0.08 + 0.25 - targetRotX) * 0.05;
-            targetRotY += (mouseX * 0.12 - targetRotY) * 0.05;
+            targetRotX += (mouseY * 0.15 - targetRotX) * 0.05;
+            targetRotY += (mouseX * 0.25 - targetRotY) * 0.05;
 
-            // subtle motion + parallax
-            if (ring) {
-                ring.rotation.x = targetRotX + Math.sin(ts * 0.00015) * 0.06;
-                ring.rotation.y += 0.0006;
-            }
-            if (outerRing) {
-                outerRing.rotation.x = targetRotX * 0.9 + Math.cos(ts * 0.00012) * 0.05;
-                outerRing.rotation.y -= 0.00045; // opposite direction for complexity
-            }
-
-            // gentle color cycling for highlights
-            const hue = (ts * 0.00003) % 1;
-            const hue2 = (ts * 0.00002 + 0.2) % 1;
-            const setHsl = (root, h) => {
-                root.traverse(obj => {
-                    if (obj.isPoints && obj.material && obj.material.blending === THREE.AdditiveBlending) {
-                        // Keep saturation/lightness modest for premium look
-                        obj.material.color.setHSL(h, 0.6, 0.6);
+            // animate starfield (towards camera)
+            if (starfield) {
+                const pos = starfield.geometry.attributes.position;
+                const arr = pos.array;
+                for (let i = 0; i < starVelocities.length; i++) {
+                    arr[i * 3 + 2] += starVelocities[i];
+                    // reset when passing camera
+                    if (arr[i * 3 + 2] > 2) {
+                        arr[i * 3] = (Math.random() - 0.5) * 24;
+                        arr[i * 3 + 1] = (Math.random() - 0.5) * 14;
+                        arr[i * 3 + 2] = -60 - Math.random() * 20;
+                        starVelocities[i] = 0.05 + Math.random() * 0.35;
                     }
-                });
-            };
-            if (ring) setHsl(ring, hue);
-            if (outerRing) setHsl(outerRing, hue2);
+                }
+                pos.needsUpdate = true;
+                // slow scene parallax based on mouse
+                starfield.rotation.x = targetRotX * 0.15;
+                starfield.rotation.y = targetRotY * 0.15;
+            }
+
+            // panel float + gentle rotation
+            codePanels.forEach((p, idx) => {
+                p.rotation.y += 0.0025 * (idx % 2 === 0 ? 1 : -1);
+                p.position.y += Math.sin(ts * 0.001 + idx) * 0.0008;
+                p.rotation.x = (idx === 0 ? 0.1 : idx === 1 ? -0.05 : 0.12) + targetRotX * 0.3;
+                p.rotation.z += (idx === 1 ? 0.0006 : -0.0004);
+            });
+
+            // wireframe drift
+            wireframes.forEach((w, i) => {
+                w.rotation.x += 0.003 * (i % 2 ? -1 : 1);
+                w.rotation.y += 0.002;
+                w.position.y += Math.sin(ts * 0.0012 + i) * 0.0009;
+            });
+
+            // grid subtle pulse
+            if (grid && grid.material) {
+                const base = 0.12;
+                grid.material.opacity = base + Math.sin(ts * 0.0015) * 0.03;
+            }
 
             renderer.render(scene, camera);
             rafId = requestAnimationFrame(animate);
@@ -748,13 +808,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         document.addEventListener('visibilitychange', onVisibility);
 
-        // Interaction: mouse parallax (within hero only)
+        // Interaction: mouse parallax
         const onPointerMove = (e) => {
             const rect2 = mount.getBoundingClientRect();
             const x = (e.clientX - rect2.left) / Math.max(1, rect2.width);
             const y = (e.clientY - rect2.top) / Math.max(1, rect2.height);
-            mouseX = (x - 0.5); // -0.5..0.5
-            mouseY = (0.5 - y); // -0.5..0.5 invert for natural tilt
+            mouseX = (x - 0.5);
+            mouseY = (0.5 - y);
         };
         window.addEventListener('pointermove', onPointerMove, { passive: true });
 
@@ -766,17 +826,13 @@ document.addEventListener('DOMContentLoaded', () => {
             themeObserver.disconnect();
             if (rafId) cancelAnimationFrame(rafId);
             renderer.dispose();
-            // dispose geometries/materials
-            if (ring) {
-                ring.traverse(obj => {
-                    if (obj.geometry) obj.geometry.dispose();
-                    if (obj.material) obj.material.dispose?.();
-                });
-            }
-            if (outerRing) {
-                outerRing.traverse(obj => {
-                    if (obj.geometry) obj.geometry.dispose();
-                    if (obj.material) obj.material.dispose?.();
+            if (scene) {
+                scene.traverse(obj => {
+                    if (obj.geometry) obj.geometry.dispose?.();
+                    if (obj.material) {
+                        if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose?.());
+                        else obj.material.dispose?.();
+                    }
                 });
             }
             window.removeEventListener('pointermove', onPointerMove, { passive: true });
