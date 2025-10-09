@@ -8,7 +8,7 @@
  * - Statische assets (css/js/afbeeldingen) gebruiken een cache-first aanpak met
  *   achtergrond-update zodat ze snel laden en toch verversen.
  */
-const CACHE_NAME = 'portfolio-cache-v1.0.4';
+const CACHE_NAME = 'portfolio-cache-v1.0.5';
 const OFFLINE_URL = '/offline.html';
 
 // Assets om vooraf te cachen (klein houden en alleen self-hosted bestanden)
@@ -52,24 +52,14 @@ self.addEventListener('fetch', (event) => {
   const isNavigation = request.mode === 'navigate' || (request.headers.get('accept') || '').includes('text/html');
 
   if (isNavigation) {
-    // HTML-pagina's: eerst proberen via netwerk, anders offline fallback
+    // Navigaties: network-first; bij fail ALTIJD offline.html (Option A)
     event.respondWith(
       fetch(request)
         .then((response) => {
-          const copy = response.clone();
-          // Cache op achtergrond verversen met de echte URL als key
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)).catch(() => {});
+          // Niet meer cachen van navigatie-antwoorden om verwarring te voorkomen
           return response;
         })
-        .catch(async () => {
-          // Als we offline zijn: probeer exacte pagina uit cache. Zo niet, toon 404.html.
-          const cached = await caches.match(request);
-          if (cached) return cached;
-          const fourOfour = await caches.match('/404.html');
-          if (fourOfour) return fourOfour;
-          // Fallback laatste redmiddel: offline.html
-          return caches.match(OFFLINE_URL);
-        })
+        .catch(() => caches.match(OFFLINE_URL))
     );
     return;
   }
