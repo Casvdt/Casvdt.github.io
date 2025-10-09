@@ -8,7 +8,7 @@
  * - Statische assets (css/js/afbeeldingen) gebruiken een cache-first aanpak met
  *   achtergrond-update zodat ze snel laden en toch verversen.
  */
-const CACHE_NAME = 'portfolio-cache-v1.0.3';
+const CACHE_NAME = 'portfolio-cache-v1.0.4';
 const OFFLINE_URL = '/offline.html';
 
 // Assets om vooraf te cachen (klein houden en alleen self-hosted bestanden)
@@ -61,7 +61,15 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)).catch(() => {});
           return response;
         })
-        .catch(() => caches.match(OFFLINE_URL))
+        .catch(async () => {
+          // Als we offline zijn: probeer exacte pagina uit cache. Zo niet, toon 404.html.
+          const cached = await caches.match(request);
+          if (cached) return cached;
+          const fourOfour = await caches.match('/404.html');
+          if (fourOfour) return fourOfour;
+          // Fallback laatste redmiddel: offline.html
+          return caches.match(OFFLINE_URL);
+        })
     );
     return;
   }

@@ -413,3 +413,22 @@
   // Init
   pickPuzzle();
 })();
+
+// Reconnect animatie/toast en automatische terugkeer naar de site
+(function(){
+  function showToast(message){
+    try {
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.textContent = message;
+      document.body.appendChild(t);
+      setTimeout(()=>{ t.remove(); }, 2400);
+    } catch {}
+  }
+
+  window.addEventListener('online', () => {
+    // Toon korte toast en ga terug naar de hoofdsite
+    showToast('🔌 Verbonden! Deploying happiness…');
+    setTimeout(()=>{ try { location.replace('/'); } catch { location.href = '/'; } }, 1500);
+  });
+})();
