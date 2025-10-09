@@ -135,6 +135,7 @@
   }
 
   function updateBugs(delta){
+    if (!bugCountEl) { console.warn('[offline] #bug-count ontbreekt'); return; }
     bugCountEl.textContent = Math.max(0, (parseInt(bugCountEl.textContent)||0) + delta);
   }
 
@@ -155,15 +156,15 @@
     if (running) return; running = true;
     score = 0; linesSaved = 0; level = 1; time = 30;
     if (scoreEl) scoreEl.textContent = '0';
-    timeEl.textContent = String(time);
+    if (timeEl) timeEl.textContent = String(time); else console.warn('[offline] #time ontbreekt');
     if (linesEl) linesEl.textContent = '0';
     if (levelEl) levelEl.textContent = '1';
-    resultEl.textContent = '';
+    if (resultEl) resultEl.textContent = '';
     Array.from(board.querySelectorAll('.bug')).forEach(b=>{ cancelAnimationFrame(b._raf); b.remove(); });
-    bugCountEl.textContent = '0';
+    if (bugCountEl) bugCountEl.textContent = '0';
     scheduleSpawns(900); // begin met relatief rustig tempo
     tickInt = setInterval(()=>{
-      time--; timeEl.textContent = String(time); // aftellen
+      time--; if (timeEl) timeEl.textContent = String(time); // aftellen
       if (time <= 0) end();
     }, 1000);
     // Level up every 8s: increase level and make spawns faster
@@ -182,11 +183,11 @@
     if (spawnTimer) { clearInterval(spawnTimer); spawnTimer = null; }
     clearInterval(tickInt); clearInterval(levelInt);
     Array.from(board.querySelectorAll('.bug')).forEach(b=>{ cancelAnimationFrame(b._raf); b.remove(); });
-    bugCountEl.textContent = '0';
+    if (bugCountEl) bugCountEl.textContent = '0';
     const msg = score >= 10
       ? `✅ Ready to deploy! Great job catching bugs. Lines of code saved: ${linesSaved}.`
       : `🛠️ A few bugs slipped through. Lines of code saved: ${linesSaved}. Try again!`;
-    resultEl.innerHTML = '<span class="' + (score>=10?'success':'') + '\">' + msg + '</span>';
+    if (resultEl) resultEl.innerHTML = '<span class="' + (score>=10?'success':'') + '\">' + msg + '</span>';
   }
 
   startBtn.addEventListener('click', start);
