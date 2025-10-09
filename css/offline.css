@@ -1,0 +1,35 @@
+/* Offline/404 shared styles */
+:root { --bg: #0b1220; --fg: #e5e7eb; --dim: #93a3b8; --accent: #22c55e; }
+@media (prefers-color-scheme: light) {
+  :root { --bg: #f8fafc; --fg: #0f172a; --dim: #475569; --accent: #0ea5e9; }
+}
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 15px/1.6 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  display: grid; place-items: center; padding: 24px;
+}
+.wrap { max-width: 920px; width: 100%; }
+pre { white-space: pre; overflow: auto; }
+.dim { color: var(--dim); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.cta { display:inline-block; margin-top: 16px; border:1px solid var(--dim); padding:8px 12px; border-radius:8px; }
+
+/* ASCII animation + pixel art */
+.ascii { font-size: 13px; line-height: 1.2; }
+.ascii .cursor { display:inline-block; width:10px; background: currentColor; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Mini-game styles */
+.game { margin-top: 24px; border:1px solid var(--dim); border-radius: 8px; padding: 12px; }
+.hud { display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom: 8px; }
+.board { position: relative; height: 220px; border:1px dashed var(--dim); border-radius: 6px; overflow:hidden; background: linear-gradient(180deg, rgba(148,163,184,0.08), transparent); }
+.bug { position:absolute; font-size: 18px; user-select:none; cursor:pointer; }
+.btn { border:1px solid var(--dim); padding:6px 10px; border-radius:8px; background:transparent; color:var(--fg); cursor:pointer; }
+.btn:hover { border-color: var(--accent); }
+.success { color: var(--accent); }
+
+/* helpers */
+.m-quote { margin: 8px 0 16px; }
+.result-msg { margin-top: 8px; min-height: 20px; }

@@ -1,5 +1,5 @@
 /* Portfolio PWA Service Worker */
-const CACHE_NAME = 'portfolio-cache-v1.0.0';
+const CACHE_NAME = 'portfolio-cache-v1.0.1';
 const OFFLINE_URL = '/offline.html';
 
 // Assets to pre-cache (keep small and self-hosted only)
@@ -7,8 +7,11 @@ const PRECACHE = [
   '/',
   '/index.html',
   '/offline.html',
+  '/404.html',
   '/css/style.css',
+  '/css/offline.css',
   '/js/main.js',
+  '/js/offline.js',
   '/images/portfolio.png'
 ];
 
