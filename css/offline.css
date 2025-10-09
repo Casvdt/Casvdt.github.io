@@ -49,3 +49,15 @@ a:hover { text-decoration: underline; }
 .chat-controls { display: flex; gap: 8px; margin-top: 8px; }
 .chat-input { flex: 1; border: 1px solid var(--dim); border-radius: 8px; padding: 8px; color: var(--fg); background: transparent; }
 .chat-send { white-space: nowrap; }
+
+/* Chat legend keywords */
+.chat-legend { margin-top: 6px; line-height: 1.8; }
+.chat-legend .kw { display: inline-block; border:1px solid var(--dim); border-radius: 999px; padding: 2px 8px; margin: 2px 4px; font-size: 12px; }
+
+/* Offline Coding Challenge */
+.challenge { margin-top: 24px; border: 1px solid var(--dim); border-radius: 8px; padding: 12px; }
+.ch-desc { margin: 4px 0 8px; }
+.ch-code { white-space: pre; overflow: auto; border:1px dashed var(--dim); border-radius: 6px; padding: 8px; background: linear-gradient(180deg, rgba(148,163,184,0.06), transparent); }
+.ch-controls { margin-top: 8px; }
+.ch-input { flex: 1; }
+.ch-result { min-height: 22px; margin-top: 8px; }

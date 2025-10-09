@@ -329,3 +329,87 @@
   // Welkomstbericht
   addMsg('🤖 Hoi! Internet is weg, maar ik kan nog steeds over code praten. Typ "grap", "quote" of "help".', 'bot');
 })();
+
+// Offline Coding Challenge: kleine puzzels met een bug
+(function(){
+  const codeEl = document.querySelector('.ch-code');
+  const inputEl = document.querySelector('.ch-input');
+  const checkBtn = document.querySelector('.ch-check');
+  const newBtn = document.querySelector('.ch-new');
+  const resultEl = document.querySelector('.ch-result');
+  if (!codeEl || !inputEl || !checkBtn || !newBtn || !resultEl) return;
+
+  // Voorraad van simpele, herkenbare bugs (JS/CSS mix)
+  const puzzles = [
+    {
+      lang: 'js',
+      snippet: 'if (x = 5) {\n  console.log("ok");\n}',
+      keywords: ['==', '===', 'vergelijk'],
+      hint: 'Gebruik vergelijking (== of ===) i.p.v. toewijzing (=).',
+      punch: 'Hint: probeer verbinding te herstellen 😉 (en gebruik ===).'
+    },
+    {
+      lang: 'js',
+      snippet: 'async function go(){\n  const data = fetch("/api");\n  console.log(data.json());\n}',
+      keywords: ['await', 'then'],
+      hint: 'Je moet op het antwoord wachten (await) of then() gebruiken.',
+      punch: 'Offline? Wachten… wachten… Probeer: const r = await fetch(...);'
+    },
+    {
+      lang: 'js',
+      snippet: 'const nums = [1,2,3];\nconst doubled = nums.forEach(n => n*2);\nconsole.log(doubled);',
+      keywords: ['map'],
+      hint: 'forEach geeft niets terug. Gebruik map voor een nieuwe array.',
+      punch: 'Gebruik: const doubled = nums.map(n=>n*2);'
+    },
+    {
+      lang: 'css',
+      snippet: '.box {\n  display: flex;\n  align-items: center;\n  justify-content: middle;\n}',
+      keywords: ['center'],
+      hint: 'justify-content gebruikt center, niet middle.',
+      punch: 'Tip: justify-content: center;'
+    },
+    {
+      lang: 'js',
+      snippet: 'function add(a,b){\n  return\n    a + b;\n}\nconsole.log(add(2,3));',
+      keywords: ['return', 'same', 'zelfde lijn', 'semicolon'],
+      hint: 'Automatic Semicolon Insertion breekt de return. Zet de waarde op dezelfde regel.',
+      punch: 'Zet: return a + b; op één regel.'
+    },
+    {
+      lang: 'js',
+      snippet: 'const user = null;\nconsole.log(user.name);',
+      keywords: ['optional', '?.', 'null check'],
+      hint: 'Bescherm toegang als iets null/undefined kan zijn.',
+      punch: 'Gebruik optional chaining: user?.name'
+    }
+  ];
+
+  let current = null;
+
+  function pickPuzzle(){
+    current = puzzles[Math.floor(Math.random()*puzzles.length)];
+    codeEl.textContent = current.snippet;
+    resultEl.textContent = '';
+    inputEl.value = '';
+  }
+
+  function check(){
+    const guess = (inputEl.value || '').trim().toLowerCase();
+    if (!guess) { resultEl.textContent = 'Typ je gok (bijv. ===, await, map, center, ?. ).'; return; }
+    // simpele keyword match
+    const ok = current.keywords.some(k => guess.includes(k));
+    if (ok) {
+      resultEl.innerHTML = '<span class="success">✅ Goed! ' + (current.hint || '') + '</span>';
+    } else {
+      resultEl.textContent = current.punch;
+    }
+  }
+
+  checkBtn.addEventListener('click', check);
+  inputEl.addEventListener('keydown', (e)=>{ if (e.key==='Enter') check(); });
+  newBtn.addEventListener('click', pickPuzzle);
+
+  // Init
+  pickPuzzle();
+})();
