@@ -33,3 +33,18 @@ a:hover { text-decoration: underline; }
 /* helpers */
 .m-quote { margin: 8px 0 16px; }
 .result-msg { margin-top: 8px; min-height: 20px; }
+
+/* Offline Chatbot */
+.chatbot { margin-top: 24px; border: 1px solid var(--dim); border-radius: 8px; padding: 12px; }
+.chat-log {
+  margin-top: 8px; height: 180px; overflow: auto; border: 1px dashed var(--dim);
+  border-radius: 6px; padding: 8px; background: linear-gradient(180deg, rgba(148,163,184,0.06), transparent);
+}
+.chat-msg { margin: 6px 0; display: flex; gap: 8px; align-items: flex-start; }
+.chat-msg.you { justify-content: flex-end; }
+.bubble { max-width: 80%; padding: 6px 10px; border-radius: 10px; border: 1px solid var(--dim); }
+.you .bubble { background: rgba(34,197,94,0.12); }
+.bot .bubble { background: rgba(14,165,233,0.10); }
+.chat-controls { display: flex; gap: 8px; margin-top: 8px; }
+.chat-input { flex: 1; border: 1px solid var(--dim); border-radius: 8px; padding: 8px; color: var(--fg); background: transparent; }
+.chat-send { white-space: nowrap; }

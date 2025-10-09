@@ -202,3 +202,82 @@
     }, rateMs);
   }
 })();
+
+// Offline Chatbot met humor
+(function(){
+  const log = document.querySelector('.chat-log');
+  const input = document.querySelector('.chat-input');
+  const sendBtn = document.querySelector('.chat-send');
+  if (!log || !input || !sendBtn) return;
+
+  // Lokale "dataset" met quotes/grappen en easter eggs
+  const quotes = [
+    '“Code is like humor. When you have to explain it, it’s bad.” – Cory House',
+    '“It works on my machine.” – Iedereen ooit',
+    '“First, solve the problem. Then, write the code.” – John Johnson',
+    '“Premature optimization is the root of all evil.” – Donald Knuth',
+    '“Talk is cheap. Show me the code.” – Linus Torvalds'
+  ];
+  const jokes = [
+    'Waarom was de JavaScript developer verdrietig? Omdat hij Node hoe Express hij zich voelde.',
+    'Ik heb 99 problemen, maar een semicolon is er geen; of juist wel? ;)',
+    'There are only 10 types of people: those who understand binary and those who don’t.'
+  ];
+  const eggs = {
+    help: 'Typ: "grap", "quote", "ascii", of stel een vraag over code (bijv. "array", "async").',
+    ascii: '┌( ಠ‿ಠ)┘  └(ಠ‿ಠ )┐  Dance mode: ASCII enabled!',
+    array: 'Arrays zijn geordende lijsten. Pro tip: .map/.filter/.reduce zijn je beste vrienden.',
+    async: 'Async/await maakt async code leesbaar. Vergeet niet try/catch en Promise.all waar zinnig!',
+    css: 'CSS tip: gebruik custom properties (variabelen) en "will-change" met beleid voor performance.'
+  };
+
+  // Helper om berichten toe te voegen aan de chat
+  function addMsg(text, who) {
+    const row = document.createElement('div');
+    row.className = `chat-msg ${who}`;
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = text;
+    row.appendChild(bubble);
+    log.appendChild(row);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function botReply(userText) {
+    const t = (userText || '').trim().toLowerCase();
+    if (t === '') return;
+    // Kernboodschap offline
+    if (t.includes('hallo') || t.includes('hoi')) {
+      addMsg('Hoi! Internet is weg, maar ik kan nog steeds over code praten 🤖.', 'bot');
+      return;
+    }
+    if (t.includes('grap')) {
+      addMsg(jokes[Math.floor(Math.random()*jokes.length)], 'bot');
+      return;
+    }
+    if (t.includes('quote')) {
+      addMsg(quotes[Math.floor(Math.random()*quotes.length)], 'bot');
+      return;
+    }
+    // Easter eggs / trefwoorden
+    for (const key of Object.keys(eggs)) {
+      if (t.includes(key)) { addMsg(eggs[key], 'bot'); return; }
+    }
+    // Fallback met een random quote
+    addMsg('Geen netwerk? Geen probleem. ' + quotes[Math.floor(Math.random()*quotes.length)], 'bot');
+  }
+
+  function onSend(){
+    const val = input.value;
+    if (!val.trim()) return;
+    addMsg(val, 'you');
+    input.value = '';
+    setTimeout(()=> botReply(val), 250);
+  }
+
+  sendBtn.addEventListener('click', onSend);
+  input.addEventListener('keydown', (e)=>{ if (e.key === 'Enter') onSend(); });
+
+  // Welkomstbericht
+  addMsg('🤖 Hoi! Internet is weg, maar ik kan nog steeds over code praten. Typ "grap", "quote" of "help".', 'bot');
+})();
