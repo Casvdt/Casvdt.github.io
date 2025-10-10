@@ -367,6 +367,150 @@ document.addEventListener('DOMContentLoaded', () => {
         applyLanguage(initialLang);
     }
 
+    // ===== RETRO FX (intro, boot, matrix overlay) =====
+    const RetroFX = (() => {
+        let matrix = { canvas: null, ctx: null, rafId: null, cols: 0, drops: [] };
+        let hasShownIntro = false; // session flag
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function createOverlay(cls, lines) {
+            const wrap = document.createElement('div');
+            wrap.className = cls;
+            const panel = document.createElement('div');
+            panel.className = 'retro-panel';
+            const pre = document.createElement('pre');
+            pre.className = 'retro-lines';
+            panel.appendChild(pre);
+            wrap.appendChild(panel);
+            document.body.appendChild(wrap);
+            // force reflow to enable transition
+            void wrap.offsetWidth;
+            wrap.classList.add('show');
+
+            return { wrap, pre };
+        }
+
+        function typewriter(el, text, speed = 28) {
+            return new Promise((resolve) => {
+                let i = 0;
+                const caret = document.createElement('span');
+                caret.className = 'caret';
+                const tick = () => {
+                    el.textContent = text.slice(0, i++);
+                    el.appendChild(caret);
+                    if (i <= text.length) {
+                        setTimeout(tick, speed);
+                    } else {
+                        caret.remove();
+                        resolve();
+                    }
+                };
+                tick();
+            });
+        }
+
+        function gatherIdentity() {
+            const name = (document.querySelector('.hero-content h1')?.textContent || 'Cas van der Toorn').trim();
+            const title = (document.querySelector('.hero-subtitle')?.textContent || 'Web Developer & Designer').trim();
+            return { name, title };
+        }
+
+        async function showIntro() {
+            if (prefersReduced) return; // keep quiet for accessibility
+            const { wrap, pre } = createOverlay('retro-intro', []);
+            const { name, title } = gatherIdentity();
+            await typewriter(pre, 'Welcome, developer_001. System initializing…', 18);
+            pre.append('\n');
+            await typewriter(pre, `${name} — ${title}`, 22);
+            setTimeout(() => { wrap.classList.add('fade-out'); }, 650);
+            setTimeout(() => { wrap.remove(); }, 1200);
+        }
+
+        function showBoot() {
+            if (prefersReduced) return;
+            const { wrap, pre } = createOverlay('retro-boot', []);
+            pre.textContent = '> booting portfolio...\n> system online';
+            setTimeout(() => { wrap.classList.add('fade-out'); }, 800);
+            setTimeout(() => { wrap.remove(); }, 1300);
+        }
+
+        function startMatrix() {
+            if (prefersReduced || matrix.rafId) return;
+            const c = document.createElement('canvas');
+            c.className = 'retro-matrix';
+            document.body.appendChild(c);
+            const ctx = c.getContext('2d');
+            matrix.canvas = c; matrix.ctx = ctx;
+            const CHARS = '01<>[]{}/*+-=~$#@!%';
+
+            function resize() {
+                const dpr = Math.max(1, window.devicePixelRatio || 1);
+                c.width = Math.floor(window.innerWidth * dpr);
+                c.height = Math.floor(window.innerHeight * dpr);
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                const fontSize = 14;
+                ctx.font = `${fontSize}px ui-monospace, SFMono-Regular, Menlo, Consolas, 'Courier New', monospace`;
+                matrix.cols = Math.ceil(window.innerWidth / fontSize);
+                matrix.drops = new Array(matrix.cols).fill(0).map(() => Math.floor(Math.random() * -20));
+            }
+
+            let last = 0; const interval = 1000 / 28;
+            function draw(ts) {
+                if (!last) last = ts;
+                if (ts - last < interval) { matrix.rafId = requestAnimationFrame(draw); return; }
+                last = ts;
+                const w = c.width; const h = c.height; const fontSize = 14; // logical pixels after transform
+                // translucent fade
+                ctx.fillStyle = 'rgba(0,0,0,0.10)';
+                ctx.fillRect(0, 0, w, h);
+                for (let i = 0; i < matrix.cols; i++) {
+                    const ch = CHARS[Math.floor(Math.random() * CHARS.length)] || '0';
+                    const x = i * fontSize + 2;
+                    const y = matrix.drops[i] * fontSize;
+                    ctx.fillStyle = 'rgba(0,255,136,0.55)';
+                    ctx.fillText(ch, x, y);
+                    if (Math.random() < 0.08) {
+                        ctx.fillStyle = 'rgba(154,255,201,0.9)';
+                        ctx.fillText(ch, x, y + fontSize);
+                    }
+                    if (y > h && Math.random() > 0.965) matrix.drops[i] = Math.floor(Math.random() * -10);
+                    else matrix.drops[i] += 1;
+                }
+                matrix.rafId = requestAnimationFrame(draw);
+            }
+            const onResize = () => resize();
+            window.addEventListener('resize', onResize, { passive: true });
+            resize();
+            matrix.rafId = requestAnimationFrame(draw);
+            // cleanup hook on element removal
+            c._cleanup = () => { window.removeEventListener('resize', onResize, { passive: true }); };
+        }
+
+        function stopMatrix() {
+            if (matrix.rafId) cancelAnimationFrame(matrix.rafId);
+            matrix.rafId = null;
+            if (matrix.canvas) {
+                matrix.canvas._cleanup?.();
+                matrix.canvas.remove();
+            }
+            matrix.canvas = null; matrix.ctx = null; matrix.cols = 0; matrix.drops = [];
+        }
+
+        function enterRetro({ first = false } = {}) {
+            startMatrix();
+            if (!hasShownIntro && (first || true)) {
+                hasShownIntro = true;
+                showIntro();
+            } else {
+                showBoot();
+            }
+        }
+        function exitRetro() {
+            stopMatrix();
+        }
+        return { enterRetro, exitRetro };
+    })();
+
     // ===== THEMA TOGGLE (Donker/Licht) =====
     const themeToggleBtn = document.querySelector('.theme-toggle');
     const themeIcon = themeToggleBtn ? themeToggleBtn.querySelector('i') : null;
@@ -383,6 +527,8 @@ document.addEventListener('DOMContentLoaded', () => {
             themeIcon.className = `fa-solid ${icon}`;
         }
         try { localStorage.setItem('preferred_theme', theme); } catch {}
+        // Retro FX hooks
+        if (theme === 'retro') RetroFX.enterRetro(); else RetroFX.exitRetro();
     }
 
     function detectInitialTheme() {
@@ -403,7 +549,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const next = isLight ? 'dark' : isDark ? 'retro' : isRetro ? 'light' : 'dark';
             applyTheme(next);
         });
-        applyTheme(detectInitialTheme());
+        const initial = detectInitialTheme();
+        applyTheme(initial);
+        if (initial === 'retro') RetroFX.enterRetro({ first: true });
     }
 
     // ===== HERO: ANIMATED CODING BACKGROUND (Canvas) =====

@@ -284,6 +284,44 @@ html.retro .custom-cursor .cursor-dot {
 @media (pointer: coarse) { .custom-cursor { display: none; } }
 @media (prefers-reduced-motion: reduce) { .custom-cursor { display: none; } }
 
+/* Retro overlays: intro and boot */
+.retro-intro, .retro-boot {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(0,0,0,0.96);
+    color: #b4f1b4;
+    z-index: 1300;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .28s ease;
+}
+.retro-intro.show, .retro-boot.show { opacity: 1; pointer-events: auto; }
+.retro-panel {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    border: 1px solid rgba(0,255,128,0.25);
+    border-radius: 10px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(0,255,128,0.06), rgba(0,0,0,0.0));
+    box-shadow: 0 20px 60px rgba(0,255,128,0.15);
+    width: min(90vw, 720px);
+}
+.retro-lines { white-space: pre-wrap; line-height: 1.5; }
+.caret { display:inline-block; width: 10px; margin-left: 2px; background: currentColor; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.fade-out { animation: fadeout .32s ease forwards; }
+@keyframes fadeout { to { opacity: 0; } }
+
+/* Retro matrix canvas overlay */
+.retro-matrix {
+    position: fixed;
+    inset: 0;
+    z-index: 0; /* sits under content; scanlines are at z-index 1 */
+    pointer-events: none;
+    opacity: 0.65;
+}
+
 /* Light theme: add clear but subtle elevation to internship logo */
 html.light .internship-logo {
     box-shadow: 0 6px 16px rgba(15,23,42,0.10);
