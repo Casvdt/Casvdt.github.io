@@ -228,6 +228,16 @@ html.light .theme-toggle {
 html.light .custom-cursor .cursor-ring { border-color: rgba(30,41,59,0.35); }
 html.light .custom-cursor .cursor-dot { background: #0ea5e9; box-shadow: 0 0 14px rgba(14,165,233,0.6); }
 
+/* Retro theme: neon green cursor */
+html.retro .custom-cursor .cursor-ring {
+    border-color: rgba(0, 255, 128, 0.5);
+    background: radial-gradient(circle, rgba(0,255,128,0.18), rgba(0,255,128,0.08) 60%, transparent 70%);
+}
+html.retro .custom-cursor .cursor-dot {
+    background: #00ff88;
+    box-shadow: 0 0 16px rgba(0,255,128,0.75);
+}
+
 /* Hide cursor overlay for coarse pointers and reduced motion */
 @media (pointer: coarse) { .custom-cursor { display: none; } }
 @media (prefers-reduced-motion: reduce) { .custom-cursor { display: none; } }

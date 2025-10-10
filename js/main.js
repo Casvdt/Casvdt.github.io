@@ -429,8 +429,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const CHARS = '01{}[]()<>=+-*/.;:,|&^~%!$#@?ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
         function themeColors() {
-            const isLight = document.documentElement.classList.contains('light');
+            const root = document.documentElement;
+            const isLight = root.classList.contains('light');
+            const isRetro = root.classList.contains('retro');
             // Slightly different opacities per theme
+            if (isRetro) {
+                return {
+                    bg: 'rgba(0, 0, 0, 0.10)',
+                    glyph: 'rgba(64, 255, 160, 0.60)', // matrix green trail
+                    head: 'rgba(144, 255, 200, 0.95)'
+                };
+            }
             return {
                 // Use a low alpha so previous frame fades out instead of accumulating
                 bg: isLight ? 'rgba(248, 250, 252, 0.06)' : 'rgba(2, 6, 23, 0.08)',
@@ -573,8 +582,19 @@ document.addEventListener('DOMContentLoaded', () => {
         let wireframes = [];
 
         function themeColors() {
-            // NL: Kleuren wisselen mee met licht/donker thema
-            const isLight = document.documentElement.classList.contains('light');
+            // NL: Kleuren wisselen mee met licht/donker/retro thema
+            const root = document.documentElement;
+            const isLight = root.classList.contains('light');
+            const isRetro = root.classList.contains('retro');
+            if (isRetro) {
+                return {
+                    base: 0x00ff88, // primary green
+                    accent: 0x00cc66,
+                    accent2: 0x00aa55,
+                    fog: 0x000000,
+                    glyph: '#9affc9'
+                };
+            }
             return {
                 base: isLight ? 0x0f172a : 0xe2e8f0, // slate-900 vs slate-200
                 accent: isLight ? 0x0ea5e9 : 0x22d3ee, // cyan 500 vs cyan 400
