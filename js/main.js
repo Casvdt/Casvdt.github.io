@@ -373,11 +373,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function applyTheme(theme) {
         const root = document.documentElement;
-        // Keep existing light theme for custom CSS, and also apply Tailwind's dark mode class
-        root.classList.toggle('light', theme === 'light');
+        // Remove all theme classes, then add the one selected
+        ['light', 'dark', 'retro'].forEach(cls => root.classList.remove(cls));
+        root.classList.add(theme);
+        // Tailwind's dark mode relies on .dark
         root.classList.toggle('dark', theme === 'dark');
         if (themeIcon) {
-            themeIcon.className = theme === 'light' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            const icon = theme === 'light' ? 'fa-sun' : theme === 'dark' ? 'fa-moon' : 'fa-terminal';
+            themeIcon.className = `fa-solid ${icon}`;
         }
         try { localStorage.setItem('preferred_theme', theme); } catch {}
     }
@@ -385,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function detectInitialTheme() {
         try {
             const stored = localStorage.getItem('preferred_theme');
-            if (stored === 'light' || stored === 'dark') return stored;
+            if (stored === 'light' || stored === 'dark' || stored === 'retro') return stored;
         } catch {}
         // Default to dark if no stored preference
         return 'dark';
@@ -393,8 +396,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
-            const isLight = document.documentElement.classList.contains('light');
-            applyTheme(isLight ? 'dark' : 'light');
+            const root = document.documentElement;
+            const isLight = root.classList.contains('light');
+            const isDark = root.classList.contains('dark') && !root.classList.contains('light') && !root.classList.contains('retro');
+            const isRetro = root.classList.contains('retro');
+            const next = isLight ? 'dark' : isDark ? 'retro' : isRetro ? 'light' : 'dark';
+            applyTheme(next);
         });
         applyTheme(detectInitialTheme());
     }

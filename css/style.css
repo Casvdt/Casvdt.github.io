@@ -97,6 +97,79 @@ html.light .attribution.subtle a { color: #475569; }
 html.light .toast.success { background-color: #10b981; }
 html.light .toast.error { background-color: #ef4444; }
 
+/* Retro terminal theme overrides */
+html.retro {
+    --text-color: #b4f1b4;
+    --light-text: #79e879;
+    --background: #000000;
+    --section-bg: #000000;
+}
+html.retro body {
+    background-image: none;
+}
+html.retro .navbar {
+    background: rgba(0, 0, 0, 0.95);
+    border-bottom: 1px solid rgba(0, 255, 128, 0.25);
+    box-shadow: 0 4px 18px rgba(0, 255, 128, 0.08);
+}
+html.retro .nav-links a { color: var(--text-color); }
+html.retro .nav-logo { color: var(--text-color); }
+html.retro .hero-content h1 { color: var(--text-color); }
+html.retro .highlight { color: #29f329; }
+html.retro .about,
+html.retro .internship,
+html.retro .skills,
+html.retro .projects,
+html.retro .contact,
+html.retro .certificates { background-color: #000000; }
+html.retro .skill-card,
+html.retro .project-card,
+html.retro .cert-card {
+    background: #000000;
+    border: 1px solid rgba(0, 255, 128, 0.18);
+    box-shadow: 0 6px 16px rgba(0, 255, 128, 0.10);
+}
+html.retro .project-image img { background: #001a00; }
+html.retro .project-card:hover,
+html.retro .cert-card:hover,
+html.retro .skill-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 28px rgba(0, 255, 128, 0.18);
+}
+html.retro .form-group input,
+html.retro .form-group textarea {
+    background: #001a00;
+    color: #b4f1b4;
+    border-color: rgba(0, 255, 128, 0.25);
+}
+html.retro .challenge-row input {
+    background: #001a00;
+    color: #b4f1b4;
+    border-color: rgba(0, 255, 128, 0.25);
+}
+html.retro .social-link { color: var(--text-color); }
+html.retro .social-link i { color: inherit; }
+html.retro .nav-links a:hover { color: #29f329; }
+html.retro footer {
+    background: #000000;
+    color: #79e879;
+}
+html.retro .attribution.subtle a { color: #79e879; }
+html.retro .toast.success { background-color: #16a34a; }
+html.retro .toast.error { background-color: #dc2626; }
+
+html.retro .scroll-to-top-btn,
+html.retro .language-switcher .lang-btn,
+html.retro .theme-toggle {
+    background: rgba(0,0,0,0.92);
+    color: #b4f1b4;
+    border-color: rgba(0, 255, 128, 0.22);
+}
+html.retro .scroll-to-top-btn:hover,
+html.retro .language-switcher .lang-btn.active {
+    background: #052b05;
+}
+
 html.light .scroll-to-top-btn,
 html.light .language-switcher .lang-btn,
 html.light .theme-toggle {
