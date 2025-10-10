@@ -8,7 +8,7 @@
  * - Statische assets (css/js/afbeeldingen) gebruiken een cache-first aanpak met
  *   achtergrond-update zodat ze snel laden en toch verversen.
  */
-const CACHE_NAME = 'portfolio-cache-v1.0.8';
+const CACHE_NAME = 'portfolio-cache-v1.0.9';
 const OFFLINE_URL = '/offline.html';
 
 // Assets om vooraf te cachen (klein houden en alleen self-hosted bestanden)
