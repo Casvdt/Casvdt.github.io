@@ -448,7 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 c.width = Math.floor(window.innerWidth * dpr);
                 c.height = Math.floor(window.innerHeight * dpr);
                 ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-                const fontSize = 14;
+                const fontSize = 12; // smaller glyphs for subtler presence
                 ctx.font = `${fontSize}px ui-monospace, SFMono-Regular, Menlo, Consolas, 'Courier New', monospace`;
                 matrix.cols = Math.ceil(window.innerWidth / fontSize);
                 matrix.drops = new Array(matrix.cols).fill(0).map(() => Math.floor(Math.random() * -20));
@@ -459,18 +459,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!last) last = ts;
                 if (ts - last < interval) { matrix.rafId = requestAnimationFrame(draw); return; }
                 last = ts;
-                const w = c.width; const h = c.height; const fontSize = 14; // logical pixels after transform
-                // translucent fade
-                ctx.fillStyle = 'rgba(0,0,0,0.10)';
+                const w = c.width; const h = c.height; const fontSize = 12; // keep in sync with resize
+                // slightly stronger fade to push further back
+                ctx.fillStyle = 'rgba(0,0,0,0.16)';
                 ctx.fillRect(0, 0, w, h);
                 for (let i = 0; i < matrix.cols; i++) {
                     const ch = CHARS[Math.floor(Math.random() * CHARS.length)] || '0';
                     const x = i * fontSize + 2;
                     const y = matrix.drops[i] * fontSize;
-                    ctx.fillStyle = 'rgba(0,255,136,0.55)';
+                    ctx.fillStyle = 'rgba(0,255,136,0.35)';
                     ctx.fillText(ch, x, y);
-                    if (Math.random() < 0.08) {
-                        ctx.fillStyle = 'rgba(154,255,201,0.9)';
+                    if (Math.random() < 0.06) {
+                        ctx.fillStyle = 'rgba(154,255,201,0.65)';
                         ctx.fillText(ch, x, y + fontSize);
                     }
                     if (y > h && Math.random() > 0.965) matrix.drops[i] = Math.floor(Math.random() * -10);

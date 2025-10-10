@@ -103,6 +103,9 @@ html.retro {
     --light-text: #79e879;
     --background: #000000;
     --section-bg: #000000;
+    /* Override primary hues to green variants */
+    --primary-color: #00cc66;
+    --primary-color-hover: #00aa55;
 }
 html.retro body {
     background-image: none;
@@ -198,7 +201,7 @@ html.retro body::before {
         rgba(0,0,0,0.0) 4px
     );
     mix-blend-mode: screen;
-    opacity: .55;
+    opacity: .18;
     z-index: 1; /* under UI elements since they have higher z-index */
 }
 
@@ -319,8 +322,25 @@ html.retro .custom-cursor .cursor-dot {
     inset: 0;
     z-index: 0; /* sits under content; scanlines are at z-index 1 */
     pointer-events: none;
-    opacity: 0.65;
+    opacity: 0.12;
 }
+
+/* Retro: convert blue UI to green */
+html.retro .cta-button {
+    background: var(--primary-color);
+}
+html.retro .cta-button:hover { background: var(--primary-color-hover); }
+html.retro .submit-button { background: var(--primary-color); }
+html.retro .submit-button:hover { background: var(--primary-color-hover); }
+html.retro .project-link { color: #9affc9; }
+html.retro .project-link:hover { color: #bfffe3; }
+html.retro .cert-icon { background: rgba(0, 204, 102, 0.12); color: #00ff88; }
+html.retro .custom-cursor .cursor-ring { border-color: rgba(0, 255, 128, 0.45); }
+/* Cards and misc glows to green */
+html.retro .skill-card:hover { box-shadow: 0 12px 22px rgba(0, 255, 128, 0.22); }
+html.retro .project-card:hover { box-shadow: 0 16px 28px rgba(0, 255, 128, 0.22); }
+html.retro .cert-card:hover { box-shadow: 0 16px 28px rgba(0, 255, 128, 0.22); }
+html.retro .language-switcher .lang-btn.active { background: var(--primary-color); box-shadow: 0 10px 20px rgba(0, 255, 128, 0.25); }
 
 /* Light theme: add clear but subtle elevation to internship logo */
 html.light .internship-logo {
