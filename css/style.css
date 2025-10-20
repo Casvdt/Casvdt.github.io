@@ -429,6 +429,31 @@ html.light .social-link:hover { color: #1e40af; }
 }
 .theme-toggle:hover { transform: translateY(-1px); }
 
+/* Right-side nav controls wrapper (theme toggle + label) */
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 1rem; /* slight separation from nav links */
+}
+
+/* Theme toggle label should match navigation text color and follow theme variables */
+.theme-toggle-text {
+    color: var(--text-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+    user-select: none;
+}
+
+/* Keep label readable in dark backgrounds when Tailwind dark class is used */
+html.light .theme-toggle-text { color: #0f172a; }
+html.retro .theme-toggle-text { color: var(--text-color); }
+
+/* Responsive: hide label on small screens to save space */
+@media (max-width: 480px) {
+    .theme-toggle-text { display: none; }
+}
+
 /* Hero Section */
 .hero {
     height: 100vh;
