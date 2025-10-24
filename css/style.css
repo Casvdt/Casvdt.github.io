@@ -108,8 +108,8 @@ html.light .cert-card:hover {
 }
 html.light .form-group input,
 html.light .form-group textarea {
-    background: #ffffff;
-    color: #0f172a;
+    background: #ffffff !important;
+    color: #0f172a !important;
     border-color: #cbd5e1;
 }
 html.light .social-link { color: #0f172a; }
@@ -333,6 +333,14 @@ html.retro .custom-cursor .cursor-dot {
 /* Hide cursor overlay for coarse pointers and reduced motion */
 @media (pointer: coarse) { .custom-cursor { display: none; } }
 @media (prefers-reduced-motion: reduce) { .custom-cursor { display: none; } }
+
+/* Dark theme input styles */
+html:not(.light):not(.retro) .form-group input,
+html:not(.light):not(.retro) .form-group textarea {
+    background-color: rgba(15, 23, 42, 0.8);
+    color: #e5e7eb;
+    border-color: #334155;
+}
 
 /* Retro overlays: intro and boot */
 .retro-intro, .retro-boot {
@@ -1004,8 +1012,8 @@ html.retro .word-cloud span {
     border: 1px solid #334155;
     border-radius: 5px;
     font-family: inherit;
-    background: #111827;
-    color: var(--text-color);
+    background-color: rgba(15, 23, 42, 0.8);
+    color: #e5e7eb;
 }
 
 .form-group input::placeholder,
