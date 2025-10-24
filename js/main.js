@@ -373,7 +373,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             // Terms acceptance required
             if (!confirmOk) {
-                showToast('Please accept the terms and conditions.', 'error');
+                const isEnglish = document.documentElement.getAttribute('lang') === 'en';
+                showToast(isEnglish ? 'Please accept the terms and conditions.' : 'Accepteer de voorwaarden a.u.b.', 'error');
                 return;
             }
             // Controleren rekenuitdaging
