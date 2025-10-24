@@ -25,16 +25,22 @@
 
 // Scroll Progress Indicator
 function updateScrollProgress() {
-    const winScroll = window.scrollY;
+    const bar = document.querySelector('.scroll-progress-bar');
+    if (!bar) return;
+    const winScroll = window.scrollY || window.pageYOffset || 0;
     const height = document.documentElement.scrollHeight - window.innerHeight;
-    const scrolled = (winScroll / height) * 100;
-    document.querySelector('.scroll-progress-bar').style.width = scrolled + '%';
+    if (!height || height <= 0) { bar.style.width = '0%'; return; }
+    const scrolled = Math.max(0, Math.min(100, (winScroll / height) * 100));
+    bar.style.width = scrolled + '%';
 }
 
 window.addEventListener('scroll', updateScrollProgress);
 window.addEventListener('resize', updateScrollProgress);
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Ensure progress bar is initialized once DOM is ready
+    try { updateScrollProgress(); } catch (e) {}
+
     // ===== WORD CLOUD ANIMATION =====
     const wordCloud = document.querySelector('.word-cloud');
     if (wordCloud) {

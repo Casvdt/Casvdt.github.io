@@ -680,6 +680,7 @@ h2::after {
 .about { background-color: #0e1a2b; }
 .internship { background-color: #0f172a; }
 .skills { background-color: #0a1f1f; }
+.skills { position: relative; }
 .projects { background-color: #0e1b12; }
 .contact { background-color: #1a1320; }
 .certificates { background-color: #0b141e; }
@@ -780,8 +781,15 @@ h2::after {
 
 /* Word Cloud */
 .word-cloud-container {
-    position: relative;
-    overflow: hidden;
+    position: absolute;
+    top: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 160px;
+    pointer-events: none; /* don't block card interactions */
+    overflow: visible;
+    z-index: 5;
 }
 
 .word-cloud span {
