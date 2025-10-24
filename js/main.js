@@ -223,6 +223,82 @@ document.addEventListener('DOMContentLoaded', () => {
         const expected = a + b;
         if (qEl) qEl.textContent = `${a} + ${b} =`;
 
+        // ===== Live validation helpers (real-time feedback) =====
+        const nameInput = contactForm.querySelector('.js-name') || contactForm.querySelector('#name');
+        const emailInput = contactForm.querySelector('.js-email') || contactForm.querySelector('#email');
+        const messageInput = contactForm.querySelector('.js-message') || contactForm.querySelector('#message');
+        const submitBtnEl = contactForm.querySelector('.submit-button');
+
+        function ensureValidationEl(el) {
+            const parent = el.closest('.form-group') || el.parentNode;
+            let msg = parent.querySelector('.validation-message');
+            if (!msg) {
+                msg = document.createElement('div');
+                msg.className = 'validation-message';
+                parent.appendChild(msg);
+            }
+            return msg;
+        }
+
+        function setFieldState(el, ok, message) {
+            if (!el) return;
+            el.classList.remove('valid', 'invalid');
+            const msg = ensureValidationEl(el);
+            if (ok === true) {
+                el.classList.add('valid');
+                msg.textContent = message || '';
+                msg.classList.remove('error');
+                msg.classList.add('success');
+            } else if (ok === false) {
+                el.classList.add('invalid');
+                msg.textContent = message || '';
+                msg.classList.remove('success');
+                msg.classList.add('error');
+            } else {
+                msg.textContent = '';
+                msg.classList.remove('error', 'success');
+            }
+        }
+
+        const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ'\- ]{2,60}$/;
+        const emailRegex = /^(?!.*\.\.)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,63}$/;
+
+        function validateNameField() {
+            const v = (nameInput && nameInput.value || '').trim();
+            if (v.length === 0) return setFieldState(nameInput, null, '');
+            const ok = nameRegex.test(v);
+            setFieldState(nameInput, ok, ok ? 'Looks good' : 'Enter a valid name');
+        }
+
+        function validateEmailField() {
+            const v = (emailInput && emailInput.value || '').trim();
+            if (v.length === 0) return setFieldState(emailInput, null, '');
+            const ok = emailRegex.test(v) && !isDisposableEmail(v);
+            setFieldState(emailInput, ok, ok ? 'Valid email' : 'Enter a valid email');
+        }
+
+        function validateMessageField() {
+            const v = (messageInput && messageInput.value || '').trim();
+            if (v.length === 0) return setFieldState(messageInput, null, '');
+            const ok = v.length >= 10 && v.length <= 2000;
+            setFieldState(messageInput, ok, ok ? '' : 'Message must be 10+ chars');
+        }
+
+        function validateChallengeField() {
+            const v = (challengeInput && challengeInput.value || '').trim();
+            if (v.length === 0) return setFieldState(challengeInput, null, '');
+            const ok = Number(v) === expected;
+            setFieldState(challengeInput, ok, ok ? '' : 'Wrong answer');
+        }
+
+        // Attach live listeners
+        try {
+            if (nameInput) nameInput.addEventListener('input', validateNameField);
+            if (emailInput) emailInput.addEventListener('input', validateEmailField);
+            if (messageInput) messageInput.addEventListener('input', validateMessageField);
+            if (challengeInput) challengeInput.addEventListener('input', validateChallengeField);
+        } catch (e) {}
+
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             clearAriaInvalid();
@@ -329,6 +405,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearAriaInvalid();
                 showToast('Bericht succesvol verzonden!', 'success');
                 contactForm.reset();
+                // brief success animation on submit button
+                try {
+                    if (submitBtnEl) {
+                        submitBtnEl.classList.add('sent');
+                        setTimeout(() => { submitBtnEl.classList.remove('sent'); }, 1400);
+                    }
+                } catch (e) {}
             } catch (error) {
                 console.error('Error:', error);
                 showToast('Verzenden mislukt. Probeer opnieuw.', 'error');

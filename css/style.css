@@ -929,7 +929,6 @@ html.retro .word-cloud span {
 .project-info h3 {
     margin-bottom: 0.5rem;
 }
-
 .project-info p {
     color: #cbd5e1;
     margin-bottom: 0.75rem;
@@ -1032,6 +1031,52 @@ html.light .challenge-row input {
     background: #ffffff;
     color: #0f172a;
     border-color: #cbd5e1;
+}
+
+/* Validation UI */
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(28, 59, 109, 0.12);
+}
+
+.form-group input.valid,
+.form-group textarea.valid {
+    border-color: var(--accent-color);
+    background: rgba(34, 197, 94, 0.04);
+}
+
+.form-group input.invalid,
+.form-group textarea.invalid {
+    border-color: var(--secondary-color);
+    background: rgba(239, 68, 68, 0.04);
+}
+
+.validation-message {
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    color: var(--light-text);
+    opacity: 0.95;
+}
+
+.validation-message.error { color: var(--secondary-color); }
+.validation-message.success { color: var(--accent-color); }
+
+/* Submit success animation */
+.submit-button.sent {
+    transform: scale(0.98);
+    box-shadow: 0 10px 30px rgba(34,197,94,0.18);
+}
+.submit-button.sent::after {
+    content: '\2713'; /* checkmark */
+    display: inline-block;
+    margin-left: 0.5rem;
+    opacity: 0;
+    transform: translateY(-4px);
+    animation: showCheck 0.5s ease forwards;
+}
+@keyframes showCheck {
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Honeypot hide */
