@@ -391,6 +391,47 @@ html.light .social-link:hover { color: #1e40af; }
     cursor: pointer;
 }
 
+/* Offline hint badge styling */
+.offline-hint {
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-2));
+    color: #ffffff;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    animation: bounce-subtle 2s infinite;
+    transition: transform 0.2s ease;
+}
+
+.offline-hint:hover {
+    transform: scale(1.05) rotate(2deg);
+}
+
+@keyframes bounce-subtle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+/* Theme-specific offline hint styles */
+html.light .offline-hint {
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+html.retro .offline-hint {
+    background: var(--primary-color);
+    border: 1px solid rgba(0, 255, 128, 0.3);
+    box-shadow: 0 0 15px rgba(0, 255, 128, 0.2);
+    text-shadow: 0 0 8px rgba(0, 255, 128, 0.5);
+}
+
+/* Responsive: Hide hint on very small screens */
+@media (max-width: 480px) {
+    .offline-hint {
+        display: none;
+    }
+}
+
 .nav-links {
     display: flex;
     gap: 2rem;
