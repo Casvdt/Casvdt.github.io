@@ -371,9 +371,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 markInvalid(messageInput);
                 return;
             }
-            // Professionele bevestiging vereist
+            // Terms acceptance required
             if (!confirmOk) {
-                showToast('Bevestig dat dit een professionele vraag is.', 'error');
+                showToast('Please accept the terms and conditions.', 'error');
                 return;
             }
             // Controleren rekenuitdaging

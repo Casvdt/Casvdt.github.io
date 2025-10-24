@@ -1005,7 +1005,7 @@ html.retro .word-cloud span {
     border-radius: 5px;
     font-family: inherit;
     background: #111827;
-    color: #e5e7eb;
+    color: var(--text-color);
 }
 
 .form-group input::placeholder,
