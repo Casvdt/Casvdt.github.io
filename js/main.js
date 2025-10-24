@@ -45,10 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const wordCloud = document.querySelector('.word-cloud');
     if (wordCloud) {
         const words = [
-            'HTML5', 'CSS3', 'JavaScript', 'Node.js', 'PHP', 'SQL',
-            'Bootstrap', 'Tailwind', 'Git', 'API', 'REST', 'JSON',
-            'Responsive', 'Frontend', 'Backend', 'UX/UI', 'Mobile-First',
-            'Performance', 'SEO', 'Security', 'Swift', 'Linux'
+            'HTML5', 'CSS3', 'JavaScript', 'Node.js', 'PHP', 'Symfony', 'SQL', 'Bootstrap 5', 'Swift', 'Linux',
+            'Tailwind', 'REST API', 'Responsive', 'Frontend', 'Backend', 'JSON'
         ];
 
         function createWord(word, x, y, size) {
