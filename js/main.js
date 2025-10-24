@@ -23,7 +23,68 @@
     } catch {}
 })();
 
+// Scroll Progress Indicator
+function updateScrollProgress() {
+    const winScroll = window.scrollY;
+    const height = document.documentElement.scrollHeight - window.innerHeight;
+    const scrolled = (winScroll / height) * 100;
+    document.querySelector('.scroll-progress-bar').style.width = scrolled + '%';
+}
+
+window.addEventListener('scroll', updateScrollProgress);
+window.addEventListener('resize', updateScrollProgress);
+
 document.addEventListener('DOMContentLoaded', () => {
+    // ===== WORD CLOUD ANIMATION =====
+    const wordCloud = document.querySelector('.word-cloud');
+    if (wordCloud) {
+        const words = [
+            'HTML5', 'CSS3', 'JavaScript', 'Node.js', 'PHP', 'SQL',
+            'Bootstrap', 'Tailwind', 'Git', 'API', 'REST', 'JSON',
+            'Responsive', 'Frontend', 'Backend', 'UX/UI', 'Mobile-First',
+            'Performance', 'SEO', 'Security', 'Swift', 'Linux'
+        ];
+
+        function createWord(word, x, y, size) {
+            const span = document.createElement('span');
+            span.textContent = word;
+            span.style.left = x + '%';
+            span.style.top = y + '%';
+            span.style.fontSize = size + 'px';
+            return span;
+        }
+
+        function updateCloud() {
+            wordCloud.innerHTML = '';
+            words.forEach((word, i) => {
+                const angle = (i / words.length) * Math.PI * 2;
+                const radius = 35;
+                const x = 50 + Math.cos(angle) * radius;
+                const y = 50 + Math.sin(angle) * radius;
+                const size = Math.random() * 8 + 14;
+                const wordEl = createWord(word, x, y, size);
+                wordCloud.appendChild(wordEl);
+            });
+        }
+
+        function animateCloud() {
+            const spans = wordCloud.querySelectorAll('span');
+            spans.forEach((span, i) => {
+                const angle = (i / spans.length) * Math.PI * 2;
+                const radius = 35;
+                const time = Date.now() / 3000;
+                const x = 50 + Math.cos(angle + time) * radius;
+                const y = 50 + Math.sin(angle + time) * radius;
+                span.style.left = x + '%';
+                span.style.top = y + '%';
+            });
+            requestAnimationFrame(animateCloud);
+        }
+
+        updateCloud();
+        animateCloud();
+    }
+
     // ===== MOBIELE MENU FUNCTIE =====
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
@@ -515,20 +576,61 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggleBtn = document.querySelector('.theme-toggle');
     const themeIcon = themeToggleBtn ? themeToggleBtn.querySelector('i') : null;
 
+    function createStar(x, y) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = x + 'px';
+        star.style.top = y + 'px';
+        star.innerHTML = '✦';
+        star.style.color = '#fbbf24';
+        star.style.fontSize = Math.random() * 14 + 8 + 'px';
+        document.body.appendChild(star);
+        requestAnimationFrame(() => star.classList.add('animate'));
+        setTimeout(() => star.remove(), 2000);
+    }
+
     function applyTheme(theme) {
         const root = document.documentElement;
+        const prevTheme = root.classList.contains('light') ? 'light' : root.classList.contains('retro') ? 'retro' : 'dark';
+        
+        // Add transition class
+        root.classList.add('theme-transition');
+        
         // Remove all theme classes, then add the one selected
         ['light', 'dark', 'retro'].forEach(cls => root.classList.remove(cls));
         root.classList.add(theme);
+        
         // Tailwind's dark mode relies on .dark
         root.classList.toggle('dark', theme === 'dark');
+        
         if (themeIcon) {
             const icon = theme === 'light' ? 'fa-sun' : theme === 'dark' ? 'fa-moon' : 'fa-terminal';
             themeIcon.className = `fa-solid ${icon}`;
+            
+            // Add star animation when switching to dark mode
+            if (theme === 'dark' && prevTheme !== 'dark') {
+                const btn = themeToggleBtn.getBoundingClientRect();
+                const centerX = btn.left + btn.width / 2;
+                const centerY = btn.top + btn.height / 2;
+                
+                // Create multiple stars around the button
+                for (let i = 0; i < 6; i++) {
+                    const angle = (i / 6) * Math.PI * 2;
+                    const distance = 40;
+                    const x = centerX + Math.cos(angle) * distance;
+                    const y = centerY + Math.sin(angle) * distance;
+                    setTimeout(() => createStar(x, y), i * 100);
+                }
+            }
         }
+        
         try { localStorage.setItem('preferred_theme', theme); } catch {}
+        
         // Retro FX hooks
         if (theme === 'retro') RetroFX.enterRetro(); else RetroFX.exitRetro();
+        
+        // Remove transition class after animation
+        setTimeout(() => root.classList.remove('theme-transition'), 500);
     }
 
     function detectInitialTheme() {

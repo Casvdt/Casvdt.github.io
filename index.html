@@ -54,6 +54,11 @@
 </head>
 
 <body>
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress fixed top-0 left-0 w-full h-1 z-[1001]">
+        <div class="scroll-progress-bar h-full w-0 transition-[width] duration-100"></div>
+    </div>
+
     <!-- ===== NAVIGATIEBALK BOVENAAN ===== -->
     <nav class="navbar fixed top-0 inset-x-0 z-50 bg-slate-950/90 backdrop-blur flex items-center justify-between px-5 py-5 shadow">
         <div class="logo-container flex items-center gap-3">
@@ -217,6 +222,9 @@
     <!-- ===== VAARDIGHEDEN SECTIE ===== -->
     <section class="skills reveal" id="skills">
         <h2 class="translatable text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100" data-en="My Skills" data-nl="Mijn vaardigheden">My Skills</h2>
+        <div class="word-cloud-container relative w-full max-w-4xl mx-auto h-[200px] mb-8">
+            <div class="word-cloud"></div>
+        </div>
         <div class="skills-grid stagger grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 max-w-6xl mx-auto px-4 mt-8">
             <!-- Elke skill is een kaartje met icoon -->
             <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition p-8 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" href="https://developer.mozilla.org/docs/Web/HTML" target="_blank" rel="noopener">
