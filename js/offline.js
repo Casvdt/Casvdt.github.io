@@ -10,29 +10,7 @@
  * Doel: eenvoudige, duidelijke offline‑ervaring met weinig afhankelijkheden.
  */
 
-// Typewriter animatie: typt regels tekst één voor één
-(function(){
-  const el = document.querySelector('.typewriter');
-  if (!el) return;
-  const lines = [
-    'Cas van der Toorn',
-    'Stack: HTML • CSS • JS • Node • PHP • SQL',
-    'Mode: OFFLINE (ASCII)'
-  ];
-  let i = 0, j = 0;
-  function tick(){
-    // Als alle regels klaar zijn, opnieuw beginnen
-    if (i >= lines.length) { el.innerHTML += '\n'; i = 0; j = 0; }
-    const line = lines[i];
-    // Bouw de huidige weergave op met een knipperende cursor
-    el.innerHTML = lines.slice(0, i).join('\n') + (i? '\n':'') + line.slice(0, j) + '<span class="cursor"> \u00a0</span>';
-    j++;
-    // Kleine pauze aan het einde van een regel
-    if (j > line.length) { i++; j = 0; setTimeout(tick, 700); }
-    else { setTimeout(tick, 40); }
-  }
-  tick();
-})();
+// ...existing code...
 
 // Mini-game: Vang de bugs voordat je deployt
 (function(){
