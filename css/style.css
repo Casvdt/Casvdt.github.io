@@ -553,13 +553,11 @@ h2::after {
 
 /* About Section */
 .home { background-color: transparent; }
-.about { background-color: #0e1a2b; }
-.internship { background-color: #0f172a; }
-.skills { background-color: #0a1f1f; }
+/* Section backgrounds should follow the theme variable --section-bg so light/retro/dark remain clean */
+.about, .internship, .skills, .projects, .contact, .certificates {
+    background-color: var(--section-bg);
+}
 .skills { position: relative; }
-.projects { background-color: #0e1b12; }
-.contact { background-color: #1a1320; }
-.certificates { background-color: #0b141e; }
 .about-content {
     max-width: 1000px;
     margin: 0 auto;
@@ -612,6 +610,15 @@ h2::after {
     bottom: 0;
     width: 2px;
     background: rgba(148, 163, 184, 0.25);
+}
+
+/* Theme-specific timeline line tweaks so light/retro aren't tainted by dark greys */
+html.light .timeline-list::before {
+    background: rgba(2,6,23,0.06);
+}
+
+html.retro .timeline-list::before {
+    background: rgba(0,255,136,0.06);
 }
 
 .timeline-item {
