@@ -115,6 +115,71 @@ html.retro .attribution.subtle a { color: #79e879 !important; }
     --transition: all 0.3s ease;
 }
 
+/* Light theme variable overrides */
+html.light {
+    --text-color: #0f172a;
+    --light-text: #334155;
+    --background: #f8fafc;
+    --section-bg: #ffffff;
+    --primary-color: #1c3b6d;
+    --primary-color-hover: #152b4d;
+    --secondary-color: #ef4444;
+    --accent-color: #0ea5e9;
+}
+
+/* Base page styles that use the theme variables */
+body {
+    margin: 0;
+    background: var(--background);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Light-theme section and component overrides to ensure contrast */
+html.light .about,
+html.light .internship,
+html.light .skills,
+html.light .projects,
+html.light .contact,
+html.light .certificates {
+    background-color: var(--section-bg) !important;
+    color: var(--text-color) !important;
+}
+html.light .card, html.light .skill-card, html.light .project-card, html.light .cert-card {
+    background: var(--section-bg) !important;
+    color: var(--text-color) !important;
+    border-color: rgba(15, 23, 42, 0.06) !important;
+    box-shadow: 0 6px 18px rgba(15,23,42,0.06) !important;
+}
+html.light .navbar {
+    background: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06) !important;
+}
+html.light .nav-links a { color: var(--text-color) !important; }
+html.light .nav-logo { color: var(--text-color) !important; }
+html.light .hero-content h1 { color: var(--text-color) !important; }
+html.light .cta-button { color: #ffffff !important; }
+
+/* Ensure most content text in light mode uses the light theme text color for readability */
+html.light body,
+html.light section,
+html.light .wrap,
+html.light .hero-content,
+html.light .about-content,
+html.light .project-info,
+html.light .about-text,
+html.light .timeline-title,
+html.light .timeline-item,
+html.light .social-link,
+html.light .project-info p,
+html.light .hero-lede,
+html.light .hero-subtitle {
+    color: var(--text-color) !important;
+}
+
+
 /* Unified card style for skill, project, and cert cards */
 .card, .skill-card, .project-card, .cert-card {
     background: #0f172a;
