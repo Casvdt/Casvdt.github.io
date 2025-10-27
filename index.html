@@ -10,7 +10,7 @@
     <!-- Tabblad-icoontje -->
     <link rel="icon" type="image/png" href="images/portfolio.png">
 
-    <!-- Custom stylesheet -->
+    <!-- Standaard stylesheet -->
     <link rel="stylesheet" href="css/style.css">
 
     <!-- :contentReference[oaicite:0]{index=0} iconen -->
@@ -19,28 +19,6 @@
     <!-- :contentReference[oaicite:1]{index=1} (lettertype Poppins) -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-
-    <!-- Tailwind CSS (CDN) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1c3b6d',
-                        primaryHover: '#152b4d',
-                        secondary: '#ef4444',
-                        accent: '#22c55e',
-                        accent2: '#f59e0b',
-                    },
-                    boxShadow: {
-                        card: '0 4px 6px rgba(0, 0, 0, 0.35)'
-                    }
-                }
-            }
-        }
-    </script>
 
     <!-- :contentReference[oaicite:2]{index=2} script om mails te kunnen versturen via formulier -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -54,20 +32,16 @@
 </head>
 
 <body>
-    <!-- Scroll progress removed -->
-
     <!-- ===== NAVIGATIEBALK BOVENAAN ===== -->
-    <nav class="navbar fixed top-0 inset-x-0 z-50 bg-slate-950/90 backdrop-blur flex items-center justify-between px-5 py-5 shadow">
-        <div class="logo-container flex items-center gap-3">
-            <div class="nav-logo translatable" data-en="Portfolio" data-nl="Portfolio">Portfolio</div>
-        </div>
+    <nav class="navbar">
+        <div class="nav-logo translatable" data-en="Portfolio" data-nl="Portfolio">Portfolio</div>
         <ul class="nav-links">
             <!-- Navigatielinks met taal-vertalingen -->
-            <li><a class="translatable focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1" data-en="Home" data-nl="Home" href="#home">Home</a></li>
-            <li><a class="translatable focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1" data-en="About" data-nl="Over mij" href="#about">About</a></li>
-            <li><a class="translatable focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1" data-en="Skills" data-nl="Vaardigheden" href="#skills">Skills</a></li>
-            <li><a class="translatable focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1" data-en="Projects" data-nl="Projecten" href="#projects">Projects</a></li>
-            <li><a class="translatable focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1" data-en="Contact" data-nl="Contact" href="#contact">Contact</a></li>
+            <li><a class="translatable" data-en="Home" data-nl="Home" href="#home">Home</a></li>
+            <li><a class="translatable" data-en="About" data-nl="Over mij" href="#about">About</a></li>
+            <li><a class="translatable" data-en="Skills" data-nl="Vaardigheden" href="#skills">Skills</a></li>
+            <li><a class="translatable" data-en="Projects" data-nl="Projecten" href="#projects">Projects</a></li>
+            <li><a class="translatable" data-en="Contact" data-nl="Contact" href="#contact">Contact</a></li>
         </ul>
         <!-- Hamburger menu voor mobiel -->
         <div class="hamburger">
@@ -75,43 +49,39 @@
             <span></span>
             <span></span>
         </div>
-        <!-- Right-side controls (theme toggle + label, language switcher, etc.) -->
-        <div class="nav-controls flex items-center gap-3">
-            <button class="theme-toggle focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" title="Toggle theme" aria-label="Toggle theme">
-                <i class="fa-solid fa-moon"></i>
-            </button>
-            <!-- Visible label to explain the button purpose (translatable) -->
-            <span class="theme-toggle-text translatable" data-en="Theme toggle" data-nl="Thema wisselen">Theme toggle</span>
-        </div>
+        <!-- Theme toggle -->
+        <button class="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
     </nav>
 
     <!-- ===== HERO SECTIE (bovenste welkomstgedeelte) ===== -->
-    <section class="hero home reveal relative overflow-hidden min-h-screen grid place-items-center text-center px-4" id="home">
-        <!-- 3D code ring background mounts here -->
-        <div id="code-3d" class="code-3d absolute inset-0 w-full h-full -z-10 pointer-events-none" aria-hidden="true"></div>
-        <div class="hero-content container-page">
-            <h1 class="translatable text-5xl md:text-7xl font-extrabold leading-tight text-slate-50" data-en="Hi, I'm <span class='highlight'>Cas van der Toorn</span>"
+    <section class="hero home reveal" id="home">
+        <div class="hero-content">
+            <h1 class="translatable"
+                data-en="Hi, I'm <span class='highlight'>Cas van der Toorn</span>"
                 data-nl="Hoi, ik ben <span class='highlight'>Cas van der Toorn</span>">
                 Hi, I'm <span class="highlight">Cas van der Toorn</span>
             </h1>
-            <p class="hero-subtitle translatable text-lg md:text-xl" data-en="Web Developer & Designer"
+            <p class="hero-subtitle translatable"
+                data-en="Web Developer & Designer"
                 data-nl="Webontwikkelaar & Designer">
                 Web Developer & Designer
             </p>
-            <p class="hero-lede translatable max-w-2xl mx-auto"
+            <p class="hero-lede translatable"
                 data-en="Scroll to learn more about me, explore my skills, and see some of my projects below."
                 data-nl="Scroll om meer over mij te weten te komen, bekijk mijn vaardigheden en zie hieronder een paar van mijn projecten.">
                 Scroll to learn more about me, explore my skills, and see some of my projects below.
             </p>
-            <a href="#contact" class="cta-button translatable inline-flex items-center gap-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 dark:focus-visible:ring-offset-slate-100" data-en="Get in Touch" data-nl="Neem contact op">Get in
-                Touch</a>
+            <a href="#contact" class="cta-button translatable"
+               data-en="Get in Touch" data-nl="Neem contact op">Get in Touch</a>
         </div>
     </section>
 
     <!-- ===== OVER MIJ SECTIE ===== -->
     <section class="about reveal" id="about">
-        <h2 class="translatable text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100" data-en="About Me" data-nl="Over mij">About Me</h2>
-        <div class="about-content mt-8">
+        <h2 class="translatable" data-en="About Me" data-nl="Over mij">About Me</h2>
+        <div class="about-content">
             <div class="about-image">
                 <!-- Profielfoto -->
                 <img src="images/Cas van der Toorn.jpg" alt="Cas van der Toorn">
@@ -122,147 +92,82 @@
                 <p class="translatable"
                     data-en="Welcome to my portfolio! I'm a passionate web developer with a keen eye for design and I love creating beautiful, functional websites. I specialize in front-end development and enjoy bringing creative ideas to life. I am trying to get better at back-end development everyday."
                     data-nl="Welkom op mijn portfolio! Ik ben een gepassioneerde webontwikkelaar met oog voor design en ik hou van het maken van mooie, functionele websites. Ik ben gespecialiseerd in front-end ontwikkeling en breng graag creatieve ideeën tot leven. Ik werk er elke dag aan om beter te worden in back-end ontwikkeling.">
-                    Welcome to my portfolio! I'm a passionate web developer with a keen eye for design and a love for
-                    creating beautiful, functional websites. I specialize in front-end development and enjoy bringing
-                    creative ideas to life. I am trying to get better at back-end development everyday.
+                    Welcome to my portfolio! I'm a passionate web developer with a keen eye for design and a love for creating beautiful, functional websites. I specialize in front-end development and enjoy bringing creative ideas to life. I am trying to get better at back-end development everyday.
                 </p>
                 <p class="translatable"
                     data-en="When I'm not coding, you can find me playing some video games or playing football."
                     data-nl="Als ik niet aan het coderen ben, speel ik graag videogames of ben ik aan het voetballen.">
                     When I'm not coding, you can find me playing some video games or playing football.
                 </p>
-                <!-- Timeline under the text, above the CV button -->
-                <div class="timeline mt-4" aria-label="Education and career timeline">
-                    <ul class="timeline-list">
-                        <li class="timeline-item">
-                            <div class="timeline-dot" aria-hidden="true"></div>
-                            <div class="timeline-content">
-                                <h4 class="timeline-title translatable"
-                                    data-en="Secondary school — vmbo-tl"
-                                    data-nl="Middelbare school — vmbo-tl">Middelbare school — vmbo-tl</h4>
-                            </div>
-                        </li>
-                        <li class="timeline-item">
-                            <div class="timeline-dot" aria-hidden="true"></div>
-                            <div class="timeline-content">
-                                <h4 class="timeline-title translatable"
-                                    data-en="MBO Nursing — level 4 (completed 2 of 4 years, switched)"
-                                    data-nl="MBO Verpleegkunde — niveau 4 (2 jaar gedaan van de 4, gestopt)">MBO Verpleegkunde — niveau 4 (2 jaar gedaan van de 4, gestopt)</h4>
-                            </div>
-                        </li>
-                        <li class="timeline-item current">
-                            <div class="timeline-dot" aria-hidden="true"></div>
-                            <div class="timeline-content">
-                                <h4 class="timeline-title translatable"
-                                    data-en="MBO Software Development — final internship year"
-                                    data-nl="MBO Software Development — afstudeerstage jaar">MBO Software Development — afstudeerstage jaar</h4>
-                            </div>
-                        </li>
-                        <li class="timeline-item future">
-                            <div class="timeline-dot" aria-hidden="true"></div>
-                            <div class="timeline-content">
-                                <h4 class="timeline-title translatable"
-                                    data-en="Future plan — working as a web designer/developer and see wether I can learn further in the company or go back to school after a few years."
-                                    data-nl="Toekomstplan — werken als webdesigner/ontwikkelaar en kijken of ik in het bedrijf door kan groeien of over een paar jaar terug kan naar school">Toekomstplan — werken als webdesigner/ontwikkelaar en kijken of ik in het bedrijf door kan groeien of over een paar jaar terug kan naar school</h4>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
                 <a href="files/Cas%20van%20der%20Toorn%20CV%20SD.pdf" download="Cas-van-der-Toorn-CV.pdf"
-                    class="cta-button download-cv-button translatable"
-                    data-en="<i class='fa-solid fa-download'></i> Download my CV"
-                    data-nl="<i class='fa-solid fa-download'></i> Download mijn CV" title="Download CV">
+                   class="cta-button download-cv-button translatable"
+                   data-en="<i class='fa-solid fa-download'></i> Download my CV"
+                   data-nl="<i class='fa-solid fa-download'></i> Download mijn CV"
+                   title="Download CV">
                     <i class="fa-solid fa-download"></i> Download my CV
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- ===== CERTIFICATEN / OORKONDES SECTIE ===== -->
-    <section class="certificates reveal" id="certificates">
-        <h2 class="translatable text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100" data-en="Certificates & Awards" data-nl="Certificaten & Oorkondes">Certificaten & Oorkondes</h2>
-        <div class="cert-grid stagger grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl mx-auto px-4 mt-8">
-            <!-- MDT Certificate -->
-            <div class="cert-card rounded-lg border border-slate-700/40 shadow-card transition hover:shadow-lg hover:scale-[1.01]">
-                <div class="cert-icon" aria-hidden="true"><i class="fa-solid fa-certificate"></i></div>
-                <div class="cert-info">
-                    <h3 class="translatable" data-en="Certificate — MDT (Social Service Time)" data-nl="Certificaat — Maatschappelijke Dienst Tijd (MDT)">Certificaat — Maatschappelijke Dienst Tijd (MDT)</h3>
-                </div>
-            </div>
-
-            <!-- Chemistry Award -->
-            <div class="cert-card rounded-lg border border-slate-700/40 shadow-card transition hover:shadow-lg hover:scale-[1.01]">
-                <div class="cert-icon" aria-hidden="true"><i class="fa-solid fa-award"></i></div>
-                <div class="cert-info">
-                    <h3 class="translatable" data-en="Award — Secondary school special achievement Chemistry final exam" data-nl="Oorkonde — Middelbare school bijzondere prestatie Scheikunde (eind)examen">Oorkonde — Middelbare school bijzondere prestatie Scheikunde (eind)examen</h3>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- ===== STAGE SECTIE ===== -->
     <section class="internship reveal">
-        <h2 class="translatable text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100" data-en="Current Internship" data-nl="Huidige stage">Current Internship</h2>
-        <div class="internship-content mt-8">
+        <h2 class="translatable" data-en="Current Internship" data-nl="Huidige stage">Current Internship</h2>
+        <div class="internship-content">
             <!-- Logo van het stagebedrijf -->
             <div class="internship-logo">
                 <img src="images/Certhon_Wordmark_Master_Transparant_White.png" alt="Certhon wordmark">
             </div>
-            <p class="internship-company translatable" data-en="Company: Certhon" data-nl="Bedrijf: Certhon">Company:
-                Certhon</p>
-            <p class="internship-location translatable" data-en="Location: Poeldijk" data-nl="Locatie: Poeldijk">
-                Location: Poeldijk</p>
+            <p class="internship-company translatable"
+               data-en="Company: Certhon" data-nl="Bedrijf: Certhon">Company: Certhon</p>
+            <p class="internship-location translatable"
+               data-en="Location: Poeldijk" data-nl="Locatie: Poeldijk">Location: Poeldijk</p>
         </div>
     </section>
 
     <!-- ===== VAARDIGHEDEN SECTIE ===== -->
     <section class="skills reveal" id="skills">
-        <h2 class="translatable text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100" data-en="My Skills" data-nl="Mijn vaardigheden">My Skills</h2>
-        <div class="word-cloud-container w-full max-w-4xl mx-auto">
-            <div class="word-cloud"></div>
-        </div>
-        <div class="skills-grid stagger grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 max-w-6xl mx-auto px-4 mt-8">
+        <h2 class="translatable" data-en="My Skills" data-nl="Mijn vaardigheden">My Skills</h2>
+        <div class="skills-grid stagger">
             <!-- Elke skill is een kaartje met icoon -->
-            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition p-8 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" href="https://developer.mozilla.org/docs/Web/HTML" target="_blank" rel="noopener">
+            <a class="skill-card" href="https://developer.mozilla.org/docs/Web/HTML" target="_blank" rel="noopener">
                 <i class="fab fa-html5"></i>
                 <h3>HTML5</h3>
             </a>
-            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition p-8 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" href="https://developer.mozilla.org/docs/Web/CSS" target="_blank" rel="noopener">
+            <a class="skill-card" href="https://developer.mozilla.org/docs/Web/CSS" target="_blank" rel="noopener">
                 <i class="fab fa-css3-alt"></i>
                 <h3>CSS3</h3>
             </a>
-            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition p-8 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" href="https://developer.mozilla.org/docs/Web/JavaScript" target="_blank"
-                rel="noopener">
+            <a class="skill-card" href="https://developer.mozilla.org/docs/Web/JavaScript" target="_blank" rel="noopener">
                 <i class="fab fa-js"></i>
                 <h3>JavaScript</h3>
             </a>
-            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition p-8 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" href="https://nodejs.org/docs/latest/api/" target="_blank" rel="noopener">
+            <a class="skill-card" href="https://nodejs.org/docs/latest/api/" target="_blank" rel="noopener">
                 <i class="fab fa-node-js"></i>
                 <h3>Node.js</h3>
             </a>
-            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition p-8 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" href="https://www.php.net/docs.php" target="_blank" rel="noopener">
+            <a class="skill-card" href="https://www.php.net/docs.php" target="_blank" rel="noopener">
                 <i class="fab fa-php"></i>
                 <h3>PHP</h3>
             </a>
-            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition p-8 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" href="https://symfony.com/doc" target="_blank" rel="noopener">
+            <a class="skill-card" href="https://symfony.com/doc" target="_blank" rel="noopener">
                 <i class="fa-brands fa-symfony"></i>
                 <h3>Symfony</h3>
             </a>
-            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition p-8 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">
+            <a class="skill-card" href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">
                 <i class="fas fa-database"></i>
                 <h3>SQL</h3>
             </a>
-            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition p-8 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" href="https://getbootstrap.com/docs/5.3/getting-started/introduction/" target="_blank"
-                rel="noopener">
+            <a class="skill-card" href="https://getbootstrap.com/docs/5.3/getting-started/introduction/" target="_blank" rel="noopener">
                 <i class="fa-brands fa-bootstrap"></i>
                 <h3>Bootstrap 5</h3>
             </a>
-            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition p-8 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" href="https://www.swift.org/documentation/" target="_blank" rel="noopener">
+            <a class="skill-card" href="https://www.swift.org/documentation/" target="_blank" rel="noopener">
                 <i class="fa-brands fa-swift"></i>
                 <h3>Swift</h3>
             </a>
-            <a class="skill-card block rounded-lg border border-slate-700/40 shadow-card hover:shadow-lg hover:scale-[1.01] transition p-8 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" href="https://www.kernel.org/doc/html/latest/" target="_blank" rel="noopener">
-                <i class="fa-brands fa-linux"></i>
+            <a class="skill-card" href="https://www.kernel.org/doc/html/latest/" target="_blank" rel="noopener">
+              <i class="fa-brands fa-linux"></i>
                 <h3>Linux</h3>
             </a>
         </div>
@@ -270,10 +175,10 @@
 
     <!-- ===== PROJECTEN SECTIE ===== -->
     <section class="projects reveal" id="projects">
-        <h2 class="translatable text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100" data-en="My Projects" data-nl="Mijn projecten">My Projects</h2>
-        <div class="projects-grid stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-4 mt-8">
+        <h2 class="translatable" data-en="My Projects" data-nl="Mijn projecten">My Projects</h2>
+        <div class="projects-grid stagger">
             <!-- Elk project is een kaart met afbeelding, titel, beschrijving en link -->
-            <div class="project-card rounded-lg border border-slate-700/40 shadow-card transition hover:shadow-lg hover:scale-[1.01]">
+            <div class="project-card">
                 <div class="project-image">
                     <img src="images/weather.png" alt="Weather Project">
                 </div>
@@ -284,93 +189,81 @@
                         data-nl="Een weerapplicatie die realtime weerinformatie biedt via een API-integratie.">
                         A weather application that provides real-time weather information using API integration.
                     </p>
-                    <div class="project-links mt-3">
-                        <a href="https://github.com/Casvdt/Breezy-Cas" class="project-link focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1">
+                    <div class="project-links">
+                        <a href="https://github.com/Casvdt/Breezy-Cas" class="project-link">
                             <i class="fab fa-github"></i> GitHub
                         </a>
-                        <a href="weather.html" class="project-link focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1">
-                            <i class="fa-solid fa-play"></i> <span class="translatable" data-en="Watch demo"
-                                data-nl="Bekijk demo">Watch demo</span>
+                        <a href="weather.html" class="project-link">
+                            <i class="fa-solid fa-play"></i> <span class="translatable" data-en="Watch demo" data-nl="Bekijk demo">Watch demo</span>
                         </a>
-                        <a href="https://casvdt.github.io/BreezyCas/" class="project-link focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1" target="_blank"
-                            rel="noopener">
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i> <span class="translatable"
-                                data-en="Live app" data-nl="Live app">Live app</span>
+                        <a href="https://casvdt.github.io/BreezyCas/" class="project-link" target="_blank" rel="noopener">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> <span class="translatable" data-en="Live app" data-nl="Live app">Live app</span>
                         </a>
                     </div>
                 </div>
             </div>
             <!-- Tic Tac Toe Project -->
-            <div class="project-card rounded-lg border border-slate-700/40 shadow-card transition hover:shadow-lg hover:scale-[1.01]">
+            <div class="project-card">
                 <div class="project-image">
                     <img src="images/tictactoe.png" alt="Tic Tac Toe Game Project">
                 </div>
                 <div class="project-info">
-                    <h3 class="translatable" data-en="Tic Tac Toe Game" data-nl="Boter, kaas en eieren">Tic Tac Toe Game
-                    </h3>
+                    <h3 class="translatable" data-en="Tic Tac Toe Game" data-nl="Boter, kaas en eieren">Tic Tac Toe Game</h3>
                     <p class="translatable"
                         data-en="A Tic Tac Toe game built with HTML, CSS, and JavaScript featuring an AI opponent with multiple difficulty levels."
                         data-nl="Een Boter-kaas-en-eieren-spel gebouwd met HTML, CSS en JavaScript, met een AI-tegenstander met meerdere moeilijkheidsgraden.">
-                        A Tic Tac Toe game built with HTML, CSS, and JavaScript featuring an AI opponent with multiple
-                        difficulty levels.
+                        A Tic Tac Toe game built with HTML, CSS, and JavaScript featuring an AI opponent with multiple difficulty levels.
                     </p>
-                    <div class="project-links mt-3">
-                        <a href="https://github.com/Casvdt/Tic-Tac-Toe-Game-By-Cas" class="project-link focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1">
+                    <div class="project-links">
+                        <a href="https://github.com/Casvdt/Tic-Tac-Toe-Game-By-Cas" class="project-link">
                             <i class="fab fa-github"></i> GitHub
                         </a>
-                        <a href="tictactoe.html" class="project-link focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1">
-                            <i class="fa-solid fa-play"></i> <span class="translatable" data-en="Watch demo"
-                                data-nl="Bekijk demo">Watch demo</span>
+                        <a href="tictactoe.html" class="project-link">
+                            <i class="fa-solid fa-play"></i> <span class="translatable" data-en="Watch demo" data-nl="Bekijk demo">Watch demo</span>
                         </a>
-                        <a href="https://casvdt.github.io/TicTacToeByCas/" class="project-link focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1" target="_blank"
-                            rel="noopener">
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i> <span class="translatable"
-                                data-en="Live app" data-nl="Live app">Live app</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- Calendar Project -->
-            <div class="project-card rounded-lg border border-slate-700/40 shadow-card transition hover:shadow-lg hover:scale-[1.01]">
-                <div class="project-image">
-                    <img src="images/calendar-image.png" alt="Calendar Task Manager Project">
-                </div>
-                <div class="project-info">
-                    <h3 class="translatable" data-en="Calendar Task Manager" data-nl="Agenda takenbeheer">Calendar Task
-                        Manager</h3>
-                    <p class="translatable"
-                        data-en="An interactive calendar to browse months, select a day, and add tasks with priority and optional time with a browser reminder — plus confetti on completion."
-                        data-nl="Interactieve agenda om maanden te wisselen, dagen te kiezen en taken toe te voegen met prioriteit en optionele tijd met browserherinnering — en confetti bij voltooiing.">
-                        An interactive calendar to browse months, select a day, and add tasks with priority and optional
-                        time with a browser reminder — plus confetti on completion.
-                    </p>
-                    <div class="project-links mt-3">
-                        <a href="https://github.com/Casvdt/Dagplanner" class="project-link focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1" target="_blank"
-                            rel="noopener">
-                            <i class="fab fa-github"></i> GitHub
-                        </a>
-                        <a href="calendar.html" class="project-link focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1">
-                            <i class="fa-solid fa-play"></i> <span class="translatable" data-en="Watch demo"
-                                data-nl="Bekijk demo">Watch demo</span>
-                        </a>
-                        <a href="https://casvdt.github.io/Dagplanner/" class="project-link focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1" target="_blank"
-                            rel="noopener">
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i> <span class="translatable"
-                                data-en="Live app" data-nl="Live app">Live app</span>
+                        <a href="https://casvdt.github.io/TicTacToeByCas/" class="project-link" target="_blank" rel="noopener">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> <span class="translatable" data-en="Live app" data-nl="Live app">Live app</span>
                         </a>
                     </div>
                 </div>
             </div>
 
+            <!-- Image Search App Project -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="images/imagesearch.jpg" alt="Image Search App Project">
+                </div>
+                <div class="project-info">
+                    <h3 class="translatable" data-en="Image Search App" data-nl="Afbeeldingszoekapp">Image Search App</h3>
+                    <p class="translatable"
+                        data-en="An image search application that allows you to search for any image you're looking for."
+                        data-nl="Een afbeeldingszoekapplicatie waarmee je elke gewenste afbeelding kunt zoeken.">
+                        An image search application that allows you to search for any image you're looking for.
+                    </p>
+                    <div class="project-links">
+                        <a href="https://github.com/Casvdt/ImageSearchApp" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="imagesearch.html" class="project-link">
+                            <i class="fa-solid fa-play"></i> <span class="translatable" data-en="Watch demo" data-nl="Bekijk demo">Watch demo</span>
+                        </a>
+                        <a href="https://casvdt.github.io/ImageSearchApp/" class="project-link" target="_blank" rel="noopener">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> <span class="translatable" data-en="Live app" data-nl="Live app">Live app</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            
         </div>
     </section>
 
     <!-- ===== CONTACT SECTIE ===== -->
     <section class="contact reveal" id="contact">
-        <h2 class="translatable text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100" data-en="Get in Touch" data-nl="Neem contact op">Get in Touch</h2>
-        <div class="contact-content container-page">
+        <h2 class="translatable" data-en="Get in Touch" data-nl="Neem contact op">Get in Touch</h2>
+        <div class="contact-content">
             <!-- Contactformulier (stuurt e-mail via EmailJS) -->
-            <form class="contact-form grid gap-6 max-w-2xl mx-auto px-4" novalidate>
+            <form class="contact-form" novalidate>
                 <!-- Honeypot veld om bots te blokkeren (wordt verborgen) -->
                 <div class="hp-field">
                     <label for="company">Company</label>
@@ -378,48 +271,43 @@
                 </div>
 
                 <!-- Naamveld -->
-                <div class="form-group space-y-2">
-                    <label for="name" class="translatable font-medium" data-en="Name" data-nl="Naam">Name</label>
-                    <input class="js-name rounded-md bg-slate-900/80 dark:bg-white border border-slate-600/50 text-slate-200 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/60 transition" type="text" id="name" name="from_name" required minlength="2" maxlength="60"
+                <div class="form-group">
+                    <label for="name" class="translatable" data-en="Name" data-nl="Naam">Name</label>
+                    <input type="text" id="name" name="from_name" required minlength="2" maxlength="60"
                         pattern="[A-Za-zÀ-ÖØ-öø-ÿ'\- ]+" autocomplete="name">
                 </div>
 
                 <!-- E-mailveld -->
-                <div class="form-group space-y-2">
-                    <label for="email" class="translatable font-medium" data-en="Email" data-nl="E-mail">Email</label>
-                    <input class="js-email rounded-md bg-slate-900/80 dark:bg-white border border-slate-600/50 text-slate-200 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/60 transition" type="email" id="email" name="from_email" required inputmode="email" autocomplete="email"
-                        maxlength="254" spellcheck="false">
+                <div class="form-group">
+                    <label for="email" class="translatable" data-en="Email" data-nl="E-mail">Email</label>
+                    <input type="email" id="email" name="from_email" required inputmode="email" autocomplete="email" maxlength="254" spellcheck="false">
                 </div>
 
                 <!-- Berichtveld -->
-                <div class="form-group space-y-2">
-                    <label for="message" class="translatable font-medium" data-en="Message" data-nl="Bericht">Message</label>
-                    <textarea class="js-message rounded-md bg-slate-900/80 dark:bg-white border border-slate-600/50 text-slate-200 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/60 transition" id="message" name="message" required minlength="10" maxlength="2000"></textarea>
+                <div class="form-group">
+                    <label for="message" class="translatable" data-en="Message" data-nl="Bericht">Message</label>
+                    <textarea id="message" name="message" required minlength="10" maxlength="2000"></textarea>
                 </div>
 
                 <!-- Simpele anti-spam uitdaging -->
-                <div class="form-group space-y-2">
-                    <label class="translatable" data-en="Solve this to prove you're human"
-                        data-nl="Los dit op om te bewijzen dat je een mens bent">Solve this to prove you're a
-                        human</label>
-                    <div class="challenge-row flex items-center gap-2">
-                        <span id="challenge-q" class="challenge-q">0 + 0 =</span>
-                        <input class="challenge-input rounded-md bg-slate-900/80 dark:bg-white border border-slate-600/50 text-slate-200 dark:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/60 transition" type="text" id="challenge" inputmode="numeric" pattern="\d+" maxlength="3"
-                            autocomplete="off" required>
+                <div class="form-group">
+                    <label class="translatable" data-en="Solve this to prove you're human" data-nl="Los dit op om te bewijzen dat je een mens bent">Solve this to prove you're a human</label>
+                    <div class="challenge-row">
+                        <span id="challenge-q">0 + 0 =</span>
+                        <input type="text" id="challenge" inputmode="numeric" pattern="\d+" maxlength="3" autocomplete="off" required>
                     </div>
                 </div>
 
-                <!-- Terms and conditions acceptance -->
+                <!-- Bevestiging professionele vraag -->
                 <div class="form-group">
                     <label for="confirmProfessional" style="display: flex; align-items: center; gap: 0.5rem;">
-                        <input type="checkbox" id="confirmProfessional" class="js-confirm">
-                        <span class="translatable" data-en="I accept the terms and conditions"
-                            data-nl="Ik accepteer de voorwaarden">I accept the terms and conditions</span>
+                        <input type="checkbox" id="confirmProfessional">
+                        <span class="translatable" data-en="I accept the terms." data-nl="Ik accepteer de voorwaarden.">I accept the terms.</span>
                     </label>
                 </div>
 
                 <!-- Verstuurknop -->
-                <button type="submit" class="submit-button inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 bg-primary hover:bg-primaryHover text-white transition shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 dark:focus-visible:ring-offset-slate-100">
+                <button type="submit" class="submit-button">
                     <span class="button-text translatable" data-en="Send Message" data-nl="Bericht verzenden">
                         Send Message
                     </span>
@@ -430,10 +318,9 @@
             </form>
 
             <!-- Social media links -->
-            <div class="social-links mt-6 flex justify-center gap-6">
-                <a href="https://github.com/Casvdt" class="social-link focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/cas-van-der-toorn-6101242b4/" class="social-link focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-md px-1"><i
-                        class="fab fa-linkedin"></i></a>
+            <div class="social-links">
+                <a href="https://github.com/Casvdt" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/cas-van-der-toorn-6101242b4/" class="social-link"><i class="fab fa-linkedin"></i></a>
             </div>
         </div>
     </section>
@@ -445,8 +332,8 @@
             &copy; 2025 Cas van der Toorn. All rights reserved.
         </p>
         <p class="attribution subtle">
-            Favicon by <a href="https://www.flaticon.com/free-icons/portfolio" title="portfolio icons"
-                rel="nofollow noopener" target="_blank">Freepik - Flaticon</a>
+            Favicon by <a href="https://www.flaticon.com/free-icons/portfolio"
+                title="portfolio icons" rel="nofollow noopener" target="_blank">Freepik - Flaticon</a>
         </p>
     </footer>
 
@@ -457,34 +344,16 @@
 
     <!-- Taalwisselaar (NL / EN) -->
     <div class="language-switcher" aria-label="Language switcher">
-        <button class="lang-btn focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" data-lang="nl" title="Nederlands" aria-label="Nederlands">
+        <button class="lang-btn" data-lang="nl" title="Nederlands" aria-label="Nederlands">
             <img src="images/netherlands.png" alt="Dutch Flag" class="lang-flag">
         </button>
-        <button class="lang-btn focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60" data-lang="en" title="English" aria-label="English">
+        <button class="lang-btn" data-lang="en" title="English" aria-label="English">
             <img src="images/united-states.png" alt="US Flag" class="lang-flag">
         </button>
     </div>
 
-    <!-- Custom Cursor -->
-    <!-- Custom cursor removed -->
-
-    <!-- PWA Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js').catch(() => {});
-            });
-        }
-    </script>
-
-    <!-- Three.js via ES Modules (avoid deprecated build/three.min.js) -->
-    <script type="module">
-        import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-        // Expose as global for existing non-module scripts (js/main.js)
-        window.THREE = THREE;
-    </script>
     <!-- Verwijzing naar jouw JavaScript bestand -->
     <script src="js/main.js"></script>
 </body>
 
-</html>
+</html> 

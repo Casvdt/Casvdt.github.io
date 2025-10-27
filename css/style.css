@@ -1,53 +1,3 @@
-/* Restore default cursor everywhere, pointer on interactive elements, text on text fields */
-a, button, select, label, [tabindex], .scroll-to-top-btn, .language-switcher .lang-btn, .theme-toggle, .cta-button, .submit-button, .project-link, .download-cv-button {
-    cursor: pointer;
-}
-input[type="text"], input[type="email"], input[type="number"], textarea {
-    cursor: text;
-}
-html.retro .project-link:hover { color: #bfffe3 !important; }
-html.retro .highlight { color: #29f329 !important; }
-html.retro .form-group input,
-html.retro .form-group textarea {
-    background: #001a00 !important;
-    color: #b4f1b4 !important;
-    border-color: rgba(0, 255, 128, 0.25) !important;
-}
-html.retro .challenge-row input {
-    background: #001a00 !important;
-    color: #b4f1b4 !important;
-    border-color: rgba(0, 255, 128, 0.25) !important;
-}
-html.retro .scroll-to-top-btn,
-html.retro .language-switcher .lang-btn,
-html.retro .theme-toggle {
-    background: rgba(0,0,0,0.92) !important;
-    color: #b4f1b4 !important;
-    border-color: rgba(0, 255, 128, 0.22) !important;
-}
-html.retro .scroll-to-top-btn:hover,
-html.retro .language-switcher .lang-btn.active {
-    background: #052b05 !important;
-}
-html.retro h1,
-html.retro h2,
-html.retro h3,
-html.retro .hero-subtitle,
-html.retro .hero-lede,
-html.retro .project-info p,
-html.retro .internship-company,
-html.retro .internship-location,
-html.retro .social-link {
-    color: #b4f1b4 !important;
-}
-html.retro h2::after { background: #29f329 !important; }
-html.retro .toast.success { background-color: #16a34a !important; }
-html.retro .toast.error { background-color: #dc2626 !important; }
-html.retro footer {
-    background: #000000 !important;
-    color: #79e879 !important;
-}
-html.retro .attribution.subtle a { color: #79e879 !important; }
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -55,183 +5,83 @@ html.retro .attribution.subtle a { color: #79e879 !important; }
     box-sizing: border-box;
 }
 
-/* Desktop to tablet: show two cards per row for medium screens */
-@media (max-width: 1200px) {
-    .projects-grid {
-        grid-template-columns: repeat(2, minmax(280px, 1fr));
-    }
-}
-
 :root {
     --primary-color: #1c3b6d;
     --primary-color-hover: #152b4d;
-    --secondary-color: #ef4444;
-    --accent-color: #22c55e;
-    --accent-2: #f59e0b;
-    --text-color: #e5e7eb;
-    --light-text: #94a3b8;
-    --background: #0b1220;
+    --secondary-color: #ef4444; 
+    --accent-color: #22c55e; 
+    --accent-2: #f59e0b; 
+    --text-color: #e5e7eb; 
+    --light-text: #94a3b8; 
+    --background: #0b1220; 
     --section-bg: #0b1220;
     --transition: all 0.3s ease;
 }
 
-/* Light theme variable overrides */
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    overflow-x: hidden;
+    background-color: var(--background);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6' viewBox='0 0 6 6'%3E%3Ccircle cx='1' cy='1' r='1' fill='%23e5e7eb' fill-opacity='0.06'/%3E%3C/svg%3E");
+    background-size: 18px 18px;
+}
+
+/* Light theme overrides */
 html.light {
     --text-color: #0f172a;
     --light-text: #334155;
     --background: #f8fafc;
     --section-bg: #ffffff;
-    --primary-color: #1c3b6d;
-    --primary-color-hover: #152b4d;
-    --secondary-color: #ef4444;
-    --accent-color: #0ea5e9;
 }
-
-/* Base page styles that use the theme variables */
-body {
-    margin: 0;
-    background: var(--background);
-    color: var(--text-color);
-    font-family: 'Poppins', sans-serif;
-    line-height: 1.6;
-    overflow-x: hidden;
-}
-
-/* Light-theme section and component overrides to ensure contrast */
-html.light .about,
-html.light .internship,
-html.light .skills,
-html.light .projects,
-html.light .contact,
-html.light .certificates {
-    background-color: var(--section-bg) !important;
-    color: var(--text-color) !important;
-}
-html.light .card, html.light .skill-card, html.light .project-card, html.light .cert-card {
-    background: var(--section-bg) !important;
-    color: var(--text-color) !important;
-    border-color: rgba(15, 23, 42, 0.06) !important;
-    box-shadow: 0 6px 18px rgba(15,23,42,0.06) !important;
+html.light body {
+    background-image: none;
 }
 html.light .navbar {
-    background: rgba(255, 255, 255, 0.9) !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06) !important;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
 }
-html.light .nav-links a { color: var(--text-color) !important; }
-html.light .nav-logo { color: var(--text-color) !important; }
-html.light .hero-content h1 { color: var(--text-color) !important; }
-html.light .cta-button { color: #ffffff !important; }
-
-/* Ensure most content text in light mode uses the light theme text color for readability */
-html.light body,
-html.light section,
-html.light .wrap,
-html.light .hero-content,
-html.light .about-content,
-html.light .project-info,
-html.light .about-text,
-html.light .timeline-title,
-html.light .timeline-item,
-html.light .social-link,
-html.light .project-info p,
-html.light .hero-lede,
-html.light .hero-subtitle {
-    color: var(--text-color) !important;
+html.light .nav-links a { color: var(--text-color); }
+html.light .nav-logo { color: var(--text-color); }
+html.light .hero-content h1 { color: var(--text-color); }
+html.light .cta-button { color: #ffffff; }
+html.light .about { background-color: #ffffff; }
+html.light .internship { background-color: #f8fafc; }
+html.light .skills { background-color: #f8fafc; }
+html.light .projects { background-color: #ffffff; }
+html.light .contact { background-color: #f8fafc; }
+html.light .skill-card,
+html.light .project-card {
+    background: #ffffff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 6px 16px rgba(15,23,42,0.10);
 }
-
-
-/* Unified card style for skill, project, and cert cards */
-.card, .skill-card, .project-card, .cert-card {
-    /* use theme-aware section background so light/retro/dark render correctly */
-    background: var(--section-bg);
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
-    border: 1px solid rgba(148, 163, 184, 0.12);
-    transition: transform 0.16s ease, box-shadow 0.16s ease;
-    will-change: transform, box-shadow;
-    color: var(--text-color);
+html.light .skill-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 24px rgba(0,0,0,0.20);
 }
-.card:hover, .skill-card:hover, .project-card:hover, .cert-card:hover {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow: 0 16px 28px rgba(2, 132, 199, 0.22);
+html.light .project-image img { background: #e2e8f0; }
+html.light .project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 28px rgba(0,0,0,0.18);
 }
-.card i, .skill-card i, .cert-icon i {
-    font-size: 3rem;
-    color: var(--primary-color);
-    margin-bottom: 1rem;
+html.light .form-group input,
+html.light .form-group textarea {
+    background: #ffffff;
+    color: #0f172a;
+    border-color: #cbd5e1;
 }
-.cert-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-    background: rgba(14, 165, 233, 0.12);
-    color: #38bdf8;
+html.light .social-link { color: #0f172a; }
+html.light .social-link i { color: inherit; }
+html.light .nav-links a:hover { color: #0b1220; }
+html.light footer {
+    background: #ffffff;
+    color: #334155;
 }
-.cert-info h3 { margin: 0; }
-.project-image {
-    width: 100%;
-    height: 160px;
-    overflow: hidden;
-}
-.project-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    background: #0b1220;
-}
-.project-card:hover .project-image img {
-    transform: scale(1.03);
-    transition: transform 0.5s ease;
-}
-.project-info {
-    padding: 1.25rem;
-}
-.project-info h3 {
-    margin-bottom: 0.5rem;
-}
-.project-info p {
-    color: #cbd5e1;
-    margin-bottom: 0.75rem;
-}
-.project-links {
-    display: flex;
-    gap: 1rem;
-}
-.project-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent-2);
-    background: var(--section-bg);
-}
-.project-placeholder i {
-    font-size: 3rem;
-}
-.project-link {
-    text-decoration: none;
-    color: #e5e7eb;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-.project-link:hover {
-    color: #ffffff;
-}
-.project-link i { color: inherit; }
-
-/* Retro: slight text glitch/flicker on headings */
-@keyframes crt-flicker {
-  0%, 100% { text-shadow: 0 0 6px rgba(0,255,128,0.35), 0 0 18px rgba(0,255,128,0.18); opacity: 1; }
-  50% { text-shadow: 0 0 10px rgba(0,255,128,0.55), 0 0 26px rgba(0,255,128,0.26); opacity: .98; }
-}
-html.retro h1,
-html.retro h2 {
-  animation: crt-flicker 2.6s infinite;
-}
+html.light .attribution.subtle a { color: #475569; }
+html.light .toast.success { background-color: #10b981; }
+html.light .toast.error { background-color: #ef4444; }
 
 html.light .scroll-to-top-btn,
 html.light .language-switcher .lang-btn,
@@ -239,112 +89,6 @@ html.light .theme-toggle {
     background: rgba(255,255,255,0.9);
     color: #0f172a;
     border-color: rgba(15, 23, 42, 0.12);
-}
-
-/* Custom cursor styles removed */
-
-/* Dark theme input styles */
-html:not(.light):not(.retro) .form-group input,
-html:not(.light):not(.retro) .form-group textarea {
-    background-color: rgba(15, 23, 42, 0.8);
-    color: #e5e7eb;
-    border-color: #334155;
-}
-
-/* Retro overlays: intro and boot */
-.retro-intro, .retro-boot {
-    position: fixed;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    background: rgba(0,0,0,0.96);
-    color: #b4f1b4;
-    z-index: 1300;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .28s ease;
-}
-.retro-intro.show, .retro-boot.show { opacity: 1; pointer-events: auto; }
-.retro-panel {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    border: 1px solid rgba(0,255,128,0.25);
-    border-radius: 10px;
-    padding: 16px 18px;
-    background: linear-gradient(180deg, rgba(0,255,128,0.06), rgba(0,0,0,0.0));
-    box-shadow: 0 20px 60px rgba(0,255,128,0.15);
-    width: min(90vw, 720px);
-}
-.retro-lines { white-space: pre-wrap; line-height: 1.5; }
-.caret { display:inline-block; width: 10px; margin-left: 2px; background: currentColor; animation: blink 1s steps(1) infinite; }
-@keyframes blink { 50% { opacity: 0; } }
-.fade-out { animation: fadeout .32s ease forwards; }
-@keyframes fadeout { to { opacity: 0; } }
-
-/* Retro matrix canvas overlay */
-.retro-matrix {
-    position: fixed;
-    inset: 0;
-    z-index: 0; /* sits under content; scanlines are at z-index 1 */
-    pointer-events: none;
-    opacity: 0.12;
-}
-
-/* Retro: convert blue UI to green */
-html.retro .cta-button {
-    background: var(--primary-color);
-}
-html.retro .cta-button:hover { background: var(--primary-color-hover); }
-html.retro .submit-button { background: var(--primary-color); }
-html.retro .submit-button:hover { background: var(--primary-color-hover); }
-html.retro .project-link { color: #9affc9; }
-html.retro .project-link:hover { color: #bfffe3; }
-html.retro .cert-icon { background: rgba(0, 204, 102, 0.12); color: #00ff88; }
-html.retro .custom-cursor .cursor-ring { border-color: rgba(0, 255, 128, 0.45); }
-/* Cards and misc glows to green */
-html.retro .skill-card:hover { box-shadow: 0 12px 22px rgba(0, 255, 128, 0.22); }
-html.retro .project-card:hover { box-shadow: 0 16px 28px rgba(0, 255, 128, 0.22); }
-html.retro .cert-card:hover { box-shadow: 0 16px 28px rgba(0, 255, 128, 0.22); }
-html.retro .language-switcher .lang-btn.active { background: var(--primary-color); box-shadow: 0 10px 20px rgba(0, 255, 128, 0.25); }
-
-/* Strong retro overrides (late in file) to ensure retro applies site-wide */
-html.retro body {
-    background: #000000 !important;
-    color: #b4f1b4 !important;
-}
-html.retro .navbar { background: #000000 !important; color: #b4f1b4 !important; border-color: rgba(0,255,128,0.08) !important; }
-html.retro .cta-button, html.retro .submit-button { background: var(--primary-color) !important; color: #000000 !important; border-color: rgba(0,255,128,0.06) !important; }
-html.retro .theme-toggle, html.retro .language-switcher .lang-btn, html.retro .scroll-to-top-btn { background: rgba(0,0,0,0.92) !important; color: #b4f1b4 !important; }
-html.retro .card, html.retro .skill-card, html.retro .project-card, html.retro .cert-card, html.retro .project-placeholder { background: #000000 !important; color: #b4f1b4 !important; border-color: rgba(0,255,128,0.12) !important; box-shadow: 0 10px 30px rgba(0,255,128,0.06) !important; }
-html.retro .skill-card i { color: #00ff88 !important; }
-html.retro .timeline-title, html.retro .timeline-content { color: #b4f1b4 !important; }
-html.retro .timeline-list::before { background: rgba(0,255,136,0.06) !important; }
-
-/* Override inline dark backgrounds often used in demo pages (weather/tictactoe/calendar) */
-html.retro .projects > div > div[style],
-html.retro section[style] > div > div[style] {
-    background: #000000 !important;
-    border-color: rgba(0,255,128,0.12) !important;
-}
-
-/* Ensure retro theme overrides come late so they win over default component styles */
-html.retro body {
-    background: #000000 !important;
-    color: #b4f1b4 !important;
-}
-html.retro .card,
-html.retro .skill-card,
-html.retro .project-card,
-html.retro .cert-card,
-html.retro .project-placeholder,
-html.retro .project-image {
-    background: #000000 !important;
-    color: #b4f1b4 !important;
-    border-color: rgba(0,255,128,0.12) !important;
-    box-shadow: 0 10px 30px rgba(0,255,128,0.08) !important;
-}
-html.retro footer {
-    background: #000000 !important;
-    color: #79e879 !important;
 }
 
 /* Light theme: add clear but subtle elevation to internship logo */
@@ -373,6 +117,225 @@ html.light .project-link { color: #1d4ed8; }
 html.light .project-link:hover { color: #1e40af; }
 html.light .social-link:hover { color: #1e40af; }
 
+/* Retro theme overrides */
+html.retro {
+    --text-color: #00ff41;
+    --light-text: #00cc33;
+    --background: #000000;
+    --section-bg: #0a0a0a;
+    --primary-color: #00ff41;
+    --primary-color-hover: #00cc33;
+    --secondary-color: #ff00ff;
+    --accent-color: #00ffff;
+}
+
+html.retro body {
+    background-color: #000000;
+    background-image: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 255, 65, 0.03) 2px,
+            rgba(0, 255, 65, 0.03) 4px
+        );
+    font-family: 'Courier New', monospace;
+}
+
+html.retro .navbar {
+    background: rgba(0, 0, 0, 0.95);
+    border-bottom: 2px solid #00ff41;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+}
+
+html.retro .nav-logo {
+    color: #00ff41;
+    text-shadow: 0 0 5px #00ff41;
+}
+
+html.retro .nav-links a {
+    color: #00ff41;
+}
+
+html.retro .nav-links a:hover {
+    color: #00cc33;
+    text-shadow: 0 0 8px #00ff41;
+}
+
+html.retro .theme-toggle {
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid #00ff41;
+    color: #00ff41;
+    box-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+}
+
+html.retro .theme-toggle:hover {
+    background: #00ff41;
+    color: #000000;
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.8);
+}
+
+html.retro h1,
+html.retro h2,
+html.retro h3 {
+    color: #00ff41;
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
+}
+
+html.retro .hero-subtitle,
+html.retro .hero-lede {
+    color: #00cc33;
+}
+
+html.retro .highlight {
+    color: #ff00ff;
+    text-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+}
+
+html.retro .cta-button {
+    background: #000000;
+    border: 2px solid #00ff41;
+    color: #00ff41;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+
+html.retro .cta-button:hover {
+    background: #00ff41;
+    color: #000000;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+    transform: translateY(-2px);
+}
+
+html.retro .about,
+html.retro .internship,
+html.retro .skills,
+html.retro .projects,
+html.retro .contact {
+    background-color: #000000;
+    border-left: 3px solid #00ff41;
+}
+
+html.retro .skill-card,
+html.retro .project-card {
+    background: #0a0a0a;
+    border: 2px solid #00ff41;
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+}
+
+html.retro .skill-card:hover,
+html.retro .project-card:hover {
+    border-color: #00ffff;
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
+    transform: translateY(-6px) scale(1.01);
+}
+
+html.retro .skill-card i {
+    color: #00ff41;
+    filter: drop-shadow(0 0 5px rgba(0, 255, 65, 0.8));
+}
+
+html.retro .project-info h3 {
+    color: #00ff41;
+}
+
+html.retro .project-info p {
+    color: #00cc33;
+}
+
+html.retro .project-link {
+    color: #00ff41;
+}
+
+html.retro .project-link:hover {
+    color: #00ffff;
+    text-shadow: 0 0 8px #00ffff;
+}
+
+html.retro .social-link {
+    color: #00ff41;
+}
+
+html.retro .social-link:hover {
+    color: #00ffff;
+}
+
+html.retro .form-group input,
+html.retro .form-group textarea {
+    background: #0a0a0a;
+    border: 2px solid #00ff41;
+    color: #00ff41;
+    font-family: 'Courier New', monospace;
+}
+
+html.retro .form-group input::placeholder,
+html.retro .form-group textarea::placeholder {
+    color: #00cc33;
+}
+
+html.retro .form-group input:focus,
+html.retro .form-group textarea:focus {
+    outline: none;
+    border-color: #00ffff;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+html.retro .submit-button {
+    background: #000000;
+    border: 2px solid #00ff41;
+    color: #00ff41;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+
+html.retro .submit-button:hover {
+    background: #00ff41;
+    color: #000000;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+}
+
+html.retro .scroll-to-top-btn,
+html.retro .language-switcher .lang-btn {
+    background: rgba(0, 0, 0, 0.95);
+    border: 2px solid #00ff41;
+    color: #00ff41;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+}
+
+html.retro .scroll-to-top-btn:hover,
+html.retro .language-switcher .lang-btn:hover {
+    background: #00ff41;
+    color: #000000;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+}
+
+html.retro footer {
+    background: #000000;
+    border-top: 2px solid #00ff41;
+    color: #00cc33;
+}
+
+html.retro .internship-logo {
+    background: #000000;
+    border: 2px solid #00ff41;
+}
+
+html.retro .toast.success {
+    background: #000000;
+    border: 2px solid #00ff41;
+    color: #00ff41;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+}
+
+html.retro .toast.error {
+    background: #000000;
+    border: 2px solid #ff00ff;
+    color: #ff00ff;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+}
+
 /* Navigation */
 .navbar {
     position: fixed;
@@ -394,8 +357,6 @@ html.light .social-link:hover { color: #1e40af; }
     color: var(--text-color);
     cursor: pointer;
 }
-
-/* Offline hint removed from markup — styles deleted intentionally. */
 
 .nav-links {
     display: flex;
@@ -434,31 +395,6 @@ html.light .social-link:hover { color: #1e40af; }
     transition: background .25s ease, color .25s ease, transform .2s ease;
 }
 .theme-toggle:hover { transform: translateY(-1px); }
-
-/* Right-side nav controls wrapper (theme toggle + label) */
-.nav-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-left: 1rem; /* slight separation from nav links */
-}
-
-/* Theme toggle label should match navigation text color and follow theme variables */
-.theme-toggle-text {
-    color: var(--text-color);
-    font-size: 0.9rem;
-    font-weight: 500;
-    user-select: none;
-}
-
-/* Keep label readable in dark backgrounds when Tailwind dark class is used */
-html.light .theme-toggle-text { color: #0f172a; }
-html.retro .theme-toggle-text { color: var(--text-color); }
-
-/* Responsive: hide label on small screens to save space */
-@media (max-width: 480px) {
-    .theme-toggle-text { display: none; }
-}
 
 /* Hero Section */
 .hero {
@@ -527,11 +463,10 @@ section {
 /* Removed alternating gray backgrounds; we set explicit section colors below */
 
 h2 {
-    /* Let Tailwind control font-size and color via utility classes */
-    margin-bottom: 2.5rem;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
     text-align: center;
-    /* Ensure underline doesn't collide with the next content */
-    padding-bottom: 0.75rem;
+    color: #f1f5f9;
 }
 
 h2 { position: relative; }
@@ -540,9 +475,9 @@ h2::after {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 0;
+    bottom: -12px;
     width: 80px;
-    height: 3px;
+    height: 4px;
     border-radius: 999px;
     background: var(--secondary-color);
 }
@@ -596,11 +531,11 @@ h2::after {
 
 /* About Section */
 .home { background-color: transparent; }
-/* Section backgrounds should follow the theme variable --section-bg so light/retro/dark remain clean */
-.about, .internship, .skills, .projects, .contact, .certificates {
-    background-color: var(--section-bg);
-}
-.skills { position: relative; }
+.about { background-color: #0e1a2b; }
+.internship { background-color: #0f172a; }
+.skills { background-color: #0a1f1f; }
+.projects { background-color: #0e1b12; }
+.contact { background-color: #1a1320; }
 .about-content {
     max-width: 1000px;
     margin: 0 auto;
@@ -632,126 +567,14 @@ h2::after {
     margin-bottom: 1rem;
 }
 
-/* About timeline */
-.timeline {
-    position: relative;
-    margin: 1rem 0 1.25rem;
-}
-
-.timeline-list {
-    list-style: none;
-    margin: 0;
-    padding-left: 1rem;
-    position: relative;
-}
-
-.timeline-list::before {
-    content: "";
-    position: absolute;
-    left: 0.5rem;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: rgba(148, 163, 184, 0.25);
-}
-
-/* Theme-specific timeline line tweaks so light/retro aren't tainted by dark greys */
-html.light .timeline-list::before {
-    background: rgba(2,6,23,0.06);
-}
-
-html.retro .timeline-list::before {
-    background: rgba(0,255,136,0.06);
-}
-
-.timeline-item {
-    position: relative;
-    padding-left: 1.5rem;
-    margin: 0.75rem 0;
-}
-
-.timeline-dot {
-    position: absolute;
-    left: 0.5rem;
-    top: 0.5rem;
-    transform: translate(-50%, -50%);
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    background: var(--accent-color);
-    box-shadow: 0 0 12px rgba(34, 197, 94, 0.45);
-    border: 2px solid var(--background);
-}
-
-/* Current (3rd) dot: orange */
-.timeline-item.current .timeline-dot {
-    background: #f59e0b;
-    box-shadow: 0 0 12px rgba(245, 158, 11, 0.45);
-    border: 2px solid var(--background);
-}
-
-/* Future (4th) dot: red */
-.timeline-item.future .timeline-dot {
-    background: #ef4444;
-    box-shadow: 0 0 12px rgba(239, 68, 68, 0.45);
-    border: 2px solid var(--background);
-}
-
-/* Light theme color adjustments */
-html.light .timeline-dot {
-    background: #22c55e;
-    box-shadow: 0 0 12px rgba(34, 197, 94, 0.35);
-}
-
-html.light .timeline-item.current .timeline-dot {
-    background: #f59e0b;
-    box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
-}
-
-html.light .timeline-item.future .timeline-dot {
-    background: #ef4444;
-    box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
-}
-
-/* Retro theme: green variations */
-html.retro .timeline-dot {
-    background: #00ff88;
-    box-shadow: 0 0 12px rgba(0, 255, 136, 0.45);
-    border-color: #000000;
-}
-
-html.retro .timeline-item.current .timeline-dot {
-    background: #ffcc00;
-    box-shadow: 0 0 12px rgba(255, 204, 0, 0.45);
-    border-color: #000000;
-}
-
-html.retro .timeline-item.future .timeline-dot {
-    background: #ff3333;
-    box-shadow: 0 0 12px rgba(255, 51, 51, 0.45);
-    border-color: #000000;
-}
-
-.timeline-title {
-    font-size: 1rem;
-    color: var(--text-color);
-}
-
-@media (max-width: 768px) {
-    .timeline-list { padding-left: 0.9rem; }
-    .timeline-item { padding-left: 1.25rem; }
-}
-
 /* Skills Section */
 .skills-grid {
-    /* Grid layout handled by Tailwind classes in index.html */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 2rem;
     max-width: 1200px;
     margin: 0 auto;
 }
-
-/* Word Cloud */
-/* Word cloud styles removed */
 
 .skill-card {
     background: #0f172a;
@@ -783,53 +606,12 @@ html.retro .timeline-item.future .timeline-dot {
 }
 
 /* Projects Section */
-.cert-grid {
-    gap: 1.5rem;
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.cert-card {
-    background: #0f172a;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.35);
-    transition: transform 0.16s ease, box-shadow 0.16s ease;
-    will-change: transform, box-shadow;
-    border: 1px solid rgba(148, 163, 184, 0.15);
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-}
-
-.cert-card:hover {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow: 0 16px 28px rgba(2, 132, 199, 0.22);
-}
-
-.cert-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-    background: rgba(14, 165, 233, 0.12);
-    color: #38bdf8;
-}
-
-.cert-icon i { font-size: 1.25rem; }
-
-.cert-info h3 { margin: 0; }
 .projects-grid {
-    /* Grid layout handled by Tailwind classes in index.html */
-    gap: 2rem;
-    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(280px, 1fr));
+    gap: 1.5rem;
     max-width: 1200px;
     margin: 0 auto;
-    justify-content: center;
 }
 
 .project-card {
@@ -872,6 +654,7 @@ html.retro .timeline-item.future .timeline-dot {
 .project-info h3 {
     margin-bottom: 0.5rem;
 }
+
 .project-info p {
     color: #cbd5e1;
     margin-bottom: 0.75rem;
@@ -939,7 +722,7 @@ html.retro .timeline-item.future .timeline-dot {
     border: 1px solid #334155;
     border-radius: 5px;
     font-family: inherit;
-    background-color: rgba(15, 23, 42, 0.8);
+    background: #111827;
     color: #e5e7eb;
 }
 
@@ -974,68 +757,6 @@ html.light .challenge-row input {
     background: #ffffff;
     color: #0f172a;
     border-color: #cbd5e1;
-}
-
-/* Light theme form inputs */
-html.light .form-group input,
-html.light .form-group textarea {
-    background: #ffffff !important;
-    color: var(--text-color) !important;
-    border-color: rgba(15,23,42,0.06) !important;
-}
-
-/* Retro theme form inputs (ensure visible retro style across components) */
-html.retro .form-group input,
-html.retro .form-group textarea {
-    background: #001a00 !important;
-    color: #b4f1b4 !important;
-    border-color: rgba(0,255,128,0.18) !important;
-}
-
-/* Validation UI */
-.form-group input:focus,
-.form-group textarea:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(28, 59, 109, 0.12);
-}
-
-.form-group input.valid,
-.form-group textarea.valid {
-    border-color: var(--accent-color);
-    background: rgba(34, 197, 94, 0.04);
-}
-
-.form-group input.invalid,
-.form-group textarea.invalid {
-    border-color: var(--secondary-color);
-    background: rgba(239, 68, 68, 0.04);
-}
-
-.validation-message {
-    font-size: 0.85rem;
-    margin-top: 0.25rem;
-    color: var(--light-text);
-    opacity: 0.95;
-}
-
-.validation-message.error { color: var(--secondary-color); }
-.validation-message.success { color: var(--accent-color); }
-
-/* Submit success animation */
-.submit-button.sent {
-    transform: scale(0.98);
-    box-shadow: 0 10px 30px rgba(34,197,94,0.18);
-}
-.submit-button.sent::after {
-    content: '\2713'; /* checkmark */
-    display: inline-block;
-    margin-left: 0.5rem;
-    opacity: 0;
-    transform: translateY(-4px);
-    animation: showCheck 0.5s ease forwards;
-}
-@keyframes showCheck {
-    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Honeypot hide */
@@ -1125,8 +846,8 @@ html.retro .form-group textarea {
 footer {
     text-align: center;
     padding: 2rem;
-    background: var(--section-bg);
-    color: var(--light-text);
+    background: #020617;
+    color: #94a3b8;
 }
 
 .attribution.subtle {
