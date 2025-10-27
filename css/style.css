@@ -1,3 +1,10 @@
+/* Restore default cursor everywhere, pointer on interactive elements, text on text fields */
+a, button, select, label, [tabindex], .scroll-to-top-btn, .language-switcher .lang-btn, .theme-toggle, .cta-button, .submit-button, .project-link, .download-cv-button {
+    cursor: pointer;
+}
+input[type="text"], input[type="email"], input[type="number"], textarea {
+    cursor: text;
+}
 /* --- RETRO THEME OVERRIDE: force green/black, not mixed with dark --- */
 html.retro {
     --text-color: #b4f1b4 !important;
