@@ -677,7 +677,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function enterRetro({ first = false } = {}) {
-            startMatrix();
+            // Matrix rain disabled - keeping boot notification only
             if (!hasShownIntro && (first || true)) {
                 hasShownIntro = true;
                 showIntro();
