@@ -60,10 +60,7 @@ body {
     background-size: 18px 18px;
 }
 
-/* Custom cursor: hide native on fine pointers only */
-@media (pointer: fine) {
-    body { cursor: none; }
-}
+/* Custom cursor removed: restore default cursor */
 
 /* Light theme overrides */
 html.light {
@@ -91,58 +88,7 @@ html.light .contact { background-color: #f8fafc; }
 html.light .certificates { background-color: #ffffff; }
 html.light .skill-card,
 html.light .project-card,
-html.light .cert-card {
-    background: #ffffff;
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    box-shadow: 0 6px 16px rgba(15,23,42,0.10);
-}
-html.light .skill-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 14px 24px rgba(0,0,0,0.20);
-}
-html.light .project-image img { background: #e2e8f0; }
-html.light .project-card:hover,
-html.light .cert-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 28px rgba(0,0,0,0.18);
-}
-html.light .form-group input,
-html.light .form-group textarea {
-    background: #ffffff !important;
-    color: #0f172a !important;
-    border-color: #cbd5e1;
-}
-html.light .social-link { color: #0f172a; }
-html.light .social-link i { color: inherit; }
-html.light .nav-links a:hover { color: #0b1220; }
-html.light footer {
-    background: #ffffff;
-    color: #334155;
-}
-html.light .attribution.subtle a { color: #475569; }
-html.light .toast.success { background-color: #10b981; }
-html.light .toast.error { background-color: #ef4444; }
-
-/* Retro terminal theme overrides */
-html.retro {
-    --text-color: #b4f1b4;
-    --light-text: #79e879;
-    --background: #000000;
-    --section-bg: #000000;
-    /* Override primary hues to green variants */
-    --primary-color: #00cc66;
-    --primary-color-hover: #00aa55;
-}
-html.retro body {
-    background-image: none;
-}
-html.retro .navbar {
-    background: rgba(0, 0, 0, 0.95);
-    border-bottom: 1px solid rgba(0, 255, 128, 0.25);
-    box-shadow: 0 4px 18px rgba(0, 255, 128, 0.08);
-}
-html.retro .nav-links a { color: var(--text-color); }
-html.retro .nav-logo { color: var(--text-color); }
+/* Custom cursor styles removed */
 html.retro .hero-content h1 { color: var(--text-color); }
 html.retro .highlight { color: #29f329; }
 html.retro .about,
