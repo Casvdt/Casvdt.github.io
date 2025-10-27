@@ -628,35 +628,57 @@ h2::after {
     width: 10px;
     height: 10px;
     border-radius: 999px;
-    background: var(--secondary-color);
-    box-shadow: 0 0 12px rgba(239, 68, 68, 0.45);
-    border: 2px solid var(--background);
-}
-
-/* Current (3rd) dot: green */
-.timeline-item.current .timeline-dot {
     background: var(--accent-color);
     box-shadow: 0 0 12px rgba(34, 197, 94, 0.45);
     border: 2px solid var(--background);
 }
 
-/* Future (4th) dot: orange */
-.timeline-item.future .timeline-dot {
+/* Current (3rd) dot: orange */
+.timeline-item.current .timeline-dot {
     background: #f59e0b;
     box-shadow: 0 0 12px rgba(245, 158, 11, 0.45);
     border: 2px solid var(--background);
 }
 
-/* Retro theme: ensure dots are green-ish */
+/* Future (4th) dot: red */
+.timeline-item.future .timeline-dot {
+    background: #ef4444;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.45);
+    border: 2px solid var(--background);
+}
+
+/* Light theme color adjustments */
+html.light .timeline-dot {
+    background: #22c55e;
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.35);
+}
+
+html.light .timeline-item.current .timeline-dot {
+    background: #f59e0b;
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
+}
+
+html.light .timeline-item.future .timeline-dot {
+    background: #ef4444;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
+}
+
+/* Retro theme: green variations */
 html.retro .timeline-dot {
-    background: #00cc66;
-    box-shadow: 0 0 12px rgba(0, 204, 102, 0.45);
+    background: #00ff88;
+    box-shadow: 0 0 12px rgba(0, 255, 136, 0.45);
+    border-color: #000000;
+}
+
+html.retro .timeline-item.current .timeline-dot {
+    background: #ffcc00;
+    box-shadow: 0 0 12px rgba(255, 204, 0, 0.45);
     border-color: #000000;
 }
 
 html.retro .timeline-item.future .timeline-dot {
-    background: #00ff88;
-    box-shadow: 0 0 12px rgba(0, 255, 136, 0.45);
+    background: #ff3333;
+    box-shadow: 0 0 12px rgba(255, 51, 51, 0.45);
     border-color: #000000;
 }
 
