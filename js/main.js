@@ -695,18 +695,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const themeToggleBtn = document.querySelector('.theme-toggle');
     const themeIcon = themeToggleBtn ? themeToggleBtn.querySelector('i') : null;
 
-    function createStar(x, y) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.left = x + 'px';
-        star.style.top = y + 'px';
-        star.innerHTML = '✦';
-        star.style.color = '#fbbf24';
-        star.style.fontSize = Math.random() * 14 + 8 + 'px';
-        document.body.appendChild(star);
-        requestAnimationFrame(() => star.classList.add('animate'));
-        setTimeout(() => star.remove(), 2000);
-    }
+    // Decorative star animation removed — no visual stars on theme switch
 
     // Toelichting createStar:
     // - Maakt visuele ster-elementen rond de thema-knop bij overschakelen
@@ -730,21 +719,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const icon = theme === 'light' ? 'fa-sun' : theme === 'dark' ? 'fa-moon' : 'fa-terminal';
             themeIcon.className = `fa-solid ${icon}`;
             
-            // Add star animation when switching to dark mode
-            if (theme === 'dark' && prevTheme !== 'dark') {
-                const btn = themeToggleBtn.getBoundingClientRect();
-                const centerX = btn.left + btn.width / 2;
-                const centerY = btn.top + btn.height / 2;
-                
-                // Create multiple stars around the button
-                for (let i = 0; i < 6; i++) {
-                    const angle = (i / 6) * Math.PI * 2;
-                    const distance = 40;
-                    const x = centerX + Math.cos(angle) * distance;
-                    const y = centerY + Math.sin(angle) * distance;
-                    setTimeout(() => createStar(x, y), i * 100);
-                }
-            }
+            // No decorative star animation — keep theme switching snappy and accessible
         }
         
     // Sla voorkeur lokaal op zodat het bij volgende bezoeken hetzelfde blijft

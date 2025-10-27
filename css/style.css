@@ -306,6 +306,26 @@ html.retro .project-card:hover { box-shadow: 0 16px 28px rgba(0, 255, 128, 0.22)
 html.retro .cert-card:hover { box-shadow: 0 16px 28px rgba(0, 255, 128, 0.22); }
 html.retro .language-switcher .lang-btn.active { background: var(--primary-color); box-shadow: 0 10px 20px rgba(0, 255, 128, 0.25); }
 
+/* Strong retro overrides (late in file) to ensure retro applies site-wide */
+html.retro body {
+    background: #000000 !important;
+    color: #b4f1b4 !important;
+}
+html.retro .navbar { background: #000000 !important; color: #b4f1b4 !important; border-color: rgba(0,255,128,0.08) !important; }
+html.retro .cta-button, html.retro .submit-button { background: var(--primary-color) !important; color: #000000 !important; border-color: rgba(0,255,128,0.06) !important; }
+html.retro .theme-toggle, html.retro .language-switcher .lang-btn, html.retro .scroll-to-top-btn { background: rgba(0,0,0,0.92) !important; color: #b4f1b4 !important; }
+html.retro .card, html.retro .skill-card, html.retro .project-card, html.retro .cert-card, html.retro .project-placeholder { background: #000000 !important; color: #b4f1b4 !important; border-color: rgba(0,255,128,0.12) !important; box-shadow: 0 10px 30px rgba(0,255,128,0.06) !important; }
+html.retro .skill-card i { color: #00ff88 !important; }
+html.retro .timeline-title, html.retro .timeline-content { color: #b4f1b4 !important; }
+html.retro .timeline-list::before { background: rgba(0,255,136,0.06) !important; }
+
+/* Override inline dark backgrounds often used in demo pages (weather/tictactoe/calendar) */
+html.retro .projects > div > div[style],
+html.retro section[style] > div > div[style] {
+    background: #000000 !important;
+    border-color: rgba(0,255,128,0.12) !important;
+}
+
 /* Ensure retro theme overrides come late so they win over default component styles */
 html.retro body {
     background: #000000 !important;
