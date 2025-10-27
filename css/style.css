@@ -3,48 +3,37 @@ a, button, select, label, [tabindex], .scroll-to-top-btn, .language-switcher .la
     cursor: pointer;
 }
 input[type="text"], input[type="email"], input[type="number"], textarea {
-    cursor: text;
-}
-/* --- RETRO THEME OVERRIDE: force green/black, not mixed with dark --- */
-html.retro {
-    --text-color: #b4f1b4 !important;
-    --background: #000000 !important;
-    --section-bg: #000000 !important;
-    --primary-color: #00ff88 !important;
-    --primary-color-hover: #00cc66 !important;
-    --secondary-color: #29f329 !important;
-    --accent-color: #00ff88 !important;
-    --accent-2: #bfffe3 !important;
-    --light-text: #79e879 !important;
-}
-html.retro body {
-    background: #000000 !important;
-    color: #b4f1b4 !important;
-    background-image: none !important;
-}
-html.retro .navbar,
-html.retro .about,
-html.retro .internship,
-html.retro .skills,
-html.retro .projects,
-html.retro .contact,
-html.retro .certificates {
-    background-color: #000000 !important;
-}
-html.retro .card, html.retro .skill-card, html.retro .project-card, html.retro .cert-card {
-    background: #000000 !important;
-    border: 1px solid rgba(0, 255, 128, 0.18) !important;
-    box-shadow: 0 6px 16px rgba(0, 255, 128, 0.10) !important;
-    color: #b4f1b4 !important;
-}
-html.retro .card:hover, html.retro .skill-card:hover, html.retro .project-card:hover, html.retro .cert-card:hover {
-    box-shadow: 0 16px 28px rgba(0, 255, 128, 0.18) !important;
-}
-html.retro .cert-icon {
-    background: rgba(0, 204, 102, 0.12) !important;
-    color: #00ff88 !important;
-}
-html.retro .project-link { color: #9affc9 !important; }
+    .timeline-dot {
+        position: absolute;
+        left: 0.5rem;
+        top: 0.5rem;
+        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--secondary-color);
+        box-shadow: 0 0 12px rgba(239, 68, 68, 0.45);
+        border: 2px solid var(--background);
+    }
+
+    .timeline-item.future .timeline-dot {
+        background: var(--accent-color);
+        box-shadow: 0 0 12px rgba(34, 197, 94, 0.45);
+        border: 2px solid var(--background);
+    }
+
+    /* Retro theme dots stay green */
+    html.retro .timeline-dot {
+        background: #00cc66;
+        box-shadow: 0 0 12px rgba(0, 204, 102, 0.45);
+        border-color: #000000;
+    }
+
+    html.retro .timeline-item.future .timeline-dot {
+        background: #00ff88;
+        box-shadow: 0 0 12px rgba(0, 255, 136, 0.45);
+        border-color: #000000;
+    }
 html.retro .project-link:hover { color: #bfffe3 !important; }
 html.retro .highlight { color: #29f329 !important; }
 html.retro .form-group input,
@@ -681,22 +670,24 @@ h2::after {
 
 /* Active / current timeline item (you are here) */
 .timeline-item.current .timeline-dot {
-    width: 14px;
-    height: 14px;
-    background: var(--accent-2);
-    box-shadow: 0 0 18px rgba(0,0,0,0.14), 0 0 26px var(--accent-2);
+    /* keep same size as other dots but use green accent to indicate current */
+    width: 10px;
+    height: 10px;
+    background: var(--accent-color);
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.45);
     border: 2px solid var(--background);
-    transform: translate(-50%, -50%) scale(1.05);
+    transform: translate(-50%, -50%);
 }
 
+/* Force the current dot to be green in light theme as well (avoid orange) */
 html.light .timeline-item.current .timeline-dot {
-    background: #f59e0b; /* orange accent for visibility on light background */
-    box-shadow: 0 0 16px rgba(245,158,11,0.28);
+    background: #16a34a; /* green */
+    box-shadow: 0 0 12px rgba(16,163,74,0.28);
 }
 
 html.retro .timeline-item.current .timeline-dot {
-    background: #bfffe3; /* retro pale mint accent */
-    box-shadow: 0 0 18px rgba(191,255,227,0.45);
+    background: #00ff88;
+    box-shadow: 0 0 12px rgba(0, 255, 136, 0.45);
     border-color: #000000;
 }
 
