@@ -142,12 +142,14 @@ html.light .hero-subtitle {
 
 /* Unified card style for skill, project, and cert cards */
 .card, .skill-card, .project-card, .cert-card {
-    background: #0f172a;
+    /* use theme-aware section background so light/retro/dark render correctly */
+    background: var(--section-bg);
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(148, 163, 184, 0.15);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(148, 163, 184, 0.12);
     transition: transform 0.16s ease, box-shadow 0.16s ease;
     will-change: transform, box-shadow;
+    color: var(--text-color);
 }
 .card:hover, .skill-card:hover, .project-card:hover, .cert-card:hover {
     transform: translateY(-6px) scale(1.01);
@@ -203,8 +205,8 @@ html.light .hero-subtitle {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #facc15;
-    background: #0f172a;
+    color: var(--accent-2);
+    background: var(--section-bg);
 }
 .project-placeholder i {
     font-size: 3rem;
@@ -303,6 +305,27 @@ html.retro .skill-card:hover { box-shadow: 0 12px 22px rgba(0, 255, 128, 0.22); 
 html.retro .project-card:hover { box-shadow: 0 16px 28px rgba(0, 255, 128, 0.22); }
 html.retro .cert-card:hover { box-shadow: 0 16px 28px rgba(0, 255, 128, 0.22); }
 html.retro .language-switcher .lang-btn.active { background: var(--primary-color); box-shadow: 0 10px 20px rgba(0, 255, 128, 0.25); }
+
+/* Ensure retro theme overrides come late so they win over default component styles */
+html.retro body {
+    background: #000000 !important;
+    color: #b4f1b4 !important;
+}
+html.retro .card,
+html.retro .skill-card,
+html.retro .project-card,
+html.retro .cert-card,
+html.retro .project-placeholder,
+html.retro .project-image {
+    background: #000000 !important;
+    color: #b4f1b4 !important;
+    border-color: rgba(0,255,128,0.12) !important;
+    box-shadow: 0 10px 30px rgba(0,255,128,0.08) !important;
+}
+html.retro footer {
+    background: #000000 !important;
+    color: #79e879 !important;
+}
 
 /* Light theme: add clear but subtle elevation to internship logo */
 html.light .internship-logo {
@@ -933,6 +956,22 @@ html.light .challenge-row input {
     border-color: #cbd5e1;
 }
 
+/* Light theme form inputs */
+html.light .form-group input,
+html.light .form-group textarea {
+    background: #ffffff !important;
+    color: var(--text-color) !important;
+    border-color: rgba(15,23,42,0.06) !important;
+}
+
+/* Retro theme form inputs (ensure visible retro style across components) */
+html.retro .form-group input,
+html.retro .form-group textarea {
+    background: #001a00 !important;
+    color: #b4f1b4 !important;
+    border-color: rgba(0,255,128,0.18) !important;
+}
+
 /* Validation UI */
 .form-group input:focus,
 .form-group textarea:focus {
@@ -1066,8 +1105,8 @@ html.light .challenge-row input {
 footer {
     text-align: center;
     padding: 2rem;
-    background: #020617;
-    color: #94a3b8;
+    background: var(--section-bg);
+    color: var(--light-text);
 }
 
 .attribution.subtle {
