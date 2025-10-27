@@ -11,11 +11,33 @@
  * - Taalwissel (NL/EN) en thema (licht/donker) met opslag van voorkeur.
  * - Hero effecten: canvas code-regen en Three.js "coding nebula".
  */
+// Eenvoudige Nederlandse toelichting:
+// Dit bestand bestuurt de interactieve onderdelen van de site.
+// Korte samenvatting van onderdelen (NL):
+// - Offline controle en redirect naar 404 als er geen netwerk is.
+// - Scroll progress bar (bovenaan de pagina).
+// - Word cloud animatie in de skills-sectie.
+// - Mobiel hamburger-menu en smooth scrolling naar secties.
+// - Kleine toast-meldingen voor succes/fouten.
+// - Contactformulier: live-validatie, anti-spam en EmailJS-verzending.
+// - Thema wissel (licht / donker / retro) inclusief kleine ster-animatie.
+// - Extra visuele effecten: 3D-achtergrond, matrix-overlay, custom cursor.
+
 (function earlyOfflineRedirect(){
     try {
+        // Controleer of er een debug-parameter in de URL staat waarmee we
+        // de offline-redirect tijdelijk kunnen omzeilen tijdens debuggen.
+        // Dit voorkomt dat iedere developer meteen naar 404 gaat als de
+        // machine offline is tijdens ontwikkeling.
         const debugBypass = /(?:[?&])debugOnline=1\b/.test(location.search);
+
+        // Als navigator.onLine beschikbaar is, gebruiken we die waarde om te
+        // beslissen of we de gebruiker direct naar de 404-pagina moeten sturen.
+        // Dit voorkomt dat de cached site wordt getoond wanneer er écht geen
+        // netwerk is (behaviour desired for this portfolio).
         if (!debugBypass && typeof navigator !== 'undefined' && 'onLine' in navigator) {
             if (!navigator.onLine) {
+                // Redirect naar lokale 404 als offline — dit is een UX keuze.
                 location.replace('/404.html');
                 return;
             }
@@ -23,27 +45,21 @@
     } catch {}
 })();
 
-// Scroll Progress Indicator
-function updateScrollProgress() {
-    const bar = document.querySelector('.scroll-progress-bar');
-    if (!bar) return;
-    const winScroll = window.scrollY || window.pageYOffset || 0;
-    const height = document.documentElement.scrollHeight - window.innerHeight;
-    if (!height || height <= 0) { bar.style.width = '0%'; return; }
-    const scrolled = Math.max(0, Math.min(100, (winScroll / height) * 100));
-    bar.style.width = scrolled + '%';
-}
-
-window.addEventListener('scroll', updateScrollProgress);
-window.addEventListener('resize', updateScrollProgress);
+// Scroll progress removed: UI element and JS handling were removed.
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Ensure progress bar is initialized once DOM is ready
-    try { updateScrollProgress(); } catch (e) {}
+    // Scroll progress removed; no initialization needed.
+
+    // ===== WORD CLOUD (NL toelichting) =====
+    // Eenvoudige woordwolk animatie: woorden worden rond een cirkel geplaatst
+    // en lichtjes geanimeerd. Dit is puur decoratief en blokkeert geen knoppen
+    // omdat de container pointer-events: none gebruikt.
 
     // ===== WORD CLOUD ANIMATION =====
     const wordCloud = document.querySelector('.word-cloud');
     if (wordCloud) {
+        // Woorden die in de wolk verschijnen. Hou dit in sync met de
+        // zichtbare skill-cards, plus een paar extra termen.
         const words = [
             'HTML5', 'CSS3', 'JavaScript', 'Node.js', 'PHP', 'Symfony', 'SQL', 'Bootstrap 5', 'Swift', 'Linux',
             'Tailwind', 'REST API', 'Responsive', 'Frontend', 'Backend', 'JSON'
@@ -52,8 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
         function createWord(word, x, y, size) {
             const span = document.createElement('span');
             span.textContent = word;
+            // Gebruik procentwaarden zodat de wolk schaalbaar blijft
+            // over verschillende schermgroottes.
             span.style.left = x + '%';
             span.style.top = y + '%';
+            // Font-size in px zodat belangrijke woorden visueel opvallen.
             span.style.fontSize = size + 'px';
             return span;
         }
@@ -90,6 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ===== MOBIELE MENU FUNCTIE =====
+    // Mobile menu: kies de hamburger en de container met links.
+    // We gebruiken JavaScript hier omdat op kleine schermen de navigatie
+    // anders getoond moet worden dan op desktop.
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     let isMenuOpen = false;
@@ -110,11 +132,17 @@ document.addEventListener('DOMContentLoaded', () => {
             navLinks.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.35)';
             navLinks.style.zIndex = '1200';
         } else {
-            // Als menu dicht is: verbergen
+            // Als menu dicht is: verbergen en inline styles verwijderen zodat
+            // de originele CSS weer het gedrag bepaalt (belangrijk bij
+            // window-resize terug naar desktop).
             navLinks.style.display = 'none';
             navLinks.removeAttribute('style');
         }
     });
+
+    // (NL) Tip: het mobiele menu gebruikt inline styles om de desktop CSS
+    // tijdelijk te overrulen wanneer het geopend is. We verwijderen die
+    // inline styles weer wanneer het menu gesloten wordt.
 
     // ===== SOEPEL SCROLLEN NAAR SECTIES =====
     // Als op een link met # geklikt wordt, scrollt de pagina soepel naar de bijbehorende sectie
@@ -131,7 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     navLinks.style.display = 'none';
                     navLinks.removeAttribute('style');
                 }
-                // Gebruik setTimeout om layout te laten updaten voor scrollen
+                // Gebruik setTimeout(0) om de browser een kans te geven de
+                // layout en focus te herstellen voordat de smooth scroll start.
                 setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
             }
         });
@@ -153,6 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
     toast.className = 'toast';
     // Accessibility for live messages
     try {
+        // role/status + aria-live zorgt ervoor dat schermlezers het
+        // bericht voorlezen zodra het verschijnt; aria-atomic voorkomt
+        // dat alleen een deel van de tekst wordt uitgesproken.
         toast.setAttribute('role', 'status');
         toast.setAttribute('aria-live', 'polite');
         toast.setAttribute('aria-atomic', 'true');
@@ -161,10 +193,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Functie om toast weer te geven
     function showToast(message, type) {
+        // Vervang de inhoud en zet de juiste klasse (bepaalt kleur/icoon).
         toast.textContent = message;
         toast.className = `toast ${type}`;
         toast.classList.add('show');
-        
+        // Verwijder de zichtbaarheid na 3 seconden zodat de toast verdwijnt.
         setTimeout(() => {
             toast.classList.remove('show');
         }, 3000); // verdwijnt na 3 seconden
@@ -207,19 +240,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (contactForm) {
+        // Verwijder aria-invalid attributen (gebruik voor accesibility/UX)
         function clearAriaInvalid() {
             ['#name', '#email', '#message', '#challenge'].forEach(sel => {
                 const el = contactForm.querySelector(sel);
                 if (el) el.removeAttribute('aria-invalid');
             });
         }
+        // Markeer een veld als ongeldig en focus het (zonder scrollen)
         function markInvalid(el) {
             if (!el) return;
             try { el.setAttribute('aria-invalid', 'true'); } catch {}
             try { el.focus({ preventScroll: true }); } catch {}
         }
-        // Genereer simpele rekenuitdaging (bijv. 3 + 5)
-        // Gebruik klassen waar mogelijk; val terug op IDs voor compatibiliteit
+    // Genereer simpele rekenuitdaging (bijv. 3 + 5)
+    // Dit blok zorgt ervoor dat bots zonder JS of eenvoudige scrapers
+    // moeite hebben met het formulier (lightweight anti-spam).
+    // We gebruiken querySelector met fallback naar ID voor robuustheid.
         const qEl = document.querySelector('.challenge-q') || document.getElementById('challenge-q');
         const challengeInput = document.querySelector('.challenge-input') || document.getElementById('challenge');
         const a = Math.floor(2 + Math.random() * 8);
@@ -233,6 +270,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const messageInput = contactForm.querySelector('.js-message') || contactForm.querySelector('#message');
         const submitBtnEl = contactForm.querySelector('.submit-button');
 
+        // Zorg dat er een klein helper-element bestaat waar validatieberichten
+        // in geplaatst worden. Dit voorkomt dat we telkens DOM-manipulatie
+        // met innerHTML doen terwijl de gebruiker typt.
         function ensureValidationEl(el) {
             const parent = el.closest('.form-group') || el.parentNode;
             let msg = parent.querySelector('.validation-message');
@@ -244,6 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return msg;
         }
 
+        // Zet visuele staat van een veld: valid/invalid/neutral + hulptekst
         function setFieldState(el, ok, message) {
             if (!el) return;
             el.classList.remove('valid', 'invalid');
@@ -264,8 +305,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ'\- ]{2,60}$/;
-        const emailRegex = /^(?!.*\.\.)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,63}$/;
+    // Regexes voor snelle client-side validatie. Niets hiervan vervangt
+    // server-side checks, maar het verbetert de UX door direct feedback te geven.
+    const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ'\- ]{2,60}$/;
+    const emailRegex = /^(?!.*\.\.)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,63}$/;
 
         function validateNameField() {
             const v = (nameInput && nameInput.value || '').trim();
@@ -340,45 +383,55 @@ document.addEventListener('DOMContentLoaded', () => {
             const messageOk = messageVal.length >= 10 && messageVal.length <= 2000;
 
             if (!nameOk) {
+                // Gebruiker heeft een ongeldige naam ingevoerd (korte of rare tekens)
                 showToast('Vul een geldige naam in.', 'error');
                 markInvalid(nameInput);
                 return;
             }
             if (!emailOk || isDisposableEmail(emailVal)) {
+                // Ongeldig e-mailadres of een tijdelijke/disposable provider
                 showToast('Vul een geldig e-mailadres in.', 'error');
                 markInvalid(emailInput);
                 return;
             }
             if (!messageOk) {
+                // Te kort of te lang bericht
                 showToast('Bericht moet tussen 10 en 2000 tekens zijn.', 'error');
                 markInvalid(messageInput);
                 return;
             }
             if (containsUrl(messageVal)) {
+                // Links zijn niet toegestaan via dit formulier om misbruik te beperken
                 showToast('Verwijder links uit het bericht.', 'error');
                 markInvalid(messageInput);
                 return;
             }
             // Disallow duplicate characters spam (e.g., "!!!!!!!" or very long repeated chars)
             if (/(.)\1{6,}/.test(messageVal)) {
+                // Detecteert overmatig herhaalde tekens en blokkeert spam-achtige berichten
                 showToast('Gebruik minder herhalende tekens in het bericht.', 'error');
                 return;
             }
             // Minimaal aantal woorden voor duidelijk bericht
             const wordCount = messageVal.split(/\s+/).filter(Boolean).length;
             if (wordCount < 4) {
+                // Vereist minimaal 4 woorden zodat korte vage berichten niet worden geaccepteerd
                 showToast('Schrijf een iets uitgebreider bericht (minimaal 4 woorden).', 'error');
                 markInvalid(messageInput);
                 return;
             }
             // Terms acceptance required
             if (!confirmOk) {
+                // Controleer of de gebruiker de voorwaarden heeft geaccepteerd.
+                // De boodschap is taalgevoelig (NL/EN) en voorkomt dat gebruikers
+                // per ongeluk iets versturen zonder akkoord.
                 const isEnglish = document.documentElement.getAttribute('lang') === 'en';
                 showToast(isEnglish ? 'Please accept the terms and conditions.' : 'Accepteer de voorwaarden a.u.b.', 'error');
                 return;
             }
             // Controleren rekenuitdaging
             if (!challengeVal || Number(challengeVal) !== expected) {
+                // Anti-spam: verkeerde berekening
                 showToast('Rekenuitdaging onjuist. Probeer opnieuw.', 'error');
                 markInvalid(challengeInput);
                 return;
@@ -399,6 +452,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     message: messageVal
                 };
 
+                // EmailJS: externe service aanroepen. Dit is asynchroon en kan
+                // mislukken (vandaar de try/catch). De templateParams worden
+                // gebruikt door de EmailJS-sjabloon op de server/service.
                 await emailjs.send(
                     'service_xsfgcac',
                     'template_tj3pqzf',
@@ -443,6 +499,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { threshold: 0.2 });
 
+    // Toelichting:
+    // - We gebruiken IntersectionObserver omdat het veel efficiënter is dan
+    //   scroll-events: de browser roept de callback alleen wanneer nodig.
+    // - threshold: 0.2 betekent dat 20% van het element in beeld moet zijn
+    //   voordat de in-view klasse wordt toegevoegd — dit zorgt voor
+    //   vloeiende reveal-animaties.
+
     revealElements.forEach(el => io.observe(el));
     staggerContainers.forEach(container => {
         io.observe(container);
@@ -476,6 +539,12 @@ document.addEventListener('DOMContentLoaded', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
+
+    // Toelichting scroll-to-top:
+    // - We tonen de knop pas na een drempel (300px) omdat hij anders
+    //   te veel afleidt op korte pagina's.
+    // - window.scrollTo met behavior 'smooth' levert een goede UX op
+    //   zonder extra libraries.
 
     // ===== TAAL SWITCHER =====
     const langBtns = document.querySelectorAll('.lang-btn');
@@ -516,6 +585,11 @@ document.addEventListener('DOMContentLoaded', () => {
         applyLanguage(initialLang);
     }
 
+    // Toelichting taalwissel:
+    // - Teksten met class .translatable hebben data-en/data-nl attributen.
+    // - applyLanguage vervangt innerHTML, dit maakt vertaling simpel en
+    //   voorkomt dat meerdere datasets nodig zijn.
+
     // ===== RETRO FX (intro, boot, matrix overlay) =====
     const RetroFX = (() => {
         let matrix = { canvas: null, ctx: null, rafId: null, cols: 0, drops: [] };
@@ -539,6 +613,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return { wrap, pre };
         }
 
+        // Toelichting createOverlay:
+        // - Bouwt een eenvoudig overlay-element met een panel voor tekst.
+        // - Wrapper krijgt .show toegevoegd na een forced reflow zodat
+        //   CSS-transities voor in-/uitfaden soepel werken.
+
         function typewriter(el, text, speed = 28) {
             return new Promise((resolve) => {
                 let i = 0;
@@ -557,6 +636,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 tick();
             });
         }
+
+    // typewriter toelichting:
+    // - Simpele type-effect implementatie die tekst in chunks toevoegt.
+    // - Gebruikt Promise zodat callers eenvoudig kunnen wachten.
 
         function gatherIdentity() {
             const name = (document.querySelector('.hero-content h1')?.textContent || 'Cas van der Toorn').trim();
@@ -635,6 +718,10 @@ document.addEventListener('DOMContentLoaded', () => {
             c._cleanup = () => { window.removeEventListener('resize', onResize, { passive: true }); };
         }
 
+        // startMatrix toelichting:
+        // - Creëert een canvas met kolommen 'drops' die omlaag schuiven.
+        // - Ratelimiting en kleinere font sizes verminderen CPU gebruik.
+
         function stopMatrix() {
             if (matrix.rafId) cancelAnimationFrame(matrix.rafId);
             matrix.rafId = null;
@@ -677,6 +764,10 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => star.remove(), 2000);
     }
 
+    // Toelichting createStar:
+    // - Maakt visuele ster-elementen rond de thema-knop bij overschakelen
+    //   naar donker thema: puur decoratief, geen functionele impact.
+
     function applyTheme(theme) {
         const root = document.documentElement;
         const prevTheme = root.classList.contains('light') ? 'light' : root.classList.contains('retro') ? 'retro' : 'dark';
@@ -712,7 +803,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        try { localStorage.setItem('preferred_theme', theme); } catch {}
+    // Sla voorkeur lokaal op zodat het bij volgende bezoeken hetzelfde blijft
+    try { localStorage.setItem('preferred_theme', theme); } catch {}
         
         // Retro FX hooks
         if (theme === 'retro') RetroFX.enterRetro(); else RetroFX.exitRetro();
@@ -729,6 +821,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Default to dark if no stored preference
         return 'dark';
     }
+
+    // Toelichting thema:
+    // - applyTheme zorgt ervoor dat CSS-klasse op <html> overeenkomt met
+    //   gekozen thema; Tailwind gebruikt .dark voor sommige utilities.
+    // - We slaan de voorkeur op in localStorage en starten eventueel
+    //   retro effecten (matrix) bij retro.
 
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
@@ -898,6 +996,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     })();
 
+    // Toelichting code-regen achtergrond:
+    // - We respecteren prefers-reduced-motion en beperken updates naar ~28FPS
+    //   om CPU/GPU gebruik te reduceren.
+    // - De trail wordt gemaakt door een lichte vulling over het canvas te
+    //   tekenen in plaats van het volledig clearen — dit geeft het
+    //   'druppel' effect.
+
     // ===== HERO: 3D CODING NEBULA (Three.js) =====
     // NL: 3D-achtergrond met sterrenveld, grid, code-panelen en wireframes
     // - ES Modules van Three worden in index.html geladen en hier als window.THREE gebruikt
@@ -909,6 +1014,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (prefersReduced) return;
+
+    // Toelichting 3D-scene:
+    // - De Three.js-scene draait alleen als Three beschikbaar is en
+    //   als de gebruiker geen reduced-motion prefereert.
+    // - Sterren en wireframes zijn lightweight geoptimaliseerd (points
+    //   + low-poly geometries) om performance op lagere machines te helpen.
 
         let renderer, scene, camera, rafId = null;
         let mouseX = 0, mouseY = 0, targetRotX = 0, targetRotY = 0;
@@ -1247,6 +1358,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     })();
 
+    // Toelichting 3D animatie:
+    // - animate() bevat alle logica voor het bewegen van sterren, panelen en
+    //   wireframes. We roepen requestAnimationFrame recursief aan voor
+    //   soepele animatie en kunnen het pauzeren bij tab-switch.
+
     // ===== CUSTOM CURSOR (ring + dot) =====
     // NL: Aangepaste cursor (ring + dot) met traagheid (lerp) en hover/klik feedback
     // - Uitgeschakeld voor touch apparaten en reduced motion
@@ -1267,6 +1383,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let rafId = null;
 
         const lerp = (a, b, t) => a + (b - a) * t; // NL: lineaire interpolatie
+
+    // Toelichting custom cursor:
+    // - We gebruiken linear interpolation (lerp) om het ring-element
+    //   traag achter de muis aan te laten bewegen (smooth feeling).
+    // - De dot volgt directer voor nauwkeurigheid bij klikken.
 
         function animate() {
             x = lerp(x, tx, 0.18);
