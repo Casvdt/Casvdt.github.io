@@ -634,9 +634,11 @@ h2::after {
 }
 
 .timeline-item.future .timeline-dot {
-    background: var(--accent-color);
-    box-shadow: 0 0 12px rgba(34, 197, 94, 0.45);
-    border: 2px solid var(--background);
+    /* Future events: subtle hollow dot to indicate upcoming item */
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color); /* for use with currentColor in shadows */
+    box-shadow: 0 0 8px currentColor;
 }
 
 /* Active/current: same small size but green-highlighted */
