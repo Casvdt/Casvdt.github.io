@@ -47,7 +47,7 @@ html.light .nav-logo { color: var(--text-color); }
 html.light .hero-content h1 { color: var(--text-color); }
 html.light .cta-button { color: #ffffff; }
 html.light .about { background-color: #ffffff; }
-html.light .internship { background-color: #f8fafc; }
+html.light .internship, html.light .gamevault { background-color: #f8fafc; }
 html.light .skills { background-color: #f8fafc; }
 html.light .projects { background-color: #ffffff; }
 html.light .contact { background-color: #f8fafc; }
@@ -488,6 +488,93 @@ html.retro h2::after {
     width: 100px;
     height: 2px;
     box-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
+}
+
+/* GameVault Section Styling */
+.gamevault {
+    background-color: var(--section-bg);
+    padding: 4rem 1.5rem;
+    text-align: center;
+}
+
+.gamevault-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.gamevault-card {
+    background: rgba(15, 23, 42, 0.6);
+    border-radius: 16px;
+    padding: 2.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 600px;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.gamevault-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.gamevault-logo {
+    margin-bottom: 1.5rem;
+    color: var(--accent-color);
+}
+
+.gamevault-logo i {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.gamevault-logo h3 {
+    font-size: 2rem;
+    margin: 0.5rem 0;
+    color: var(--text-color);
+}
+
+.gamevault-description {
+    color: var(--light-text);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+}
+
+.gamevault .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.8rem;
+    font-weight: 500;
+    background: var(--accent-color);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.gamevault .cta-button:hover {
+    background: #16a34a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+}
+
+/* Light theme adjustments */
+html.light .gamevault-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+html.light .gamevault-logo h3 {
+    color: var(--text-color);
 }
 
 /* Internship Section */
